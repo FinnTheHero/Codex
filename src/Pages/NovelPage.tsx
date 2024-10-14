@@ -90,15 +90,15 @@ const NovelPage = () => {
 
                         <div className="ml-2 text-1xl">
                             <div className="flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Written in</h2>
+                                <h2 className="mr-2">Written on</h2>
                                 <FormattedTime date={novel.creation_date} />
                             </div>
                             <div className="my-2 flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Uploaded in</h2>
+                                <h2 className="mr-2">Uploaded on</h2>
                                 <FormattedTime date={novel.upload_date} />
                             </div>
                             <div className="flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Last Updated in</h2>
+                                <h2 className="mr-2">Last Updated on</h2>
                                 <FormattedTime date={novel.update_date} />
                             </div>
                         </div>
