@@ -43,7 +43,7 @@ const RouterTransition = () => {
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/novels" element={<NovelsPage />} />
                     </Route>
-                    <Route path="/novel/:novel" element={<NovelPageLayout />}>
+                    <Route path="/novels/:novel" element={<NovelPageLayout />}>
                         <Route index element={<NovelPage />} />
                     </Route>
                 </Routes>

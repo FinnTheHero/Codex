@@ -26,7 +26,7 @@ const NovelCard: React.FC<NovelDTO> = ({ Title, Author, Novel, onHover }) => {
                     {" "}
                     {" > "} {Author}
                 </div>
-                <Link to={`/novel/${Title}`} className="mx-1 link">
+                <Link to={`/novels/${Title}`} className="mx-1 link">
                     [Read]
                 </Link>
             </h2>
