@@ -14,6 +14,7 @@ const NovelsPage: React.FC = () => {
     const [novels, setNovels] = useState<NovelDTO[]>([]);
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
+    // TODO: Remove single chapter search it shouldnt be here!
     const [chapter, setChapter] = useState<Chapter>();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
