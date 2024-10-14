@@ -6,6 +6,7 @@ import Footer from "../Components/Footer";
 
 // Styles
 import "../Styles/LayoutStyles.css";
+import ScrollButtons from "../Components/ScrollButtons";
 
 const HeroPageLayout = () => {
     return (
@@ -14,6 +15,7 @@ const HeroPageLayout = () => {
             <div className="w-full flex justify-center">
                 <Outlet />
             </div>
+            <ScrollButtons />
             <Footer />
         </div>
     );

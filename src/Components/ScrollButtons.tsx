@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 
 const ScrollButtons = () => {
     const [scrollToTopButton, setscrollToTopButton] = useState(false);
-    const [scrollToBottomButton, setscrollToBottomButton] = useState(true);
+    const [scrollToBottomButton, setscrollToBottomButton] = useState(false);
 
     useEffect(() => {
         window.addEventListener("scroll", () => {
-            if (window.scrollY < 300) {
+            if (window.scrollY < 100) {
                 setscrollToTopButton(false);
-            } else if (window.scrollY > 300) {
+            } else if (window.scrollY > 100) {
                 setscrollToTopButton(true);
             }
 

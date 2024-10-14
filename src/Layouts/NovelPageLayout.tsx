@@ -8,7 +8,7 @@ const NovelPageLayout = () => {
     return (
         <div className="novel-page-layout">
             <Navbar />
-            <div className="content">
+            <div className="w-full flex justify-center">
                 <Outlet />
             </div>
             <ScrollButtons />

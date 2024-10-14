@@ -68,7 +68,7 @@ const NovelPage = () => {
     }, [error]);
 
     return (
-        <div className="max-w-6xl px-12 w-full h-auto flex flex-row flex-wrap justify-between">
+        <div className="max-w-6xl px-12 flex flex-row flex-wrap justify-between">
             {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
 
             <div className="w-2/5 flex flex-col flex-nowrap">
