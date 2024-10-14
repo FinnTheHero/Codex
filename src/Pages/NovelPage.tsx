@@ -68,7 +68,7 @@ const NovelPage = () => {
     }, [error]);
 
     return (
-        <div className="max-w-6xl px-12 flex flex-row flex-wrap justify-between">
+        <div className="max-w-5xl w-full px-12 flex flex-row flex-wrap justify-evenly">
             {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
 
             <div className="w-2/5 flex flex-col flex-nowrap">
@@ -106,7 +106,7 @@ const NovelPage = () => {
                 )}
             </div>
 
-            <div className="w-2/5 flex flex-col flex-nowrap">
+            <div className="w-2/6 flex flex-col flex-nowrap">
                 {chapters &&
                     chapters.length > 0 &&
                     chapters.map((chapter, index) => (
