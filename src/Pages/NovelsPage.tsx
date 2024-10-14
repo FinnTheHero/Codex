@@ -118,8 +118,11 @@ const NovelsPage: React.FC = () => {
             </div>
             {/* Chapter List Preview */}
             <div className="w-2/5 flex flex-col flex-nowrap">
-                <div className="mb-4">
+                <div className="mb-4 text-center">
                     <h1 className="text-4xl text-center">Chapters</h1>
+                    <p className="subtitle">
+                        Hover the novel to reveal chapters
+                    </p>
                 </div>
                 {/* Render single or multiple chapters */}
                 {chapter ? (
