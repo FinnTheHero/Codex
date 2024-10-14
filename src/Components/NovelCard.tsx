@@ -6,6 +6,7 @@ const NovelCard: React.FC<NovelDTO> = ({ Title, Author, Novel, onHover }) => {
 
     const handleMouseEnter = () => {
         hoverTimeout = setTimeout(() => {
+            // TODO: WTF IS THIS 😭 when did i even write this ? wtf, need to update ASAP.
             onHover(`${Title}/all`);
         }, 1000);
     };
