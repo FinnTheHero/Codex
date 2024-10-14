@@ -6,7 +6,7 @@ const ErrorAlert = ({ error }: { error: string }) => {
             role="alert"
             style={{ color: "red", borderColor: "red" }}
         >
-            <div className="text-1xl">{error}</div>
+            <div>{error}</div>
         </div>
     );
 };

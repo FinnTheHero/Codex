@@ -6,7 +6,7 @@ const LoadingAlert = () => {
             role="alert"
         >
             <div className="content">
-                <h1 className="text-1xl">Loading</h1>
+                <h1>Loading</h1>
                 <div className="ml-12" role="status">
                     <svg
                         aria-hidden="true"

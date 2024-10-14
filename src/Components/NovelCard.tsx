@@ -23,7 +23,7 @@ const NovelCard: React.FC<NovelDTO> = ({ Title, Author, Novel, onHover }) => {
         >
             <h2 className="text-2xl">{Title}</h2>
             <h2 className="mx-1 mt-1 flex justify-between">
-                <div className="text-1xl">
+                <div className="subtitle">
                     {" "}
                     {" > "} {Author}
                 </div>
