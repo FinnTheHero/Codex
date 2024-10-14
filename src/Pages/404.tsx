@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
     return (
-        <div className="text-center text-wrap text-1xl px-12">
+        <div className="text-center text-wrap text-xl px-12">
             <p className="text-2xl">Something went wrong...</p>
             <h1 className="my-4 text-6xl" style={{ color: "red" }}>
                 Page Not Found!

@@ -5,11 +5,8 @@ import "../Styles/ComponentStyles.css";
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [input, setInput] = useState("");
 
+    // TODO: Add some level of security!
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-        if (e.target.value === "") {
-            console.log("is empty");
-        }
         setInput(e.target.value);
     };
 

@@ -6,9 +6,9 @@ import ScrollButtons from "../Components/ScrollButtons";
 
 const NovelPageLayout = () => {
     return (
-        <div className="novel-poge-layout">
+        <div className="novel-page-layout">
             <Navbar />
-            <div className="w-full flex justify-center">
+            <div className="content">
                 <Outlet />
             </div>
             <ScrollButtons />
