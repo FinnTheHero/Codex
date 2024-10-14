@@ -29,6 +29,6 @@ export const search = async (novel: string, chapter: string) => {
         const response = await axios.get(`${api}/${searchTerm}`);
         return response.data;
     } catch (err) {
-        throw new Error(`${(err as Error).message}`);
+        throw new Error("Couldn't find content!");
     }
 };
