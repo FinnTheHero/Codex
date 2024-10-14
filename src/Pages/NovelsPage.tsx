@@ -75,7 +75,7 @@ const NovelsPage: React.FC = () => {
     }, [error]);
 
     return (
-        <div className="max-w-6xl px-12 w-full flex flex-row flex-nowrap justify-between">
+        <div className="min-h-screen max-w-6xl px-12 w-full flex flex-row flex-nowrap justify-between">
             {/* Novel List Display */}
             <div className="w-2/5 flex flex-col flex-nowrap">
                 <div>
