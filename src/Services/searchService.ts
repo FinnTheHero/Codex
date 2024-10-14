@@ -1,9 +1,11 @@
 import axios from "axios";
 
-// Search for specific novels and chapters
-// Args: Novel title and chapter title, both string
-// Required: Novel title. Optional: Chapter title.
-// If chapter title is empty it will list all of the chapters from that novel
+/*
+Search for specific novels and chapters
+Args: Novel title and chapter title, both string
+If `Novel` title is empty it will list all the novels
+If `Chapter` title is empty it will return just novel details
+*/
 export const search = async (novel: string, chapter: string) => {
     try {
         const api = process.env.REACT_APP_API;
