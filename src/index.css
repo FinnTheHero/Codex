@@ -1,13 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+
+    font-family: Courier Prime;
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+
+    overflow-y: scroll;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background-color: #11111b;
+    color: #94e2d5;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: "Fira Code", source-code-pro, Menlo, Monaco, Consolas,
+        "Courier New", monospace;
+}
+
+/* Custom scrollbar for webkit browsers */
+/* Vertical scrollbar */
+::-webkit-scrollbar {
+    width: 5px; /* Width of the scrollbar for vertical scrolling */
+    height: 5px; /* Height of the scrollbar for horizontal scrolling */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #181825; /* Thumb color */
+    border-radius: 5px; /* Round corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #181825; /* Thumb color on hover */
+}
+
+/* Horizontal scrollbar */
+::-webkit-scrollbar-thumb:horizontal {
+    background: #181825; /* Thumb color for horizontal scrolling */
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+    background: #181825; /* Thumb color on hover for horizontal scrolling */
 }
