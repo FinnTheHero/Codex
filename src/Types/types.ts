@@ -2,7 +2,11 @@ export interface NovelDTO {
     Title: string;
     Author: string;
     Novel: Novel;
-    onHover: (searchTerm: string) => void;
+}
+
+export interface NovelCardProps {
+    novel: Novel;
+    onHover: (searchTerm1: string, searchTerm2: string) => void;
 }
 
 export interface Novel {
@@ -27,5 +31,5 @@ export interface Chapter {
 export interface ChapterDTO {}
 
 export interface SearchBarProps {
-    onSearch: (searchTerm: string) => void;
+    onSearch: (searchTerm1: string, searchTerm2: string) => void;
 }

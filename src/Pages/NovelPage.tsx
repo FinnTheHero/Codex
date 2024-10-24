@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { search } from "../Services/searchService";
 import { useEffect, useState } from "react";
 import { Chapter, Novel } from "../Types/types";
@@ -16,12 +16,20 @@ const NovelPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
+    const location = useLocation();
+    // If title exists find novel
     useEffect(() => {
-        if (title !== undefined) {
+        if (location.state.novel) {
+            setNovel(location.state.novel);
+            if (location.state.chapters) {
+                setChapters(location.state.chapters);
+            } else if (title) {
+                handleChapterSearch(title);
+            }
+        } else if (title) {
             handleNovelSearch(title);
-            handleChapterSearch(title);
         }
-    }, [title]);
+    }, [location, title]);
 
     const handleChapterSearch = async (searchTerm: string) => {
         setError(null);
@@ -110,16 +118,7 @@ const NovelPage = () => {
                 {chapters &&
                     chapters.length > 0 &&
                     chapters.map((chapter, index) => (
-                        <ChapterCard
-                            title={chapter.title}
-                            author={chapter.author}
-                            description={chapter.description}
-                            creation_date={chapter.creation_date}
-                            update_date={chapter.update_date}
-                            upload_date={chapter.upload_date}
-                            content={chapter.content}
-                            key={index}
-                        />
+                        <ChapterCard chapter={chapter} key={index} />
                     ))}
             </div>
         </div>

@@ -16,30 +16,22 @@ const NovelsPage: React.FC = () => {
     const [novels, setNovels] = useState<NovelDTO[]>([]);
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    // TODO: Remove single chapter search it shouldnt be here!
-    const [chapter, setChapter] = useState<Chapter>();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        handleSearch("");
+        handleSearch("", "");
     }, []);
 
-    const handleSearch = async (searchTerm: string) => {
+    const handleSearch = async (searchTerm1: string, searchTerm2: string) => {
         setError(null);
         setLoading(true);
         setChapters([]);
-        setChapter(undefined);
 
         try {
-            const data = await search(searchTerm, "");
+            const data = await search(searchTerm1, searchTerm2);
             if (data.chapters && data.chapters.length > 0) {
                 setChapters(data.chapters);
-                return;
-            }
-
-            if (data.chapter) {
-                setChapter(data.chapter);
                 return;
             }
 
@@ -93,21 +85,13 @@ const NovelsPage: React.FC = () => {
                     <div className="novels-list mt-12">
                         {/* Rended single or multiple novels */}
                         {novel ? (
-                            <NovelCard
-                                Title={novel.title}
-                                Author={novel.author}
-                                Novel={novel}
-                                onHover={handleSearch}
-                            />
+                            <NovelCard novel={novel} onHover={handleSearch} />
                         ) : (
                             novels.length > 0 &&
                             novels.map((n, index) => {
                                 return (
                                     <NovelCard
-                                        key={index}
-                                        Title={n.Title}
-                                        Author={n.Author}
-                                        Novel={n.Novel}
+                                        novel={n.Novel}
                                         onHover={handleSearch}
                                     />
                                 );
@@ -125,32 +109,10 @@ const NovelsPage: React.FC = () => {
                     </p>
                 </div>
                 {/* Render single or multiple chapters */}
-                {chapter ? (
-                    <ChapterCard
-                        title={chapter.title}
-                        author={chapter.author}
-                        description={chapter.description}
-                        creation_date={chapter.creation_date}
-                        update_date={chapter.update_date}
-                        upload_date={chapter.upload_date}
-                        content={chapter.content}
-                    />
-                ) : (
-                    chapters.length > 0 &&
+                {chapters.length > 0 &&
                     chapters.map((chapter, index) => {
-                        return (
-                            <ChapterCard
-                                title={chapter.title}
-                                author={chapter.author}
-                                description={chapter.description}
-                                creation_date={chapter.creation_date}
-                                update_date={chapter.update_date}
-                                upload_date={chapter.upload_date}
-                                content={chapter.content}
-                            />
-                        );
-                    })
-                )}
+                        return <ChapterCard chapter={chapter} key={index} />;
+                    })}
             </div>
         </div>
     );

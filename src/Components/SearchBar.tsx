@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SearchBarProps } from "../Types/types";
 
 import "../Styles/ComponentStyles.css";
+
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [input, setInput] = useState("");
 
@@ -12,7 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSearch(input);
+        onSearch(input, "");
     };
 
     return (

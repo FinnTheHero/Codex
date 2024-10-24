@@ -1,9 +1,15 @@
 /* SearchBar */
 .search-input,
-.search-input:active {
+.search-input:active,
+.search-input:focus {
     background: transparent;
-    outline: none;
-    border: none;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+input.search-input {
+    outline-width: 0;
 }
 
 .search-button {
