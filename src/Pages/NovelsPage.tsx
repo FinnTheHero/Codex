@@ -85,14 +85,20 @@ const NovelsPage: React.FC = () => {
                     <div className="novels-list mt-12">
                         {/* Rended single or multiple novels */}
                         {novel ? (
-                            <NovelCard novel={novel} onHover={handleSearch} />
+                            <NovelCard
+                                novel={novel}
+                                chapters={chapters}
+                                onHover={handleSearch}
+                            />
                         ) : (
                             novels.length > 0 &&
                             novels.map((n, index) => {
                                 return (
                                     <NovelCard
                                         novel={n.Novel}
+                                        chapters={chapters}
                                         onHover={handleSearch}
+                                        key={index}
                                     />
                                 );
                             })

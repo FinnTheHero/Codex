@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { NovelCardProps } from "../Types/types";
 
-const NovelCard: React.FC<NovelCardProps> = ({ novel, onHover }) => {
+const NovelCard: React.FC<NovelCardProps> = ({ novel, onHover, chapters }) => {
     let hoverTimeout: ReturnType<typeof setTimeout>;
 
     const handleMouseEnter = () => {
@@ -29,7 +29,7 @@ const NovelCard: React.FC<NovelCardProps> = ({ novel, onHover }) => {
                 </div>
                 <Link
                     to={`/novels/${novel.title}`}
-                    state={{ novel: novel }}
+                    state={{ novel: novel, chapters: chapters }}
                     className="mx-1 link"
                 >
                     [Read]

@@ -21,7 +21,7 @@ const NovelPage = () => {
     useEffect(() => {
         if (location.state.novel) {
             setNovel(location.state.novel);
-            if (location.state.chapters) {
+            if (location.state.chapters.length > 0) {
                 setChapters(location.state.chapters);
             } else if (title) {
                 handleChapterSearch(title);

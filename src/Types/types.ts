@@ -7,6 +7,7 @@ export interface NovelDTO {
 export interface NovelCardProps {
     novel: Novel;
     onHover: (searchTerm1: string, searchTerm2: string) => void;
+    chapters?: Chapter[];
 }
 
 export interface Novel {
