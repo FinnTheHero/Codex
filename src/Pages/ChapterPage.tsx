@@ -127,38 +127,42 @@ const ChapterPage = () => {
         nextChapter: Chapter | null;
     }) => {
         return (
-            <div className="mt-20 text-xl flex flex-row flex-nowrap justify-evenly w-full">
-                {prevChapter ? (
-                    <Popover text={prevChapter.title}>
-                        <Link
-                            className="link"
-                            to={`/novels/${novelTitle}/${prevChapter.title}`}
-                        >
-                            [Previous]
-                        </Link>
-                    </Popover>
-                ) : (
-                    <h2 className="text-red-800 pointer-events-none">
-                        [First]
-                    </h2>
-                )}
+            <div className="max-w-2xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
+                <div className="flex flex-row flex-nowrap justify-between w-full">
+                    {prevChapter ? (
+                        <Popover text={prevChapter.title}>
+                            <Link
+                                className="link"
+                                to={`/novels/${novelTitle}/${prevChapter.title}`}
+                            >
+                                [Previous]
+                            </Link>
+                        </Popover>
+                    ) : (
+                        <h2 className="text-red-800 pointer-events-none">
+                            [First]
+                        </h2>
+                    )}
+                    {nextChapter ? (
+                        <Popover text={nextChapter.title}>
+                            <Link
+                                className="link"
+                                to={`/novels/${novelTitle}/${nextChapter.title}`}
+                            >
+                                [Next]
+                            </Link>
+                        </Popover>
+                    ) : (
+                        <h2 className="text-red-800 pointer-events-none">
+                            [Last]
+                        </h2>
+                    )}
+                </div>
+
                 <GoBackButton
                     className="link mt-4"
                     to={`/novels/${novelTitle}`}
                 />
-
-                {nextChapter ? (
-                    <Popover text={nextChapter.title}>
-                        <Link
-                            className="link"
-                            to={`/novels/${novelTitle}/${nextChapter.title}`}
-                        >
-                            [Next]
-                        </Link>
-                    </Popover>
-                ) : (
-                    <h2 className="text-red-800 pointer-events-none">[Last]</h2>
-                )}
             </div>
         );
     };
@@ -173,10 +177,7 @@ const ChapterPage = () => {
 
                     <p className="max-w-md subtitle text-center">
                         {" > "}
-                        {chapter.description}{" "}
-                        {
-                            "askdjjwadh ahwdbhasbdhw ahwbdhab hdbhwabsh bdawhl lahsbdhwahb hwbahbsdhaw jasdhbwahb ajshdbw habj "
-                        }
+                        {chapter.description}
                     </p>
 
                     <div className="my-5 flex flex-row justify-center">
@@ -199,67 +200,7 @@ const ChapterPage = () => {
                     <p className="subtitle">{chapter.description}</p>
 
                     <p className="max-w-2xl text-lg content">
-                        {chapter.content}{" "}
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
-                        {
-                            "lorem ipsumasdjhawdh wdasdvgwavsg vdgavwg vsdjgawgd vasgvdhg wahdgvs gdvawhdg vahdwasdv w"
-                        }
+                        {chapter.content}
                     </p>
                     <NavigationButtons
                         prevChapter={prevChapter}
