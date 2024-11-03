@@ -1,22 +1,19 @@
 import { Outlet } from "react-router-dom";
-
-// Components
-import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
+import ScrollButtons from "../Components/ScrollButtons";
 
-// Styles
-import "../Styles/LayoutStyles.css";
-
-const HeroPageLayout = () => {
+const ChapterPageLayout = () => {
     return (
-        <div className="hero-page-layout">
+        <div className="chapter-page-layout">
             <Navbar />
             <div className="w-full flex justify-center">
                 <Outlet />
             </div>
+            <ScrollButtons />
             <Footer />
         </div>
     );
 };
 
-export default HeroPageLayout;
+export default ChapterPageLayout;

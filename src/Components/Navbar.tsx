@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
         <div className="border-b border-zinc-800 mb-16 flex justify-center">
             <div className="max-w-7xl w-full">
-                <div className="flex justify-between my-2">
+                <div className="flex justify-between">
                     <div className="my-4 mx-2">
                         <Link to="/" className="text-2xl font-bold">
                             [Codex]

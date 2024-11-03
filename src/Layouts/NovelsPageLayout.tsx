@@ -4,12 +4,9 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-// Styles
-import "../Styles/LayoutStyles.css";
-
-const HeroPageLayout = () => {
+const NovelsPageLayout = () => {
     return (
-        <div className="hero-page-layout">
+        <div className="">
             <Navbar />
             <div className="w-full flex justify-center">
                 <Outlet />
@@ -19,4 +16,4 @@ const HeroPageLayout = () => {
     );
 };
 
-export default HeroPageLayout;
+export default NovelsPageLayout;

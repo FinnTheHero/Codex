@@ -6,8 +6,11 @@ export interface NovelDTO {
 
 export interface NovelCardProps {
     novel: Novel;
-    onHover: (searchTerm1: string, searchTerm2: string) => void;
-    chapters?: Chapter[];
+    setNovel: (setNovel: Novel | null) => void;
+    setChapters: (setChapters: Chapter[]) => void;
+    // TODO: Probably need a better way to handle this case!
+    setError: (value: string | null) => void;
+    setLoading: (value: boolean) => void;
 }
 
 export interface Novel {
@@ -29,8 +32,18 @@ export interface Chapter {
     content: string;
 }
 
+export interface ChapterCardProps {
+    chapter: Chapter;
+    novel: Novel;
+}
+
 export interface ChapterDTO {}
 
 export interface SearchBarProps {
     onSearch: (searchTerm1: string, searchTerm2: string) => void;
+}
+
+export interface PopoverProps {
+    text: string;
+    children: React.ReactNode;
 }

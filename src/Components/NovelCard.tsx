@@ -1,13 +1,42 @@
 import { Link } from "react-router-dom";
+import { search } from "../Services/searchService";
 import { NovelCardProps } from "../Types/types";
 
-const NovelCard: React.FC<NovelCardProps> = ({ novel, onHover, chapters }) => {
+const NovelCard: React.FC<NovelCardProps> = ({
+    novel,
+    setNovel,
+    setChapters,
+    setError,
+    setLoading,
+}) => {
     let hoverTimeout: ReturnType<typeof setTimeout>;
+
+    const handleChapterSearch = async (
+        title_novel: string,
+        title_chapter: string,
+    ) => {
+        setError(null);
+        setLoading(true);
+        setNovel(null);
+        setChapters([]);
+
+        try {
+            const data = await search(title_novel, title_chapter);
+            if (data.chapters && data.chapters.length > 0) {
+                setNovel(novel);
+                setChapters(data.chapters);
+                return;
+            }
+        } catch (err) {
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleMouseEnter = () => {
         hoverTimeout = setTimeout(() => {
-            // TODO: WTF IS THIS 😭 when did i even write this ? wtf, need to update ASAP.
-            onHover(novel.title, "all");
+            handleChapterSearch(novel.title, "all");
         }, 1000);
     };
 
@@ -22,19 +51,14 @@ const NovelCard: React.FC<NovelCardProps> = ({ novel, onHover, chapters }) => {
             className="my-3 py-2 border-b border-zinc-800"
         >
             <h2 className="text-2xl">{novel.title}</h2>
-            <h2 className="mx-1 mt-1 flex justify-between">
+            <div className="mx-1 mt-1 flex justify-between">
                 <div className="subtitle">
-                    {" "}
                     {" > "} {novel.author}
                 </div>
-                <Link
-                    to={`/novels/${novel.title}`}
-                    state={{ novel: novel, chapters: chapters }}
-                    className="mx-1 link"
-                >
+                <Link to={`/novels/${novel.title}`} className="mx-1 link">
                     [Read]
                 </Link>
-            </h2>
+            </div>
         </div>
     );
 };
