@@ -69,15 +69,15 @@ const NovelPage = () => {
     }, [error]);
 
     return (
-        <div className="max-w-6xl w-full px-12 flex flex-col flex-nowrap justify-between items-center">
+        <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
             {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
 
-            <div className="flex flex-row justify-between">
-                {novel && (
-                    <div className="w-3/6 flex flex-col flex-nowrap justify-between">
+            <div className="w-full flex flex-row flex-wrap justify-between">
+                <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
+                    {novel && (
                         <div className="flex flex-col flex-nowrap">
                             <h2 className="text-4xl">{novel.title}</h2>
-                            <h2 className="ml-1 text-1xl">By {novel.author}</h2>
+                            <h2 className="ml-3 text-1xl">By {novel.author}</h2>
                             <p className="mt-2 subtitle text-">
                                 {" > "} {novel.description}{" "}
                                 {
@@ -85,12 +85,12 @@ const NovelPage = () => {
                                 }
                             </p>
                         </div>
-                    </div>
-                )}
-                <div className="w-2/5 flex flex-col flex-nowrap">
+                    )}
+                </div>
+                <div className="w-full md:w-2/6 mt-8 md:mt-0 flex flex-col flex-wrap">
                     {novel && (
                         <div>
-                            <div className="flex flex-row justify-center">
+                            <div className="w-full flex flex-row flex-wrap justify-center">
                                 <FormattedTime
                                     date={novel.creation_date}
                                     classname={"subtitle"}

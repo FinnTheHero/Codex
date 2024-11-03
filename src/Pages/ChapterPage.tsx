@@ -85,23 +85,17 @@ const ChapterPage = () => {
             handleSearch(novelTitle, "");
             handleSearch(novelTitle, "all");
             handleSearch(novelTitle, chapterTitle);
-
-            setPrevChapter(getPreviousChapter());
-            setNextChapter(getNextChapter());
         } catch (err) {
             setError((err as Error).message);
         } finally {
             setLoading(false);
         }
-    }, [
-        novelTitle,
-        chapterTitle,
-        handleSearch,
-        setPrevChapter,
-        setNextChapter,
-        getPreviousChapter,
-        getNextChapter,
-    ]);
+    }, [novelTitle, chapterTitle, handleSearch]);
+
+    useEffect(() => {
+        setPrevChapter(getPreviousChapter());
+        setNextChapter(getNextChapter());
+    }, [setPrevChapter, getPreviousChapter, setNextChapter, getNextChapter]);
 
     useEffect(() => {
         handleWindowLoad();

@@ -82,12 +82,12 @@ const NovelsPage: React.FC = () => {
     }, [error]);
 
     return (
-        <div className="min-h-screen max-w-6xl px-12 w-full flex flex-col flex-nowrap justify-between">
+        <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
             {/* Handle Error and Loading alerts */}
             {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
             <div className="flex flex-row flex-nowrap justify-between">
                 {/* Novel List Display */}
-                <div className="w-3/5 flex flex-col flex-nowrap">
+                <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
                         <SearchBar onSearch={handleSearch} />
@@ -110,7 +110,7 @@ const NovelsPage: React.FC = () => {
                     </div>
                 </div>
                 {/* Chapter List Preview */}
-                <div className="w-2/6 flex flex-col flex-nowrap">
+                <div className="hidden lg:visible w-2/6 lg:flex flex-col flex-nowrap">
                     <div className="mb-6 text-center">
                         <h2 className="text-4xl text-center">Chapters</h2>
                         <p className="subtitle">
@@ -136,7 +136,7 @@ const NovelsPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <GoBackButton className={"text-xl link text-center"} to="/" />
+            <GoBackButton className={"text-xl mt-10 link text-center"} to="/" />
         </div>
     );
 };
