@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 
+// Components
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-const NovelPageLayout = () => {
+const NovelsPageLayout = () => {
     return (
-        <div className="novel-page-layout">
+        <div className="">
             <Navbar />
-            <div className="w-full px-8 flex justify-center">
+            <div className="w-full flex justify-center">
                 <Outlet />
             </div>
             <Footer />
@@ -15,4 +16,4 @@ const NovelPageLayout = () => {
     );
 };
 
-export default NovelPageLayout;
+export default NovelsPageLayout;

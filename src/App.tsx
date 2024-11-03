@@ -7,7 +7,11 @@ import {
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+// Styles
 import "./App.css";
+import "./Styles/ComponentStyles.css";
+import "./Styles/LayoutStyles.css";
+import "./Styles/PageStyles.css";
 
 // Layouts
 import HeroPageLayout from "./Layouts/HeroPageLayout";
@@ -19,6 +23,9 @@ import NovelsPage from "./Pages/NovelsPage";
 import AboutPage from "./Pages/AboutPage";
 import NovelPage from "./Pages/NovelPage";
 import NovelPageLayout from "./Layouts/NovelPageLayout";
+import ChapterPage from "./Pages/ChapterPage";
+import ChapterPageLayout from "./Layouts/ChapterPageLayout";
+import NovelsPageLayout from "./Layouts/NovelsPageLayout";
 
 function App() {
     return (
@@ -41,10 +48,21 @@ const RouterTransition = () => {
                         <Route index element={<HeroPage />} />
                         <Route path="*" element={<NotFound />} />
                         <Route path="/about" element={<AboutPage />} />
+                    </Route>
+                    <Route path="/novels" element={<NovelsPageLayout />}>
                         <Route path="/novels" element={<NovelsPage />} />
                     </Route>
-                    <Route path="/novels/:title" element={<NovelPageLayout />}>
+                    <Route
+                        path="/novels/:novelTitle"
+                        element={<NovelPageLayout />}
+                    >
                         <Route index element={<NovelPage />} />
+                    </Route>
+                    <Route
+                        path="/novels/:novelTitle/:chapterTitle"
+                        element={<ChapterPageLayout />}
+                    >
+                        <Route index element={<ChapterPage />} />
                     </Route>
                 </Routes>
             </CSSTransition>

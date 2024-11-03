@@ -6,10 +6,13 @@ import ErrorAlert from "../Components/ErrorAlert";
 import LoadingAlert from "../Components/LoadingAlert";
 import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import GoBackButton from "../Components/GoBackButton";
 
 const NovelPage = () => {
-    // Get novel title
-    const { title } = useParams();
+    const { novelTitle } = useParams();
 
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -17,33 +20,31 @@ const NovelPage = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (title !== undefined) {
-            handleNovelSearch(title);
-            handleChapterSearch(title);
-        }
-    }, [title]);
-
-    const handleChapterSearch = async (searchTerm: string) => {
-        setError(null);
-        setLoading(true);
         try {
-            const data = await search(searchTerm, "all");
-            if (data.chapters && data.chapters.length > 0) {
-                setChapters(data.chapters);
+            if (!novelTitle) {
+                setError("Cant find novel title!");
                 return;
             }
+
+            handleSearch(novelTitle, "");
+            handleSearch(novelTitle, "all");
         } catch (err) {
             setError((err as Error).message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [novelTitle]);
 
-    const handleNovelSearch = async (searchTerm: string) => {
+    const handleSearch = async (title_novel: string, title_chapter: string) => {
         setError(null);
         setLoading(true);
         try {
-            const data = await search(searchTerm, "");
+            const data = await search(title_novel, title_chapter);
+            if (data.chapters && data.chapters.length > 0) {
+                setChapters(data.chapters);
+                return;
+            }
+
             if (data.novel) {
                 setNovel(data.novel);
                 return;
@@ -68,60 +69,58 @@ const NovelPage = () => {
     }, [error]);
 
     return (
-        <div className="max-w-5xl w-full px-12 flex flex-row flex-wrap justify-evenly">
+        <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
             {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
 
-            <div className="w-2/5 flex flex-col flex-nowrap">
-                {novel && (
-                    <div className="flex flex-row flex-wrap">
-                        <div className="border-b border-zinc-800 pb-4 mb-4 pt-3">
-                            <h2 className="text-3xl">{novel.title}</h2>
-                            <h2 className="mx-1 mt-2 flex justify-between ">
-                                <div>
-                                    {" > "} {novel.author}
-                                </div>
-                            </h2>
-                            <div className="mt-3 subtitle">
-                                <p className="mx-3 mt-1 flex justify-between">
-                                    {novel.description}
-                                </p>
-                            </div>
+            <div className="w-full flex flex-row flex-wrap justify-between">
+                <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
+                    {novel && (
+                        <div className="flex flex-col flex-nowrap">
+                            <h2 className="text-4xl">{novel.title}</h2>
+                            <h2 className="ml-3 text-1xl">By {novel.author}</h2>
+                            <p className="mt-2 subtitle text-">
+                                {" > "} {novel.description}{" "}
+                                {
+                                    "akmsndjawn ajsdnkhjwahkdb  askdhajwh dhabsh bdaw bhksbd hbakhd bakhsbdkajshkd bakhbshdbakhsbdkhbawkhd hashasbd hbashdb hwablshbdlhabw lhabs dhbahj bahsdbahwdb ahsbdhabs hbawjh bjahb hjwabdbdhb lah"
+                                }
+                            </p>
                         </div>
+                    )}
+                </div>
+                <div className="w-full md:w-2/6 mt-8 md:mt-0 flex flex-col flex-wrap">
+                    {novel && (
+                        <div>
+                            <div className="w-full flex flex-row flex-wrap justify-center">
+                                <FormattedTime
+                                    date={novel.creation_date}
+                                    classname={"subtitle"}
+                                    popover_text={"Created"}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    className="content mx-3 pt-1"
+                                />
+                                <FormattedTime
+                                    date={novel.update_date}
+                                    classname={"content"}
+                                    popover_text={"Last Updated"}
+                                />
+                            </div>
 
-                        <div className="ml-2 text-1xl">
-                            <div className="flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Written on</h2>
-                                <FormattedTime date={novel.creation_date} />
-                            </div>
-                            <div className="my-2 flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Uploaded on</h2>
-                                <FormattedTime date={novel.upload_date} />
-                            </div>
-                            <div className="flex flex-row flex-nowrap">
-                                <h2 className="mr-2">Last Updated on</h2>
-                                <FormattedTime date={novel.update_date} />
-                            </div>
+                            {chapters &&
+                                chapters.length > 0 &&
+                                chapters.map((chapter, index) => (
+                                    <ChapterCard
+                                        novel={novel}
+                                        chapter={chapter}
+                                        key={index}
+                                    />
+                                ))}
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-
-            <div className="w-2/6 flex flex-col flex-nowrap">
-                {chapters &&
-                    chapters.length > 0 &&
-                    chapters.map((chapter, index) => (
-                        <ChapterCard
-                            title={chapter.title}
-                            author={chapter.author}
-                            description={chapter.description}
-                            creation_date={chapter.creation_date}
-                            update_date={chapter.update_date}
-                            upload_date={chapter.upload_date}
-                            content={chapter.content}
-                            key={index}
-                        />
-                    ))}
-            </div>
+            <GoBackButton className={"text-xl mt-36 link"} to={"/novels/"} />
         </div>
     );
 };

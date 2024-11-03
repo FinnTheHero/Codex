@@ -1,66 +1,73 @@
 import React, { useEffect, useState } from "react";
+
+// Services
 import { search } from "../Services/searchService";
-import { Chapter, Novel, NovelDTO } from "../Types/types";
+
+// Types
+import { Chapter, Novel } from "../Types/types";
 
 // Components
 import SearchBar from "../Components/SearchBar";
 import NovelCard from "../Components/NovelCard";
 import ChapterCard from "../Components/ChapterCard";
 import ErrorAlert from "../Components/ErrorAlert";
+import LoadingAlert from "../Components/LoadingAlert";
 
 // Styles
 import "../Styles/PageStyles.css";
-import LoadingAlert from "../Components/LoadingAlert";
+import { useCallback } from "react";
+import GoBackButton from "../Components/GoBackButton";
 
 const NovelsPage: React.FC = () => {
-    const [novels, setNovels] = useState<NovelDTO[]>([]);
-    const [novel, setNovel] = useState<Novel>();
+    const [novels, setNovels] = useState<Novel[]>([]);
+    const [novel, setNovel] = useState<Novel | null>(null);
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    // TODO: Remove single chapter search it shouldnt be here!
-    const [chapter, setChapter] = useState<Chapter>();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        handleSearch("");
-    }, []);
-
-    const handleSearch = async (searchTerm: string) => {
-        setError(null);
-        setLoading(true);
-        setChapters([]);
-        setChapter(undefined);
-
-        try {
-            const data = await search(searchTerm, "");
-            if (data.chapters && data.chapters.length > 0) {
-                setChapters(data.chapters);
-                return;
-            }
-
-            if (data.chapter) {
-                setChapter(data.chapter);
-                return;
-            }
-
-            if (data.novels && data.novels.length > 0) {
-                setNovel(undefined);
-                setNovels(data.novels);
-                return;
-            }
-
-            if (data.novel) {
-                setNovel(data.novel);
-                return;
-            }
-
-            setNovels(data.novels);
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
+    const addNovel = (novel: Novel) => {
+        setNovels((old) => [...old, novel]);
     };
+
+    const clearNovels = () => {
+        setNovels([]);
+    };
+
+    const handleSearch = useCallback(
+        async (title_novel: string, title_chapter: string) => {
+            setError(null);
+            setLoading(true);
+
+            try {
+                const data = await search(title_novel, title_chapter);
+                if (data.chapters && data.chapters.length > 0) {
+                    setChapters(data.chapters);
+                    return;
+                }
+
+                if (data.novel) {
+                    clearNovels();
+                    addNovel(data.novel);
+                    return;
+                }
+
+                if (data.novels && data.novels.length > 0) {
+                    setNovels(data.novels);
+                    return;
+                }
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [],
+    );
+
+    // Load default stuff
+    useEffect(() => {
+        handleSearch("", "");
+    }, [handleSearch]);
 
     // Clear Error
     useEffect(() => {
@@ -75,83 +82,61 @@ const NovelsPage: React.FC = () => {
     }, [error]);
 
     return (
-        <div className="min-h-screen max-w-6xl px-12 w-full flex flex-row flex-nowrap justify-between">
-            {/* Novel List Display */}
-            <div className="w-2/5 flex flex-col flex-nowrap">
-                <div>
-                    <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                    <SearchBar onSearch={handleSearch} />
-                </div>
+        <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
+            {/* Handle Error and Loading alerts */}
+            {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
+            <div className="flex flex-row flex-nowrap justify-between">
+                {/* Novel List Display */}
+                <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
+                    <div>
+                        <h1 className="text-4xl mb-4 text-center">Novels</h1>
+                        <SearchBar onSearch={handleSearch} />
+                    </div>
 
-                {error !== null ? (
-                    <ErrorAlert error={error} />
-                ) : (
-                    loading && <LoadingAlert />
-                )}
-
-                {
-                    <div className="novels-list mt-12">
-                        {/* Rended single or multiple novels */}
-                        {novel ? (
-                            <NovelCard
-                                Title={novel.title}
-                                Author={novel.author}
-                                Novel={novel}
-                                onHover={handleSearch}
-                            />
-                        ) : (
-                            novels.length > 0 &&
+                    <div className="mt-4">
+                        {novels.length > 0 &&
                             novels.map((n, index) => {
                                 return (
                                     <NovelCard
+                                        novel={n}
+                                        setNovel={setNovel}
+                                        setChapters={setChapters}
+                                        setError={setError}
+                                        setLoading={setLoading}
                                         key={index}
-                                        Title={n.Title}
-                                        Author={n.Author}
-                                        Novel={n.Novel}
-                                        onHover={handleSearch}
                                     />
                                 );
-                            })
-                        )}
+                            })}
                     </div>
-                }
-            </div>
-            {/* Chapter List Preview */}
-            <div className="w-2/5 flex flex-col flex-nowrap">
-                <div className="mb-4 text-center">
-                    <h1 className="text-4xl text-center">Chapters</h1>
-                    <p className="subtitle">
-                        Hover the novel to reveal chapters
-                    </p>
                 </div>
-                {/* Render single or multiple chapters */}
-                {chapter ? (
-                    <ChapterCard
-                        title={chapter.title}
-                        author={chapter.author}
-                        description={chapter.description}
-                        creation_date={chapter.creation_date}
-                        update_date={chapter.update_date}
-                        upload_date={chapter.upload_date}
-                        content={chapter.content}
-                    />
-                ) : (
-                    chapters.length > 0 &&
-                    chapters.map((chapter, index) => {
-                        return (
-                            <ChapterCard
-                                title={chapter.title}
-                                author={chapter.author}
-                                description={chapter.description}
-                                creation_date={chapter.creation_date}
-                                update_date={chapter.update_date}
-                                upload_date={chapter.upload_date}
-                                content={chapter.content}
-                            />
-                        );
-                    })
-                )}
+                {/* Chapter List Preview */}
+                <div className="hidden lg:visible w-2/6 lg:flex flex-col flex-nowrap">
+                    <div className="mb-6 text-center">
+                        <h2 className="text-4xl text-center">Chapters</h2>
+                        <p className="subtitle">
+                            Hover the novel to reveal chapters
+                        </p>
+                        <h2 className="mt-4 text-2xl text-center">
+                            {novel && (novel.title || "")}
+                        </h2>
+                    </div>
+
+                    <div>
+                        {chapters.length > 0 &&
+                            novel &&
+                            chapters.map((chapter, index) => {
+                                return (
+                                    <ChapterCard
+                                        novel={novel}
+                                        chapter={chapter}
+                                        key={index}
+                                    />
+                                );
+                            })}
+                    </div>
+                </div>
             </div>
+            <GoBackButton className={"text-xl mt-10 link text-center"} to="/" />
         </div>
     );
 };
