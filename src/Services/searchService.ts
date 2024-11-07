@@ -3,7 +3,7 @@ import axios from "axios";
 /*
 Search for specific novels and chapters
 Args: Novel title and chapter title, both string
-If `Novel` title is empty it will list all the novels
+If `Novel` & `Chapter` title is empty it will list all the novels
 If `Chapter` title is empty it will return just novel details
 */
 const api = process.env.REACT_APP_API;
@@ -18,13 +18,13 @@ export const search = async (novel: string, chapter: string) => {
             throw new Error("Bad Request!");
         }
 
+        let searchTerm = novel;
         if (novel === "") {
             novel = "all";
-        }
-
-        let searchTerm = novel;
-        if (chapter !== "") {
-            searchTerm += `/${chapter}`;
+        } else {
+            if (chapter !== "") {
+                searchTerm += `/${chapter}`;
+            }
         }
 
         const response = await axios.get(`${api}/${searchTerm}`);
