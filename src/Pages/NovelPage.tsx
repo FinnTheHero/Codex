@@ -79,10 +79,7 @@ const NovelPage = () => {
                             <h2 className="text-4xl">{novel.title}</h2>
                             <h2 className="ml-3 text-1xl">By {novel.author}</h2>
                             <p className="mt-2 subtitle text-">
-                                {" > "} {novel.description}{" "}
-                                {
-                                    "akmsndjawn ajsdnkhjwahkdb  askdhajwh dhabsh bdaw bhksbd hbakhd bakhsbdkajshkd bakhbshdbakhsbdkhbawkhd hashasbd hbashdb hwablshbdlhabw lhabs dhbahj bahsdbahwdb ahsbdhabs hbawjh bjahb hjwabdbdhb lah"
-                                }
+                                {" > "} {novel.description}
                             </p>
                         </div>
                     )}

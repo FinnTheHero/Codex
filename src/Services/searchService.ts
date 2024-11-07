@@ -18,13 +18,14 @@ export const search = async (novel: string, chapter: string) => {
             throw new Error("Bad Request!");
         }
 
-        if (novel === "") {
-            novel = "all";
-        }
-
-        let searchTerm = novel;
-        if (chapter !== "") {
-            searchTerm += `/${chapter}`;
+        let searchTerm = "";
+        if (novel !== "") {
+            searchTerm = novel;
+            if (chapter !== "") {
+                searchTerm += `/${chapter}`;
+            }
+        } else {
+            searchTerm = "all";
         }
 
         const response = await axios.get(`${api}/${searchTerm}`);
