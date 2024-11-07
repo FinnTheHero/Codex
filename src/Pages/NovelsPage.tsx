@@ -116,7 +116,7 @@ const NovelsPage: React.FC = () => {
                         <p className="subtitle">
                             Hover the novel to reveal chapters
                         </p>
-                        <h2 className="mt-4 text-2xl text-center">
+                        <h2 className="text-2xl text-center">
                             {novel && (novel.title || "")}
                         </h2>
                     </div>
