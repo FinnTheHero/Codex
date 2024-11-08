@@ -6,11 +6,11 @@ Args: Novel title and chapter title, both string
 If `Novel` title is empty it will list all the novels
 If `Chapter` title is empty it will return just novel details
 */
-const api = process.env.REACT_APP_API;
+const url = process.env.REACT_APP_API;
 
 export const search = async (novel: string, chapter: string) => {
     try {
-        if (!api) {
+        if (!url) {
             throw new Error("API Not Found!");
         }
 
@@ -28,7 +28,7 @@ export const search = async (novel: string, chapter: string) => {
             searchTerm = "all";
         }
 
-        const response = await axios.get(`${api}/${searchTerm}`);
+        const response = await axios.get(`${url}/${searchTerm}`);
         return response.data;
     } catch (err) {
         throw new Error("Couldn't find content!");
