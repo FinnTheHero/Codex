@@ -78,12 +78,11 @@ input.search-input {
 
 .popover-bottom {
     position: absolute;
-    bottom: -200%;
+    bottom: -300%;
     left: 50%;
     background-color: #11111b;
     transform: translateX(-50%) translateY(0px);
-    color: #7f849c;
-    padding: 5px 10px;
+    padding: 4px 10px;
     z-index: 10;
     white-space: nowrap;
     opacity: 1;
