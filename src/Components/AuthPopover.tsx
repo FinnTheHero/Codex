@@ -39,7 +39,7 @@ const AuthPopover: React.FC<AuthPopoverProps> = ({ children }) => {
                     <Link className="mx-auto mb-1" to={"/login"}>
                         [Login]
                     </Link>
-                    <Link to={"/Signup"}>[Signup]</Link>
+                    <Link to={"/register"}>[Register]</Link>
                 </div>
             )}
         </div>
