@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AuthPopover from "./AuthPopover";
 
 const Navbar = () => {
     return (
@@ -14,9 +15,11 @@ const Navbar = () => {
                         <Link to="/novels" className="link">
                             [Novels]
                         </Link>
-                        <Link to="/about" className="link">
-                            [About]
-                        </Link>
+                        <AuthPopover>
+                            <div className="text-lg content cursor-pointer">
+                                [User]
+                            </div>
+                        </AuthPopover>
                     </div>
                 </div>
             </div>
