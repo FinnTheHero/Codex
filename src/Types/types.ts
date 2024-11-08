@@ -47,3 +47,11 @@ export interface PopoverProps {
     text: string;
     children: React.ReactNode;
 }
+
+export interface AuthPopoverProps {
+    children: React.ReactNode;
+}
+
+export interface RequireAuthProps {
+    children: React.ReactNode;
+}
