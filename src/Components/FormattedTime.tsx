@@ -1,4 +1,4 @@
-import formatDate from "../Services/FormatDate";
+import formatDate from "../Services/formatDate";
 import Popover from "./Popover";
 
 const FormattedTime = ({
