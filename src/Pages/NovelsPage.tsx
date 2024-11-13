@@ -111,7 +111,7 @@ const NovelsPage: React.FC = () => {
                 </div>
                 {/* Chapter List Preview */}
                 <div className="hidden lg:visible w-2/6 lg:flex flex-col flex-nowrap">
-                    <div className="mb-6 text-center">
+                    <div className="mb-10 text-center">
                         <h2 className="text-4xl text-center">Chapters</h2>
                         <p className="subtitle">
                             Hover the novel to reveal chapters
