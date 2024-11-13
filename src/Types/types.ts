@@ -55,3 +55,36 @@ export interface AuthPopoverProps {
 export interface RequireAuthProps {
     children: React.ReactNode;
 }
+
+export interface LoginProps {
+    email: string | null;
+    password: string | null;
+}
+
+export interface User {
+    email: string | null;
+    username: string | null;
+    type: string | null;
+}
+
+export interface UserContextType {
+    user: User | null;
+    authenticated: boolean;
+    setUser: (user: User | null) => void;
+    logout: () => void;
+}
+
+export interface ErrorContextType {
+    error: string | null;
+    setError: (error: string | null) => void;
+}
+
+export interface LoadingContextType {
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
+}
+
+export interface NotificationContextType {
+    notification: string | null;
+    setNotification: (notification: string | null) => void;
+}
