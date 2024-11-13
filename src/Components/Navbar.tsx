@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../Contexts/UserContext";
 import AuthPopover from "./AuthPopover";
 
 const Navbar = () => {
+    const { user } = useUser();
+
     return (
         <div className="border-b border-zinc-800 mb-16 flex justify-center">
             <div className="max-w-7xl px-4 w-full">
@@ -16,9 +19,15 @@ const Navbar = () => {
                             [Novels]
                         </Link>
                         <AuthPopover>
-                            <div className="text-lg content cursor-pointer">
-                                [User]
-                            </div>
+                            {user ? (
+                                <div className="text-lg content cursor-pointer">
+                                    [{user.username}]
+                                </div>
+                            ) : (
+                                <div className="text-lg content cursor-pointer">
+                                    [User]
+                                </div>
+                            )}
                         </AuthPopover>
                     </div>
                 </div>
