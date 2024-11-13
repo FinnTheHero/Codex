@@ -2,7 +2,7 @@ const LoadingAlert = () => {
     return (
         <div
             id="toast-top-right"
-            className="custom-alert fixed w-max max-w-xl p-4 space-x-4 divide-x rtl:divide-x-reverse rounded-lg top-5 right-5"
+            className="custom-alert fixed w-max max-w-fit p-4 rtl:divide-x-reverse rounded-lg top-20 lg:top-5 right-1/2 translate-x-1/2 lg:right-5 lg:translate-x-0"
             role="alert"
         >
             <div className="content">
