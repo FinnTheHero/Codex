@@ -1,4 +1,3 @@
-import React from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -15,6 +14,9 @@ import "./Styles/PageStyles.css";
 
 // Layouts
 import HeroPageLayout from "./Layouts/HeroPageLayout";
+import NovelPageLayout from "./Layouts/NovelPageLayout";
+import ChapterPageLayout from "./Layouts/ChapterPageLayout";
+import NovelsPageLayout from "./Layouts/NovelsPageLayout";
 
 // Pages
 import HeroPage from "./Pages/HeroPage";
@@ -22,10 +24,13 @@ import NotFound from "./Pages/404";
 import NovelsPage from "./Pages/NovelsPage";
 import AboutPage from "./Pages/AboutPage";
 import NovelPage from "./Pages/NovelPage";
-import NovelPageLayout from "./Layouts/NovelPageLayout";
 import ChapterPage from "./Pages/ChapterPage";
-import ChapterPageLayout from "./Layouts/ChapterPageLayout";
-import NovelsPageLayout from "./Layouts/NovelsPageLayout";
+import Dashboard from "./Pages/Dashboard";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+
+// Components
+import { DenyUserAuth, RequireAdmin } from "./Components/AuthGuard";
 
 function App() {
     return (
@@ -48,9 +53,25 @@ const RouterTransition = () => {
                         <Route index element={<HeroPage />} />
                         <Route path="*" element={<NotFound />} />
                         <Route path="/about" element={<AboutPage />} />
+                        <Route
+                            path="/login"
+                            element={
+                                <DenyUserAuth>
+                                    <LoginPage />
+                                </DenyUserAuth>
+                            }
+                        />
+                        <Route
+                            path="/register"
+                            element={
+                                <DenyUserAuth>
+                                    <RegisterPage />
+                                </DenyUserAuth>
+                            }
+                        />
                     </Route>
                     <Route path="/novels" element={<NovelsPageLayout />}>
-                        <Route path="/novels" element={<NovelsPage />} />
+                        <Route index element={<NovelsPage />} />
                     </Route>
                     <Route
                         path="/novels/:novelTitle"
@@ -63,6 +84,17 @@ const RouterTransition = () => {
                         element={<ChapterPageLayout />}
                     >
                         <Route index element={<ChapterPage />} />
+                    </Route>
+
+                    <Route path="/admin" element={<HeroPageLayout />}>
+                        <Route
+                            index
+                            element={
+                                <RequireAdmin>
+                                    <Dashboard />
+                                </RequireAdmin>
+                            }
+                        />
                     </Route>
                 </Routes>
             </CSSTransition>
