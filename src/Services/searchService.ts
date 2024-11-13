@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./apiService";
 
 /*
 Search for specific novels and chapters
@@ -6,14 +6,8 @@ Args: Novel title and chapter title, both string
 If `Novel` title is empty it will list all the novels
 If `Chapter` title is empty it will return just novel details
 */
-const url = process.env.REACT_APP_API;
-
 export const search = async (novel: string, chapter: string) => {
     try {
-        if (!url) {
-            throw new Error("API Not Found!");
-        }
-
         if (novel === undefined || chapter === undefined) {
             throw new Error("Bad Request!");
         }
@@ -28,7 +22,7 @@ export const search = async (novel: string, chapter: string) => {
             searchTerm = "all";
         }
 
-        const response = await axios.get(`${url}/${searchTerm}`);
+        const response = await api.get(`/${searchTerm}`);
         return response.data;
     } catch (err) {
         throw new Error("Couldn't find content!");
