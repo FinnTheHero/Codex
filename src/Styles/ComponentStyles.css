@@ -78,7 +78,7 @@ input.search-input {
 
 .popover-bottom {
     position: absolute;
-    bottom: -300%;
+    /* bottom: -300%; */
     left: 50%;
     background-color: #11111b;
     transform: translateX(-50%) translateY(0px);
@@ -86,4 +86,32 @@ input.search-input {
     z-index: 10;
     white-space: nowrap;
     opacity: 1;
+}
+
+.custom-alert {
+    z-index: 99;
+
+    background-color: #11111b;
+    color: #fab387;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid;
+}
+
+.custom-alert .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.fill-spinner {
+    color: #7f849c;
+    fill: #fab387;
 }

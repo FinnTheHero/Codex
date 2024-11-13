@@ -7,29 +7,3 @@
     justify-content: center;
     align-items: center;
 }
-
-.custom-alert {
-    background-color: #11111b;
-    color: #fab387;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid;
-}
-
-.custom-alert .content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.fill-spinner {
-    color: #7f849c;
-    fill: #fab387;
-}
