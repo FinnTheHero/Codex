@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "../Contexts/UserContext";
 import { AuthPopoverProps } from "../Types/types";
 
 const AuthPopover: React.FC<AuthPopoverProps> = ({ children }) => {
+    const { user, logout } = useUser();
+
     const [isHovered, setIsHovered] = useState(false);
     const [isChildHovered, setIsChildHovered] = useState(false);
 
@@ -36,10 +39,21 @@ const AuthPopover: React.FC<AuthPopoverProps> = ({ children }) => {
                     onMouseEnter={() => setIsChildHovered(true)}
                     onMouseLeave={() => setIsChildHovered(false)}
                 >
-                    <Link className="mx-auto mb-1" to={"/login"}>
-                        [Login]
-                    </Link>
-                    <Link to={"/register"}>[Register]</Link>
+                    {user ? (
+                        <div
+                            className="text-red-700 cursor-pointer"
+                            onClick={logout}
+                        >
+                            [Logout]
+                        </div>
+                    ) : (
+                        <div className="flex flex-col flex-nowrap">
+                            <Link className="mx-auto mb-1" to={"/login"}>
+                                [Login]
+                            </Link>
+                            <Link to={"/register"}>[Register]</Link>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
