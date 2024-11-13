@@ -5,13 +5,25 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/courier-prime";
 import "@fortawesome/fontawesome-svg-core";
+import { UserProvider } from "./Contexts/UserContext";
+import { ErrorProvider } from "./Contexts/ErrorContext";
+import { LoadingProvider } from "./Contexts/LoadingContext";
+import { NotificationProvider } from "./Contexts/NotificationContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
 );
 root.render(
     <React.StrictMode>
-        <App />
+        <ErrorProvider>
+            <LoadingProvider>
+                <NotificationProvider>
+                    <UserProvider>
+                        <App />
+                    </UserProvider>
+                </NotificationProvider>
+            </LoadingProvider>
+        </ErrorProvider>
     </React.StrictMode>,
 );
 
