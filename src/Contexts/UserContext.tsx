@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, {
     createContext,
     useState,
@@ -13,8 +12,6 @@ import { useLoading } from "./LoadingContext";
 import { useNotification } from "./NotificationContext";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
-
-const url = process.env.REACT_APP_API;
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
     children,
@@ -43,11 +40,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                     setUser(null);
                     setAuthenticated(false);
                 }
-            } catch (err) {
+            } catch (_) {
                 setUser(null);
                 setAuthenticated(false);
             } finally {
                 setLoading(false);
+                setAuthenticated(true);
             }
         };
 
@@ -59,8 +57,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setLoading(true);
 
         try {
-            const response = await axios.post(
-                url + "/auth/logout",
+            const response = await api.post(
+                "/auth/logout",
                 {},
                 { withCredentials: true },
             );
@@ -74,6 +72,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             setError((err as Error).message);
         } finally {
             setLoading(false);
+            setAuthenticated(false);
         }
     };
 
