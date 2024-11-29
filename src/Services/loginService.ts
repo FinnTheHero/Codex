@@ -21,6 +21,6 @@ export const login = async (email: string, password: string) => {
         );
         return response.data;
     } catch (err) {
-        throw new Error("Email or password are incorrect!");
+        throw err;
     }
 };
