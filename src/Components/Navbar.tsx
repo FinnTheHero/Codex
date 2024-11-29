@@ -18,6 +18,11 @@ const Navbar = () => {
                         <Link to="/novels" className="link">
                             [Novels]
                         </Link>
+                        {user && user.type === "admin" && (
+                            <Link to="/admin" className="link">
+                                [Dashboard]
+                            </Link>
+                        )}
                         <AuthPopover>
                             {user ? (
                                 <div className="text-lg content cursor-pointer">
