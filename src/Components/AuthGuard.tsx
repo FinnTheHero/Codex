@@ -1,7 +1,10 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { RequireAuthProps } from "../Types/types";
 import { useUser } from "../Contexts/UserContext";
 import { useLoading } from "../Contexts/LoadingContext";
+import { authenticate } from "../Services/authenticateService";
+import { useError } from "../Contexts/ErrorContext";
+import { useEffect } from "react";
 
 export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
     const { user } = useUser();
@@ -20,17 +23,33 @@ export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
 };
 
 export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
-    const { user } = useUser();
-    const { loading } = useLoading();
+    const { setError } = useError();
+    const navigate = useNavigate();
 
-    if (loading) {
-        return <></>;
-    }
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const data = await authenticate();
 
-    // Allow only admin to access
-    if (user && user.type === "admin") {
-        return <>{children}</>;
-    }
+                if (!data.authenticated) {
+                    return navigate("/login");
+                }
 
-    return <Navigate to={"/"} />;
+                if (!data.user) {
+                    return navigate("/login");
+                }
+
+                if (data.user && data.user.type !== "admin") {
+                    return navigate("/login");
+                }
+            } catch (err) {
+                setError((err as Error).message);
+                return navigate("/login");
+            }
+        };
+
+        checkAuth();
+    }, [setError, navigate, children]);
+
+    return <>{children}</>;
 };
