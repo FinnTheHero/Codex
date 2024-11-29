@@ -17,7 +17,6 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
     const [notification, setNotification] = useState<string | null>(null);
 
-    // Clear Error
     useEffect(() => {
         if (notification !== null) {
             const timer = setTimeout(() => {

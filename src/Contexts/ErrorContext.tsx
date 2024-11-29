@@ -15,7 +15,6 @@ export const ErrorProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
     const [error, setError] = useState<string | null>(null);
 
-    // Clear Error
     useEffect(() => {
         if (error !== null) {
             const timer = setTimeout(() => {
