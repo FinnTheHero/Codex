@@ -62,9 +62,9 @@ const RegisterPage = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <div className="flex flex-col justify-evenly border-b border-zinc-800">
+        <div className="max-w-7xl w-full flex flex-col justify-center items-center">
+            <form onSubmit={handleLogin} className="max-w-sm w-full p-12">
+                <div className="flex flex-col justify-evenly pb-2 border-b border-zinc-800">
                     <input
                         id="username"
                         name="username"
@@ -72,7 +72,7 @@ const RegisterPage = () => {
                         autoComplete="username"
                         onChange={handleUsernameChange}
                         placeholder="Username"
-                        className="search-input"
+                        className="search-input mb-3 pl-1"
                         required
                     />
 
@@ -83,7 +83,7 @@ const RegisterPage = () => {
                         autoComplete={"email"}
                         onChange={handleEmailChange}
                         placeholder="Email"
-                        className="search-input"
+                        className="search-input mb-3 pl-1"
                         required
                     />
 
@@ -94,7 +94,7 @@ const RegisterPage = () => {
                         autoComplete={"password"}
                         onChange={handlePasswordChange}
                         placeholder="Password"
-                        className="search-input"
+                        className="search-input pl-1"
                         required
                     />
                 </div>
@@ -104,7 +104,7 @@ const RegisterPage = () => {
                         [Register]
                     </button>
                     <h2 className="my-2">Or</h2>
-                    <Link to="/login" className="link">
+                    <Link to="/login" className="content">
                         [Login]
                     </Link>
                 </div>
