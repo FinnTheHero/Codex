@@ -64,7 +64,7 @@ const LoginPage = () => {
                         autoComplete={"email"}
                         onChange={handleEmailChange}
                         placeholder="Email"
-                        className="search-input mb-3"
+                        className="search-input mb-3 pl-1"
                         required
                     />
 
@@ -75,7 +75,7 @@ const LoginPage = () => {
                         autoComplete={"password"}
                         onChange={handlePasswordChange}
                         placeholder="Password"
-                        className="search-input"
+                        className="search-input pl-1"
                         required
                     />
                 </div>
