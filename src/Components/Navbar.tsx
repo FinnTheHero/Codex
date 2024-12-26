@@ -19,7 +19,7 @@ const Navbar = () => {
                             [Novels]
                         </Link>
                         {user && user.type === "admin" && (
-                            <Link to="/admin" className="link">
+                            <Link to="/dashboard" className="link">
                                 [Dashboard]
                             </Link>
                         )}
