@@ -79,7 +79,6 @@ const NovelsPage: React.FC = () => {
     // Load default stuff
     useEffect(() => {
         findNovel("");
-        findChapter("", "");
     }, [findNovel, findChapter]);
 
     // Clear Error
