@@ -2,7 +2,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { RequireAuthProps } from "../Types/types";
 import { useUser } from "../Contexts/UserContext";
 import { useLoading } from "../Contexts/LoadingContext";
-import { authenticate } from "../Services/authenticateService";
+import { authenticate } from "../Services/authService";
 import { useError } from "../Contexts/ErrorContext";
 import { useEffect } from "react";
 

@@ -4,7 +4,7 @@ import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useNotification } from "../Contexts/NotificationContext";
 import { useUser } from "../Contexts/UserContext";
-import { login } from "../Services/loginService";
+import { login } from "../Services/authService";
 
 const LoginPage = () => {
     const navigate = useNavigate();

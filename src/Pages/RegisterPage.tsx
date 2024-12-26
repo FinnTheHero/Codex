@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useNotification } from "../Contexts/NotificationContext";
-import { register } from "../Services/registerService";
+import { register } from "../Services/authService";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
