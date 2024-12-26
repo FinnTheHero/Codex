@@ -54,9 +54,9 @@ const LoginPage = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <div className="flex flex-col justify-evenly border-b border-zinc-800">
+        <div className="max-w-7xl w-full flex flex-col justify-center items-center">
+            <form onSubmit={handleLogin} className="max-w-sm w-full p-12">
+                <div className="flex flex-col justify-evenly pb-2 border-b border-zinc-800">
                     <input
                         id="email"
                         name="email"
@@ -64,7 +64,7 @@ const LoginPage = () => {
                         autoComplete={"email"}
                         onChange={handleEmailChange}
                         placeholder="Email"
-                        className="search-input"
+                        className="search-input mb-3"
                         required
                     />
 
@@ -85,7 +85,7 @@ const LoginPage = () => {
                         [Login]
                     </button>
                     <h2 className="my-2">Or</h2>
-                    <Link to="/register" className="link">
+                    <Link to="/register" className="content">
                         [Register]
                     </Link>
                 </div>
