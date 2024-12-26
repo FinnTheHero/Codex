@@ -32,6 +32,7 @@ import RegisterPage from "./Pages/RegisterPage";
 
 // Components
 import { DenyUserAuth } from "./Components/AuthGuard";
+import EditNovelPage from "./Pages/EditNovelPage";
 
 function App() {
     return (
@@ -89,6 +90,10 @@ const RouterTransition = () => {
 
                     <Route path="/dashboard" element={<HeroPageLayout />}>
                         <Route index element={<Dashboard />} />
+                        <Route
+                            path="/dashboard/:novelTitle"
+                            element={<EditNovelPage />}
+                        />
                     </Route>
                 </Routes>
             </CSSTransition>
