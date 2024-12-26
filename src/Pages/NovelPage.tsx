@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { search } from "../Services/searchService";
 import { useCallback, useEffect, useState } from "react";
 import { Chapter, Novel } from "../Types/types";
@@ -11,8 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { useError } from "../Contexts/ErrorContext";
+import { useUser } from "../Contexts/UserContext";
 
 const NovelPage = () => {
+    const { user } = useUser();
+
     const { novelTitle } = useParams();
 
     const { error, setError } = useError();
@@ -68,12 +71,28 @@ const NovelPage = () => {
             <div className="w-full flex flex-row flex-wrap justify-between">
                 <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
                     {novel && (
-                        <div className="flex flex-col flex-nowrap">
-                            <h2 className="text-4xl">{novel.title}</h2>
-                            <h2 className="ml-3 text-1xl">By {novel.author}</h2>
-                            <p className="mt-2 subtitle text-">
-                                {" > "} {novel.description}
-                            </p>
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <div className="flex flex-col flex-nowrap">
+                                <h2 className="text-4xl">{novel.title}</h2>
+                                <h2 className="ml-3 text-1xl">
+                                    By {novel.author}
+                                </h2>
+                                <p className="mt-2 subtitle text-">
+                                    {" > "} {novel.description}
+                                </p>
+                            </div>
+                            {user &&
+                                (user.username === novel.author ||
+                                    user.type === "admin") && (
+                                    <div>
+                                        <Link
+                                            to={`/dashboard/${novel.title}`}
+                                            className="text-lg content"
+                                        >
+                                            [Edit Novel]
+                                        </Link>
+                                    </div>
+                                )}
                         </div>
                     )}
                 </div>
