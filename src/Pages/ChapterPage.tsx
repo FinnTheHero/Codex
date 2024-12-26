@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { search } from "../Services/searchService";
 import { Chapter, Novel } from "../Types/types";
 import ErrorAlert from "../Components/ErrorAlert";
 import LoadingAlert from "../Components/LoadingAlert";
@@ -9,47 +8,51 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import Popover from "../Components/Popover";
+import { useSearchHandler } from "../Components/SearchHandler";
+import { useError } from "../Contexts/ErrorContext";
+import { useLoading } from "../Contexts/LoadingContext";
 
 const ChapterPage = () => {
     const { novelTitle } = useParams();
     const { chapterTitle } = useParams();
 
+    const { error, setError } = useError();
+    const { loading, setLoading } = useLoading();
+
     const [novel, setNovel] = useState<Novel | null>(null);
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapter, setChapter] = useState<Chapter | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
 
     const [prevChapter, setPrevChapter] = useState<Chapter | null>(null);
     const [nextChapter, setNextChapter] = useState<Chapter | null>(null);
 
-    const handleSearch = useCallback(
-        async (title_novel: string, title_chapter: string) => {
-            setError(null);
-            setLoading(true);
-            try {
-                const data = await search(title_novel, title_chapter);
-                if (data.chapter) {
-                    setChapter(data.chapter);
-                    return;
-                }
+    const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
 
-                if (data.novel) {
-                    setNovel(data.novel);
-                    return;
-                }
+    const handleNovelSearch = useCallback(() => {
+        if (novelTitle) {
+            searchNovelHandler({
+                title_novel: novelTitle,
+                setNovel,
+            });
+        } else {
+            setError("Novel title not found!");
+        }
+    }, [novelTitle, searchNovelHandler, setError]);
 
-                if (data.chapters && data.chapters.length > 0) {
-                    setChapters(data.chapters);
-                    return;
-                }
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
+    const handleChapterSearch = useCallback(
+        (c?: string) => {
+            if (novelTitle && chapterTitle) {
+                searchChapterHandler({
+                    title_novel: novelTitle,
+                    title_chapter: c || chapterTitle,
+                    setChapter,
+                    setChapters,
+                });
+            } else {
+                setError("Novel or Chapter title not found!");
             }
         },
-        [],
+        [novelTitle, chapterTitle, searchChapterHandler, setError],
     );
 
     const getNextChapter = useCallback(() => {
@@ -68,38 +71,16 @@ const ChapterPage = () => {
         return chapters[currentIndex + 1] || null;
     }, [chapter, chapters]);
 
-    const handleWindowLoad = useCallback(() => {
-        setError(null);
-        setLoading(true);
-        try {
-            if (!novelTitle) {
-                setError("Couldn't find novel title!");
-                return;
-            }
-
-            if (!chapterTitle) {
-                setError("Couldn't find chapter title!");
-                return;
-            }
-
-            handleSearch(novelTitle, "");
-            handleSearch(novelTitle, "all");
-            handleSearch(novelTitle, chapterTitle);
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
-    }, [novelTitle, chapterTitle, handleSearch]);
-
     useEffect(() => {
         setPrevChapter(getPreviousChapter());
         setNextChapter(getNextChapter());
     }, [setPrevChapter, getPreviousChapter, setNextChapter, getNextChapter]);
 
     useEffect(() => {
-        handleWindowLoad();
-    }, [handleWindowLoad]);
+        handleNovelSearch();
+        handleChapterSearch();
+        handleChapterSearch("all");
+    }, [handleNovelSearch, handleChapterSearch]);
 
     // Clear Error
     useEffect(() => {
@@ -111,7 +92,7 @@ const ChapterPage = () => {
 
             return () => clearTimeout(timer);
         }
-    }, [error]);
+    }, [error, setError, setLoading]);
 
     const NavigationButtons = ({
         prevChapter,

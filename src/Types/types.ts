@@ -88,3 +88,16 @@ export interface NotificationContextType {
     notification: string | null;
     setNotification: (notification: string | null) => void;
 }
+
+export interface SearchChapterHandlerProps {
+    title_novel: string;
+    title_chapter: string;
+    setChapter?: (chapter: Chapter) => void;
+    setChapters?: (chapters: Chapter[]) => void;
+}
+
+export interface SearchNovelHandlerProps {
+    title_novel: string;
+    setNovel?: (chapter: Novel) => void;
+    setNovels?: (chapters: Novel[]) => void;
+}

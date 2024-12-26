@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Services
-import { search } from "../Services/searchService";
+import { searchChapter, searchNovel } from "../Services/searchService";
 
 // Types
 import { Chapter, Novel } from "../Types/types";
@@ -33,26 +33,38 @@ const NovelsPage: React.FC = () => {
         setNovels([]);
     };
 
-    const handleSearch = useCallback(
+    const findNovel = useCallback(async (title_novel: string) => {
+        setError(null);
+        setLoading(true);
+
+        try {
+            const data = await searchNovel(title_novel);
+            if (data.novel) {
+                clearNovels();
+                addNovel(data.novel);
+                return;
+            }
+
+            if (data.novels && data.novels.length > 0) {
+                setNovels(data.novels);
+                return;
+            }
+        } catch (err) {
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const findChapter = useCallback(
         async (title_novel: string, title_chapter: string) => {
             setError(null);
             setLoading(true);
 
             try {
-                const data = await search(title_novel, title_chapter);
+                const data = await searchChapter(title_novel, title_chapter);
                 if (data.chapters && data.chapters.length > 0) {
                     setChapters(data.chapters);
-                    return;
-                }
-
-                if (data.novel) {
-                    clearNovels();
-                    addNovel(data.novel);
-                    return;
-                }
-
-                if (data.novels && data.novels.length > 0) {
-                    setNovels(data.novels);
                     return;
                 }
             } catch (err) {
@@ -66,8 +78,9 @@ const NovelsPage: React.FC = () => {
 
     // Load default stuff
     useEffect(() => {
-        handleSearch("", "");
-    }, [handleSearch]);
+        findNovel("");
+        findChapter("", "");
+    }, [findNovel, findChapter]);
 
     // Clear Error
     useEffect(() => {
@@ -90,7 +103,7 @@ const NovelsPage: React.FC = () => {
                 <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                        <SearchBar onSearch={handleSearch} />
+                        <SearchBar onSearch={findNovel} />
                     </div>
 
                     <div className="mt-4">

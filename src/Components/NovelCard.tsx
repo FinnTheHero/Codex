@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { search } from "../Services/searchService";
+import { searchChapter } from "../Services/searchService";
 import { NovelCardProps } from "../Types/types";
 
 const NovelCard: React.FC<NovelCardProps> = ({
@@ -21,7 +21,7 @@ const NovelCard: React.FC<NovelCardProps> = ({
         setChapters([]);
 
         try {
-            const data = await search(title_novel, title_chapter);
+            const data = await searchChapter(title_novel, title_chapter);
             if (data.chapters && data.chapters.length > 0) {
                 setNovel(novel);
                 setChapters(data.chapters);
