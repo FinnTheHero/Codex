@@ -11,6 +11,7 @@ import "./App.css";
 import "./Styles/ComponentStyles.css";
 import "./Styles/LayoutStyles.css";
 import "./Styles/PageStyles.css";
+import "@mdxeditor/editor/style.css";
 
 // Layouts
 import HeroPageLayout from "./Layouts/HeroPageLayout";
