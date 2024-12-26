@@ -31,7 +31,7 @@ import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 
 // Components
-import { DenyUserAuth, RequireAdmin } from "./Components/AuthGuard";
+import { DenyUserAuth } from "./Components/AuthGuard";
 
 function App() {
     return (
@@ -87,15 +87,8 @@ const RouterTransition = () => {
                         <Route index element={<ChapterPage />} />
                     </Route>
 
-                    <Route path="/admin" element={<HeroPageLayout />}>
-                        <Route
-                            index
-                            element={
-                                <RequireAdmin>
-                                    <Dashboard />
-                                </RequireAdmin>
-                            }
-                        />
+                    <Route path="/dashboard" element={<HeroPageLayout />}>
+                        <Route index element={<Dashboard />} />
                     </Route>
                 </Routes>
             </CSSTransition>
