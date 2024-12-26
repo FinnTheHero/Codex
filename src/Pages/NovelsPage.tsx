@@ -111,18 +111,15 @@ const NovelsPage: React.FC = () => {
                 </div>
                 {/* Chapter List Preview */}
                 <div className="hidden lg:visible w-2/6 lg:flex flex-col flex-nowrap">
-                    <div className="mb-10 text-center">
+                    <div className="mb-12 text-center">
                         <h2 className="text-4xl text-center">Chapters</h2>
-                        <p className="subtitle">
-                            Hover the novel to reveal chapters
-                        </p>
                         <h2 className="text-2xl text-center">
                             {novel && (novel.title || "")}
                         </h2>
                     </div>
 
                     <div>
-                        {chapters.length > 0 &&
+                        {chapters.length > 0 ? (
                             novel &&
                             chapters.map((chapter, index) => {
                                 return (
@@ -132,7 +129,12 @@ const NovelsPage: React.FC = () => {
                                         key={index}
                                     />
                                 );
-                            })}
+                            })
+                        ) : (
+                            <p className="subtitle text-center mt-16">
+                                Hover or Tap the novel to reveal chapters
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
