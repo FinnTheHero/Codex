@@ -13,7 +13,7 @@ export const searchChapter = async (novel: string, chapter: string) => {
         const response = await api.get(`/${novel}/${chapter}`);
         return response.data;
     } catch (err) {
-        throw new Error("Couldn't find Chapter!");
+        throw new Error("Couldn't find Chapter(s)!");
     }
 };
 
@@ -30,6 +30,6 @@ export const searchNovel = async (novel: string) => {
         const response = await api.get(`/${novel}`);
         return response.data;
     } catch (err) {
-        throw new Error("Couldn't find Novel!");
+        throw new Error("Couldn't find Novel(s)!");
     }
 };
