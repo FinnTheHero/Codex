@@ -24,12 +24,12 @@ export const useSearchHandler = () => {
 
                 if (setChapter && data.chapter) {
                     setChapter(data.chapter);
-                    return;
+                    return data;
                 }
 
                 if (setChapters && data.chapters?.length > 0) {
                     setChapters(data.chapters);
-                    return;
+                    return data;
                 }
             } catch (err) {
                 setError((err as Error).message);
@@ -52,12 +52,12 @@ export const useSearchHandler = () => {
 
                 if (setNovel && data.novel) {
                     setNovel(data.novel);
-                    return;
+                    return data;
                 }
 
                 if (setNovels && data.novels?.length > 0) {
                     setNovels(data.novels);
-                    return;
+                    return data;
                 }
             } catch (err) {
                 setError((err as Error).message);
