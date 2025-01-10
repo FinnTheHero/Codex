@@ -28,9 +28,28 @@ const ChapterPage = () => {
 
     const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
 
-    const handleNovelSearch = useCallback(() => {
+    const setPrevAndNextChapters = useCallback(() => {
+        if (chapters.length < 3) {
+            chapters.forEach((c, i) => {
+                if (c.title === chapterTitle) {
+                    setChapter(c);
+                    if (i === 0) {
+                        setPrevChapter(chapters[1]);
+                    } else if (i === 1) {
+                        setNextChapter(chapters[0]);
+                    }
+                }
+            });
+        } else {
+            setPrevChapter(chapters[0]);
+            setChapter(chapters[1]);
+            setNextChapter(chapters[2]);
+        }
+    }, [chapterTitle, chapters]);
+
+    const handleNovelSearch = useCallback(async () => {
         if (novelTitle) {
-            searchNovelHandler({
+            await searchNovelHandler({
                 title_novel: novelTitle,
                 setNovel,
             });
@@ -40,12 +59,11 @@ const ChapterPage = () => {
     }, [novelTitle, searchNovelHandler, setError]);
 
     const handleChapterSearch = useCallback(
-        (c?: string) => {
+        async (c?: string) => {
             if (novelTitle && chapterTitle) {
-                searchChapterHandler({
+                await searchChapterHandler({
                     title_novel: novelTitle,
                     title_chapter: c || chapterTitle,
-                    setChapter,
                     setChapters,
                 });
             } else {
@@ -55,44 +73,15 @@ const ChapterPage = () => {
         [novelTitle, chapterTitle, searchChapterHandler, setError],
     );
 
-    const getNextChapter = useCallback(() => {
-        if (!chapter || !chapters.length) return null;
-        const currentIndex = chapters.findIndex(
-            (ch) => ch.title === chapter.title,
-        );
-        return chapters[currentIndex - 1] || null;
-    }, [chapter, chapters]);
-
-    const getPreviousChapter = useCallback(() => {
-        if (!chapter || !chapters.length) return null;
-        const currentIndex = chapters.findIndex(
-            (ch) => ch.title === chapter.title,
-        );
-        return chapters[currentIndex + 1] || null;
-    }, [chapter, chapters]);
-
+    // Force the fucking react to render chapter
     useEffect(() => {
-        setPrevChapter(getPreviousChapter());
-        setNextChapter(getNextChapter());
-    }, [setPrevChapter, getPreviousChapter, setNextChapter, getNextChapter]);
+        setPrevAndNextChapters();
+    }, [chapters]);
 
     useEffect(() => {
         handleNovelSearch();
-        handleChapterSearch();
-        handleChapterSearch("all");
-    }, [handleNovelSearch, handleChapterSearch]);
-
-    // Clear Error
-    useEffect(() => {
-        if (error !== null) {
-            const timer = setTimeout(() => {
-                setError(null);
-                setLoading(false);
-            }, 3000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [error, setError, setLoading]);
+        handleChapterSearch(`${chapterTitle}/next-previous`);
+    }, []);
 
     const NavigationButtons = ({
         prevChapter,
