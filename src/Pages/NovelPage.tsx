@@ -22,36 +22,33 @@ const NovelPage = () => {
 
     const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
 
-    const handleNovelSearch = useCallback(() => {
+    const handleNovelSearch = useCallback(async () => {
         if (novelTitle) {
-            searchNovelHandler({
+            await searchNovelHandler({
                 title_novel: novelTitle,
                 setNovel,
             });
         } else {
             setError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler, setError]);
+    }, []);
 
-    const handleChapterSearch = useCallback(
-        (c?: string) => {
-            if (novelTitle && c) {
-                searchChapterHandler({
-                    title_novel: novelTitle,
-                    title_chapter: c,
-                    setChapters,
-                });
-            } else {
-                setError("Novel or Chapter title not found!");
-            }
-        },
-        [novelTitle, searchChapterHandler, setError],
-    );
+    const handleChapterSearch = useCallback(async (c?: string) => {
+        if (novelTitle && c) {
+            await searchChapterHandler({
+                title_novel: novelTitle,
+                title_chapter: c,
+                setChapters,
+            });
+        } else {
+            setError("Novel or Chapter title not found!");
+        }
+    }, []);
 
     useEffect(() => {
         handleNovelSearch();
         handleChapterSearch("all");
-    }, [handleNovelSearch, handleChapterSearch]);
+    }, []);
 
     return (
         <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
