@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// Services
-import { searchChapter, searchNovel } from "../Services/searchService";
-
 // Types
 import { Chapter, Novel } from "../Types/types";
 
@@ -10,76 +7,37 @@ import { Chapter, Novel } from "../Types/types";
 import SearchBar from "../Components/SearchBar";
 import NovelCard from "../Components/NovelCard";
 import ChapterCard from "../Components/ChapterCard";
-import ErrorAlert from "../Components/ErrorAlert";
-import LoadingAlert from "../Components/LoadingAlert";
 
 // Styles
 import "../Styles/PageStyles.css";
 import { useCallback } from "react";
 import GoBackButton from "../Components/GoBackButton";
+import { useSearchHandler } from "../Components/SearchHandler";
+import { useLoading } from "../Contexts/LoadingContext";
+import { useError } from "../Contexts/ErrorContext";
 
 const NovelsPage: React.FC = () => {
     const [novels, setNovels] = useState<Novel[]>([]);
     const [novel, setNovel] = useState<Novel | null>(null);
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
 
-    const addNovel = (novel: Novel) => {
-        setNovels((old) => [...old, novel]);
-    };
+    const { setLoading } = useLoading();
+    const { error, setError } = useError();
 
-    const clearNovels = () => {
-        setNovels([]);
-    };
+    const { searchNovelHandler } = useSearchHandler();
 
-    const findNovel = useCallback(async (title_novel: string) => {
-        setError(null);
-        setLoading(true);
-
-        try {
-            const data = await searchNovel(title_novel);
-            if (data.novel) {
-                clearNovels();
-                addNovel(data.novel);
-                return;
-            }
-
-            if (data.novels && data.novels.length > 0) {
-                setNovels(data.novels);
-                return;
-            }
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
+    const handleNovelSearch = useCallback(async (title_novel: string) => {
+        await searchNovelHandler({
+            title_novel: title_novel,
+            setNovel,
+            setNovels,
+        });
     }, []);
-
-    const findChapter = useCallback(
-        async (title_novel: string, title_chapter: string) => {
-            setError(null);
-            setLoading(true);
-
-            try {
-                const data = await searchChapter(title_novel, title_chapter);
-                if (data.chapters && data.chapters.length > 0) {
-                    setChapters(data.chapters);
-                    return;
-                }
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
-            }
-        },
-        [],
-    );
 
     // Load default stuff
     useEffect(() => {
-        findNovel("");
-    }, [findNovel, findChapter]);
+        handleNovelSearch("");
+    }, []);
 
     // Clear Error
     useEffect(() => {
@@ -91,18 +49,16 @@ const NovelsPage: React.FC = () => {
 
             return () => clearTimeout(timer);
         }
-    }, [error]);
+    }, []);
 
     return (
         <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
-            {/* Handle Error and Loading alerts */}
-            {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
             <div className="flex flex-row flex-nowrap justify-between">
                 {/* Novel List Display */}
                 <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                        <SearchBar onSearch={findNovel} />
+                        <SearchBar setNovels={setNovels} setNovel={setNovel} />
                     </div>
 
                     <div className="mt-4">
