@@ -15,7 +15,6 @@ export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
         return <></>;
     }
 
-    // Block logged user from accessing login/register pages
     if (user) {
         return <Navigate to={"/"} />;
     }
@@ -55,7 +54,7 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
             }
         };
         handleNovelSearch();
-    }, [novelTitle, user, navigate, searchNovelHandler]);
+    }, []);
 
     return <>{children}</>;
 };
@@ -87,7 +86,7 @@ export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
         };
 
         checkAuth();
-    }, [setError, navigate, children]);
+    }, []);
 
     return <>{children}</>;
 };
