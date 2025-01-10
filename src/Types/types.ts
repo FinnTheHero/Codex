@@ -40,7 +40,8 @@ export interface ChapterCardProps {
 export interface ChapterDTO {}
 
 export interface SearchBarProps {
-    onSearch: (searchTerm1: string, searchTerm2: string) => void;
+    setNovel: (novel: Novel | null) => void;
+    setNovels: React.Dispatch<React.SetStateAction<Novel[]>>;
 }
 
 export interface PopoverProps {
@@ -98,6 +99,6 @@ export interface SearchChapterHandlerProps {
 
 export interface SearchNovelHandlerProps {
     title_novel: string;
-    setNovel?: (chapter: Novel) => void;
-    setNovels?: (chapters: Novel[]) => void;
+    setNovel?: (novel: Novel) => void;
+    setNovels?: (novel: Novel[]) => void;
 }
