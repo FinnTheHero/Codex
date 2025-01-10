@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./apiService";
 
 export const searchChapter = async (novel: string, chapter: string) => {
@@ -13,7 +14,11 @@ export const searchChapter = async (novel: string, chapter: string) => {
         const response = await api.get(`/${novel}/${chapter}`);
         return response.data;
     } catch (err) {
-        throw new Error("Couldn't find Chapter(s)!");
+        if (axios.isAxiosError(err)) {
+            throw new Error(err.response?.statusText || "Unknown Error");
+        } else {
+            throw new Error("Unknown Error");
+        }
     }
 };
 
@@ -30,6 +35,10 @@ export const searchNovel = async (novel: string) => {
         const response = await api.get(`/${novel}`);
         return response.data;
     } catch (err) {
-        throw new Error("Couldn't find Novel(s)!");
+        if (axios.isAxiosError(err)) {
+            throw new Error(err.response?.statusText || "Unknown Error");
+        } else {
+            throw new Error("Unknown Error");
+        }
     }
 };

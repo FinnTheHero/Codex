@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./apiService";
 
 export const authenticate = async () => {
@@ -7,7 +8,11 @@ export const authenticate = async () => {
         });
         return response.data;
     } catch (err) {
-        throw err;
+        if (axios.isAxiosError(err)) {
+            throw new Error(err.response?.statusText || "Unknown Error");
+        } else {
+            throw new Error("Unknown Error");
+        }
     }
 };
 
@@ -32,7 +37,11 @@ export const login = async (email: string, password: string) => {
         );
         return response.data;
     } catch (err) {
-        throw err;
+        if (axios.isAxiosError(err)) {
+            throw new Error(err.response?.statusText || "Unknown Error");
+        } else {
+            throw new Error("Unknown Error");
+        }
     }
 };
 
@@ -58,6 +67,10 @@ export const register = async (
         );
         return response;
     } catch (err) {
-        throw new Error("Couldn't register user: " + (err as Error).message);
+        if (axios.isAxiosError(err)) {
+            throw new Error(err.response?.statusText || "Unknown Error");
+        } else {
+            throw new Error("Unknown Error");
+        }
     }
 };
