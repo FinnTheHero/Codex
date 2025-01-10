@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, {
     createContext,
     useState,
@@ -6,6 +7,7 @@ import React, {
     useEffect,
 } from "react";
 import api from "../Services/apiService";
+import { authenticate } from "../Services/authService";
 import { User, UserContextType } from "../Types/types";
 import { useError } from "./ErrorContext";
 import { useLoading } from "./LoadingContext";
@@ -24,17 +26,17 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     const [authenticated, setAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
+        const controller = new AbortController();
         const validateUser = async () => {
             setError(null);
             setLoading(true);
 
             try {
-                const response = await api.get("/auth/validate", {
-                    withCredentials: true,
-                });
-                if (response.data.authenticated) {
+                const data = await authenticate();
+
+                if (data.authenticated) {
                     setAuthenticated(true);
-                    setUser(response.data.user);
+                    setUser(data.user);
                     setNotification("Logged back in");
                 } else {
                     setUser(null);
@@ -50,7 +52,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         };
 
         validateUser();
-    }, [setError, setLoading, setNotification]);
+
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     const logout = async () => {
         setError(null);
@@ -69,7 +75,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                 window.location.reload();
             }
         } catch (err) {
-            setError((err as Error).message);
+            if (axios.isAxiosError(err)) {
+                setError(err.response?.statusText || "Unknown Error");
+            } else {
+                throw new Error("Unknown Error");
+            }
         } finally {
             setLoading(false);
             setAuthenticated(false);
