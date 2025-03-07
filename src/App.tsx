@@ -5,6 +5,7 @@ import {
     useLocation,
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Styles
 import "./App.css";
@@ -40,6 +41,8 @@ function App() {
             <Router>
                 <RouterTransition />
             </Router>
+
+            <SpeedInsights />
         </div>
     );
 }
