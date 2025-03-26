@@ -5,7 +5,6 @@ import {
     useEffect,
     useState,
 } from "react";
-import NotificationAlert from "../Components/NotificationAlert";
 import { NotificationContextType } from "../Types/types";
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -29,7 +28,6 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
 
     return (
         <NotificationContext.Provider value={{ notification, setNotification }}>
-            {notification && <NotificationAlert notification={notification} />}
             {children}
         </NotificationContext.Provider>
     );
