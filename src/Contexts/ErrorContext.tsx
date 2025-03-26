@@ -1,33 +1,29 @@
-import {
-    createContext,
-    ReactNode,
-    useContext,
-    useEffect,
-    useState,
-} from "react";
-import ErrorAlert from "../Components/ErrorAlert";
-import { ErrorContextType } from "../Types/types";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { ErrorContextType, ErrorNotification } from "../Types/types";
 
 const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
 
 export const ErrorProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const [error, setError] = useState<string | null>(null);
+    const [errors, setErrors] = useState<ErrorNotification[]>([]);
 
-    useEffect(() => {
-        if (error !== null) {
-            const timer = setTimeout(() => {
-                setError(null);
-            }, 3000);
+    const addError = (msg: string) => {
+        const id = new Date().getTime();
+        const newError: ErrorNotification = { id, message: msg };
+        setErrors((prev) => [...prev, newError]);
 
-            return () => clearTimeout(timer);
-        }
-    }, [error]);
+        setTimeout(() => {
+            setErrors((prev) => prev.filter((error) => error.id !== id));
+        }, 3000);
+    };
+
+    const removeError = (id: number) => {
+        setErrors((prev) => prev.filter((error) => error.id !== id));
+    };
 
     return (
-        <ErrorContext.Provider value={{ error, setError }}>
-            {error && <ErrorAlert error={error} />}
+        <ErrorContext.Provider value={{ errors, addError, removeError }}>
             {children}
         </ErrorContext.Provider>
     );
