@@ -1,6 +1,12 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-import LoadingAlert from "../Components/LoadingAlert";
+import {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import { LoadingContextType } from "../Types/types";
+import { useError } from "./ErrorContext";
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
@@ -8,10 +14,21 @@ export const LoadingProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const { addError } = useError();
+
+    useEffect(() => {
+        if (loading === true) {
+            const timer = setTimeout(() => {
+                setLoading(false);
+                addError("Loading Timed Out!");
+            }, 30000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [loading]);
 
     return (
         <LoadingContext.Provider value={{ loading, setLoading }}>
-            {loading && <LoadingAlert />}
             {children}
         </LoadingContext.Provider>
     );
