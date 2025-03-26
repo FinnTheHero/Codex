@@ -209,10 +209,16 @@ input.search-input {
         "Open Sans",
         "Helvetica Neue",
         sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
 
     color: var(--baseText);
     --basePageBg: black;
     background: var(--basePageBg);
+}
+
+.notification-queue {
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
