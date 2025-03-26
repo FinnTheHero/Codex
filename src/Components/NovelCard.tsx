@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useError } from "../Contexts/ErrorContext";
+import { useLoading } from "../Contexts/LoadingContext";
 import { searchChapter } from "../Services/searchService";
 import { NovelCardProps } from "../Types/types";
 
@@ -6,16 +8,16 @@ const NovelCard: React.FC<NovelCardProps> = ({
     novel,
     setNovel,
     setChapters,
-    setError,
-    setLoading,
 }) => {
     let hoverTimeout: ReturnType<typeof setTimeout>;
+
+    const { setLoading } = useLoading();
+    const { addError } = useError();
 
     const handleChapterSearch = async (
         title_novel: string,
         title_chapter: string,
     ) => {
-        setError(null);
         setLoading(true);
         setNovel(null);
         setChapters([]);
@@ -28,7 +30,7 @@ const NovelCard: React.FC<NovelCardProps> = ({
                 return;
             }
         } catch (err) {
-            setError((err as Error).message);
+            addError((err as Error).message);
         } finally {
             setLoading(false);
         }

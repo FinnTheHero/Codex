@@ -8,7 +8,7 @@ import {
 } from "../Types/types";
 
 export const useSearchHandler = () => {
-    const { setError } = useError();
+    const { addError } = useError();
     const { setLoading } = useLoading();
 
     const searchChapterHandler = useCallback(
@@ -16,7 +16,6 @@ export const useSearchHandler = () => {
             const { title_novel, title_chapter, setChapter, setChapters } =
                 props;
 
-            setError(null);
             setLoading(true);
 
             try {
@@ -32,19 +31,18 @@ export const useSearchHandler = () => {
                     return data;
                 }
             } catch (err) {
-                setError((err as Error).message);
+                addError((err as Error).message);
             } finally {
                 setLoading(false);
             }
         },
-        [setError, setLoading],
+        [addError, setLoading],
     );
 
     const searchNovelHandler = useCallback(
         async (props: SearchNovelHandlerProps) => {
             const { title_novel, setNovel, setNovels } = props;
 
-            setError(null);
             setLoading(true);
 
             try {
@@ -60,12 +58,12 @@ export const useSearchHandler = () => {
                     return data;
                 }
             } catch (err) {
-                setError((err as Error).message);
+                addError((err as Error).message);
             } finally {
                 setLoading(false);
             }
         },
-        [setError, setLoading],
+        [addError, setLoading],
     );
 
     return { searchChapterHandler, searchNovelHandler };

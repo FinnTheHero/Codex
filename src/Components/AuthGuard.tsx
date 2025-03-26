@@ -60,7 +60,7 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
 };
 
 export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
-    const { setError } = useError();
+    const { addError } = useError();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -80,7 +80,7 @@ export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
                     return navigate("/login");
                 }
             } catch (err) {
-                setError((err as Error).message);
+                addError((err as Error).message);
                 return navigate("/login");
             }
         };

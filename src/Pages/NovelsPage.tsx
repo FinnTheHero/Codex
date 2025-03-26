@@ -22,7 +22,7 @@ const NovelsPage: React.FC = () => {
     const [chapters, setChapters] = useState<Chapter[]>([]);
 
     const { setLoading } = useLoading();
-    const { error, setError } = useError();
+    const { errors, addError } = useError();
 
     const { searchNovelHandler } = useSearchHandler();
 
@@ -37,18 +37,6 @@ const NovelsPage: React.FC = () => {
     // Load default stuff
     useEffect(() => {
         handleNovelSearch("");
-    }, []);
-
-    // Clear Error
-    useEffect(() => {
-        if (error !== null) {
-            const timer = setTimeout(() => {
-                setError(null);
-                setLoading(false);
-            }, 3000);
-
-            return () => clearTimeout(timer);
-        }
     }, []);
 
     return (
@@ -69,8 +57,6 @@ const NovelsPage: React.FC = () => {
                                         novel={n}
                                         setNovel={setNovel}
                                         setChapters={setChapters}
-                                        setError={setError}
-                                        setLoading={setLoading}
                                         key={index}
                                     />
                                 );

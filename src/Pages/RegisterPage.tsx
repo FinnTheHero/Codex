@@ -7,7 +7,7 @@ import { register } from "../Services/authService";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-    const { setError } = useError();
+    const { addError } = useError();
     const { setLoading } = useLoading();
     const { setNotification } = useNotification();
 
@@ -29,21 +29,20 @@ const RegisterPage = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
         setLoading(true);
 
         if (!username || username === "") {
-            setError("Username is required!");
+            addError("Username is required!");
             return;
         }
 
         if (!email || email === "") {
-            setError("Email is required!");
+            addError("Email is required!");
             return;
         }
 
         if (!password || password === "") {
-            setError("Password is required!");
+            addError("Password is required!");
             return;
         }
 
@@ -54,7 +53,7 @@ const RegisterPage = () => {
                 return navigate("/login");
             }
         } catch (err) {
-            setError((err as Error).message);
+            addError((err as Error).message);
         } finally {
             setLoading(false);
         }

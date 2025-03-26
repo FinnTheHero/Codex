@@ -15,7 +15,7 @@ const NovelPage = () => {
     const { novelTitle } = useParams();
 
     const { user } = useUser();
-    const { setError } = useError();
+    const { addError } = useError();
 
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -29,7 +29,7 @@ const NovelPage = () => {
                 setNovel,
             });
         } else {
-            setError("Novel title not found!");
+            addError("Novel title not found!");
         }
     }, []);
 
@@ -41,7 +41,7 @@ const NovelPage = () => {
                 setChapters,
             });
         } else {
-            setError("Novel or Chapter title not found!");
+            addError("Novel or Chapter title not found!");
         }
     }, []);
 

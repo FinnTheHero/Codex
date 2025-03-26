@@ -18,7 +18,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { setError } = useError();
+    const { addError } = useError();
     const { setLoading } = useLoading();
     const { setNotification } = useNotification();
 
@@ -28,7 +28,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     useEffect(() => {
         const controller = new AbortController();
         const validateUser = async () => {
-            setError(null);
             setLoading(true);
 
             try {
@@ -42,7 +41,13 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                     setUser(null);
                     setAuthenticated(false);
                 }
-            } catch (_) {
+            } catch (err) {
+                if (axios.isAxiosError(err)) {
+                    addError(err.response?.statusText || "Unknown Error");
+                } else {
+                    addError("Unknown Error");
+                }
+
                 setUser(null);
                 setAuthenticated(false);
             } finally {
@@ -59,7 +64,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     }, []);
 
     const logout = async () => {
-        setError(null);
         setLoading(true);
 
         try {
@@ -76,13 +80,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             }
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                setError(err.response?.statusText || "Unknown Error");
+                addError(err.response?.statusText || "Unknown Error");
             } else {
                 throw new Error("Unknown Error");
             }
         } finally {
-            setLoading(false);
+            setUser(null);
             setAuthenticated(false);
+            setLoading(false);
         }
     };
 

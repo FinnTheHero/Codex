@@ -19,6 +19,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
+import { useUser } from "../Contexts/UserContext";
 import { Chapter, Novel } from "../Types/types";
 
 interface NewNovel {
@@ -30,7 +31,8 @@ const EditNovelPage = () => {
     const { novelTitle } = useParams();
     const { chapterTitle } = useParams();
 
-    const { setError } = useError();
+    const { addError } = useError();
+    const { user } = useUser();
 
     const [markdown, setMarkdown] = useState("Hello world");
     const [novel, setNovel] = useState<Novel>();
@@ -50,9 +52,9 @@ const EditNovelPage = () => {
                 setNovel,
             });
         } else {
-            setError("Novel title not found!");
+            addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler, setError]);
+    }, [novelTitle, searchNovelHandler]);
 
     const handleChapterSearch = useCallback(() => {
         if (novelTitle && chapterTitle) {

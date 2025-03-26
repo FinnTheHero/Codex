@@ -9,7 +9,7 @@ import { login } from "../Services/authService";
 const LoginPage = () => {
     const navigate = useNavigate();
     const { setUser } = useUser();
-    const { setError } = useError();
+    const { addError } = useError();
     const { setLoading } = useLoading();
     const { setNotification } = useNotification();
 
@@ -26,16 +26,15 @@ const LoginPage = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
         setLoading(true);
 
         if (!email || email === "") {
-            setError("Email is required!");
+            addError("Email is required!");
             return;
         }
 
         if (!password || password === "") {
-            setError("Password is required!");
+            addError("Password is required!");
             return;
         }
 
@@ -47,7 +46,7 @@ const LoginPage = () => {
                 return navigate("/novels");
             }
         } catch (err) {
-            setError((err as Error).message);
+            addError((err as Error).message);
         } finally {
             setLoading(false);
         }

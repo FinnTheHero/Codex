@@ -16,8 +16,8 @@ const ChapterPage = () => {
     const { novelTitle } = useParams();
     const { chapterTitle } = useParams();
 
-    const { error, setError } = useError();
-    const { loading, setLoading } = useLoading();
+    const { errors, addError } = useError();
+    const { loading } = useLoading();
 
     const [novel, setNovel] = useState<Novel | null>(null);
     const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -54,9 +54,9 @@ const ChapterPage = () => {
                 setNovel,
             });
         } else {
-            setError("Novel title not found!");
+            addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler, setError]);
+    }, [novelTitle, searchNovelHandler]);
 
     const handleChapterSearch = useCallback(
         async (c?: string) => {
@@ -67,10 +67,10 @@ const ChapterPage = () => {
                     setChapters,
                 });
             } else {
-                setError("Novel or Chapter title not found!");
+                addError("Novel or Chapter title not found!");
             }
         },
-        [novelTitle, chapterTitle, searchChapterHandler, setError],
+        [novelTitle, chapterTitle, searchChapterHandler],
     );
 
     // Force the fucking react to render chapter
@@ -133,7 +133,6 @@ const ChapterPage = () => {
 
     return (
         <div className="max-w-5xl w-full px-12 flex flex-col flex-nowrap">
-            {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
             {chapter && novel && (
                 <div className="flex flex-col justify-center items-center">
                     <h2 className="text-base">{novel.title}</h2>
