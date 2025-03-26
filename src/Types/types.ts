@@ -9,8 +9,6 @@ export interface NovelCardProps {
     setNovel: (setNovel: Novel | null) => void;
     setChapters: (setChapters: Chapter[]) => void;
     // TODO: Probably need a better way to handle this case!
-    setError: (value: string | null) => void;
-    setLoading: (value: boolean) => void;
 }
 
 export interface Novel {
@@ -75,9 +73,15 @@ export interface UserContextType {
     logout: () => void;
 }
 
+export interface ErrorNotification {
+    id: number;
+    message: string;
+}
+
 export interface ErrorContextType {
-    error: string | null;
-    setError: (error: string | null) => void;
+    errors: ErrorNotification[];
+    addError: (msg: string) => void;
+    removeError: (id: number) => void;
 }
 
 export interface LoadingContextType {
