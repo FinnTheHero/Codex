@@ -17,7 +17,7 @@ const DisplayNotifications: React.FC = () => {
     return (
         <div className="fixed flex flex-col flex-nowrap items-end top-5 left-1/2 transform -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:top-5 lg:right-5 z-50">
             {errors.map((err) => (
-                <ErrorAlert error={err.message} />
+                <ErrorAlert key={err.id} error={err.message} />
             ))}
             {loading && <LoadingAlert />}
             {notification && <NotificationAlert notification={notification} />}
