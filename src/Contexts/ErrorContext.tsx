@@ -18,6 +18,10 @@ export const ErrorProvider: React.FC<{ children: ReactNode }> = ({
         }, 3000);
     };
 
+    const isDuplicateError = (msg: string) => {
+        return errors.some((error) => error.message === msg);
+    };
+
     const removeError = (id: number) => {
         setErrors((prev) => prev.filter((error) => error.id !== id));
     };
