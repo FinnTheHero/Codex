@@ -44,8 +44,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             } catch (err) {
                 if (axios.isAxiosError(err)) {
                     addError(err.response?.statusText || "Unknown Error");
-                } else {
-                    addError("Unknown Error");
                 }
 
                 setUser(null);
