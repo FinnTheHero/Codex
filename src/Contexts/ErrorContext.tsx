@@ -11,6 +11,11 @@ export const ErrorProvider: React.FC<{ children: ReactNode }> = ({
     const addError = (msg: string) => {
         const id = new Date().getTime();
         const newError: ErrorNotification = { id, message: msg };
+
+        if (isDuplicateError(msg)) {
+            return;
+        }
+
         setErrors((prev) => [...prev, newError]);
 
         setTimeout(() => {
