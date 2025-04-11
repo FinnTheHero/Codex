@@ -26,6 +26,7 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
     const { novelTitle } = useParams();
 
     const { user } = useUser();
+    const { loading } = useLoading();
 
     const navigate = useNavigate();
 
@@ -33,8 +34,12 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
 
     useEffect(() => {
         const handleNovelSearch = async () => {
-            if (!novelTitle || !user) {
+            if (!user && !loading) {
                 return navigate("/login");
+            }
+
+            if (!novelTitle) {
+                return navigate("/dashboard");
             }
 
             try {
@@ -42,8 +47,8 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
                     title_novel: novelTitle,
                     setNovel: (novel) => {
                         if (
-                            user.username !== novel.author &&
-                            user.type !== "admin"
+                            user?.username !== novel.author &&
+                            user?.type !== "admin"
                         ) {
                             return navigate("/login");
                         }
