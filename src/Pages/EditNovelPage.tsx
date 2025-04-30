@@ -20,12 +20,7 @@ import { useParams } from "react-router-dom";
 import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
-import { Chapter, Novel } from "../Types/types";
-
-interface NewNovel {
-    title: string;
-    description: string;
-}
+import { Novel } from "../Types/types";
 
 const EditNovelPage = () => {
     const { novelTitle } = useParams();
@@ -34,16 +29,12 @@ const EditNovelPage = () => {
     const { addError } = useError();
     const { user } = useUser();
 
-    const [markdown, setMarkdown] = useState("Hello world");
     const [novel, setNovel] = useState<Novel>();
-    const [chapters, setChapters] = useState<Chapter[]>([]);
 
-    const [newNovel, setNewNovel] = useState<NewNovel>({
-        description: "",
-        title: "",
-    });
+    const [newNovelTitle, setNewNovelTitle] = useState<string>("");
+    const [newNovelDescription, setNewNovelDescription] = useState<string>("");
 
-    const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
+    const { searchNovelHandler } = useSearchHandler();
 
     const handleNovelSearch = useCallback(() => {
         if (novelTitle) {
@@ -56,109 +47,103 @@ const EditNovelPage = () => {
         }
     }, [novelTitle, searchNovelHandler]);
 
-    const handleChapterSearch = useCallback(() => {
-        if (novelTitle && chapterTitle) {
-            searchChapterHandler({
-                title_novel: novelTitle,
-                title_chapter: chapterTitle,
-                setChapters,
-            });
-        }
-    }, [novelTitle, chapterTitle, searchChapterHandler]);
-
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let temp: NewNovel = {
-            description: "",
-            title: "",
-        };
-        temp.title = e.target.value;
-        setNewNovel(temp);
+        let title = e.target.value;
+        setNewNovelTitle(title);
     };
 
     const handleDescriptionChange = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        let temp: NewNovel = {
-            description: "",
-            title: "",
-        };
-        temp.description = e.target.value;
-        setNewNovel(temp);
+        let description = e.target.value;
+        setNewNovelDescription(description);
     };
 
     useEffect(() => {
         handleNovelSearch();
-        handleChapterSearch();
-    }, [handleNovelSearch, handleChapterSearch]);
+    }, [handleNovelSearch]);
 
     return (
-        <div className="max-w-7xl w-full px-8 lg:p-12 flex flex-row flex-wrap justify-center align-middle">
-            <div className="w-full lg:w-1/2 mb-12 lg:mb-0 pr-6">
-                {novel && newNovel && (
-                    <form className="flex flex-col flex-nowrap ml-2 w-fit">
-                        <h2 className="text-xl font-bold mb-12">
-                            Author: {novel.author}
-                        </h2>
+        <div className="max-w-4xl w-full px-8 lg:p-12 flex flex-row flex-wrap justify-center align-middle">
+            <div className="w-full flex justify-center mb-12 lg:mb-0 pr-6">
+                {novel && (
+                    <form className="flex flex-col items-start flex-nowrap ml-2 w-full">
+                        <div className="mb-12 flex flex-col">
+                            <p className="text-sm content">
+                                Can't change the author!
+                            </p>
+                            <label className="text-xl font-bold">Author</label>
+                            <label className="text-lg mx-2">
+                                {novel.author}
+                            </label>
+                        </div>
 
-                        <div className="mb-4 flex flex-col flex-wrap border-b border-zinc-800">
-                            <label
-                                htmlFor="title"
-                                className="text-xl font-bold flex flex-row"
-                            >
-                                <h2 className="flex items-center">
-                                    {novel.title}
-                                </h2>
-                                <h2
-                                    className={`mx-2 flex items-center ${newNovel.title !== "" ? "visible" : "hidden"}`}
-                                >
+                        <div className="mb-12 flex flex-col flex-nowrap">
+                            <label className="text-xl font-bold">Title</label>
+                            <div className="flex flex-row flex-nowrap mx-2">
+                                <div className="text-lg flex justify-center items-center">
+                                    <label>{novel.title}</label>
+                                </div>
+
+                                <h2 className="mx-4 flex items-center">
                                     <FontAwesomeIcon
                                         size="xs"
                                         icon={faArrowRight}
                                     />
                                 </h2>
-                                <h2>{newNovel.title}</h2>
+
+                                <div className="border-b border-zinc-800 w-fit">
+                                    <input
+                                        id="title"
+                                        name="title"
+                                        type="text"
+                                        className="search-input mb-1"
+                                        onChange={handleTitleChange}
+                                        placeholder={String(
+                                            "New " + novel.title,
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col flex-nowrap w-full">
+                            <label className="text-xl font-bold mb-2">
+                                Description
                             </label>
-                            <input
-                                id="title"
-                                name="title"
-                                type="text"
-                                onChange={handleTitleChange}
-                                placeholder="Title"
-                                className="search-input mb-2 mt-2 pl-2 "
-                                required
-                            />
+
+                            <div className="flex flex-row flex-nowrap mx-2">
+                                <div className="w-full">
+                                    <MDXEditor
+                                        markdown={String(novel.description)}
+                                        contentEditableClassName="prose"
+                                        plugins={[
+                                            headingsPlugin(),
+                                            toolbarPlugin({
+                                                toolbarClassName: "dark-editor",
+                                                toolbarContents: () => (
+                                                    <>
+                                                        <DiffSourceToggleWrapper>
+                                                            <UndoRedo />
+                                                            <BoldItalicUnderlineToggles />
+                                                        </DiffSourceToggleWrapper>
+                                                    </>
+                                                ),
+                                            }),
+                                            linkPlugin(),
+                                            listsPlugin(),
+                                            quotePlugin(),
+                                            diffSourcePlugin(),
+                                            thematicBreakPlugin(),
+                                            markdownShortcutPlugin(),
+                                        ]}
+                                        onChange={setNewNovelDescription}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </form>
                 )}
-            </div>
-
-            <div className="w-full lg:w-1/2 border border-zinc-800 rounded-lg">
-                <MDXEditor
-                    markdown={markdown}
-                    contentEditableClassName="prose"
-                    plugins={[
-                        headingsPlugin(),
-                        toolbarPlugin({
-                            toolbarClassName: "dark-editor",
-                            toolbarContents: () => (
-                                <>
-                                    {" "}
-                                    <DiffSourceToggleWrapper>
-                                        <UndoRedo />
-                                        <BoldItalicUnderlineToggles />
-                                    </DiffSourceToggleWrapper>
-                                </>
-                            ),
-                        }),
-                        linkPlugin(),
-                        listsPlugin(),
-                        quotePlugin(),
-                        diffSourcePlugin(),
-                        thematicBreakPlugin(),
-                        markdownShortcutPlugin(),
-                    ]}
-                    onChange={setMarkdown}
-                />
             </div>
         </div>
     );
