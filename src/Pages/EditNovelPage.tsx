@@ -67,8 +67,14 @@ const EditNovelPage = () => {
         <div className="max-w-4xl w-full px-8 lg:p-12 flex flex-row flex-wrap justify-center align-middle">
             <div className="w-full flex justify-center mb-12 lg:mb-0 pr-6">
                 {novel && (
-                    <form className="flex flex-col items-start flex-nowrap ml-2 w-full">
-                        <div className="mb-12 flex flex-col">
+                    <form className="flex flex-col items-start flex-nowrap w-full">
+                        <label className="w-full flex justify-center text-xl">
+                            Currently Editing
+                            <h2 className="mx-2 content">[Novel]</h2>
+                            <h2 className="link">[{novel.title}]</h2>
+                        </label>
+
+                        <div className="my-12 flex flex-col">
                             <p className="text-sm content">
                                 Can't change the author!
                             </p>
