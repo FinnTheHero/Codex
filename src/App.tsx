@@ -34,6 +34,7 @@ import RegisterPage from "./Pages/RegisterPage";
 // Components
 import { DenyUserAuth, EditPageAccess } from "./Components/AuthGuard";
 import EditNovelPage from "./Pages/EditNovelPage";
+import EditChapterPage from "./Pages/EditChapterPage";
 
 function App() {
     return (
@@ -98,6 +99,14 @@ const RouterTransition = () => {
                             element={
                                 <EditPageAccess>
                                     <EditNovelPage />
+                                </EditPageAccess>
+                            }
+                        />
+                        <Route
+                            path="/dashboard/:novelTitle/:chapterTitle"
+                            element={
+                                <EditPageAccess>
+                                    <EditChapterPage />
                                 </EditPageAccess>
                             }
                         />
