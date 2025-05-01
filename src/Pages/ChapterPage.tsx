@@ -135,6 +135,12 @@ const ChapterPage = () => {
         <div className="max-w-5xl w-full px-12 flex flex-col flex-nowrap">
             {chapter && novel && (
                 <div className="flex flex-col justify-center items-center">
+                    <Link
+                        to={`/dashboard/${novel.title}/${chapter.title}`}
+                        className="w-full text-lg content text-end"
+                    >
+                        [Edit Chapter]
+                    </Link>
                     <h2 className="text-base">{novel.title}</h2>
                     <h2 className="mb-3 mt-2 text-4xl">{chapter.title}</h2>
 
