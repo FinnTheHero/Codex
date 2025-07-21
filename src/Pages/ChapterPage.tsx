@@ -50,7 +50,7 @@ const ChapterPage = () => {
     const handleNovelSearch = useCallback(async () => {
         if (novelTitle) {
             await searchNovelHandler({
-                title_novel: novelTitle,
+                id_novel: novelTitle,
                 common: { setNovel },
             });
         } else {
@@ -62,9 +62,9 @@ const ChapterPage = () => {
         async (c?: string) => {
             if (novelTitle && chapterTitle) {
                 await searchChapterHandler({
-                    title_novel: novelTitle,
-                    title_chapter: c || chapterTitle,
-                    common: { setChapters },
+                    id_novel: novelTitle,
+                    id_chapter: c || chapterTitle,
+                    common: { setChapter },
                 });
             } else {
                 addError("Novel or Chapter title not found!");
@@ -80,7 +80,7 @@ const ChapterPage = () => {
 
     useEffect(() => {
         handleNovelSearch();
-        handleChapterSearch(`${chapterTitle}/next-previous`);
+        handleChapterSearch();
     }, []);
 
     const NavigationButtons = ({

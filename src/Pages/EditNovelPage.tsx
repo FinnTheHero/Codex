@@ -23,7 +23,7 @@ import { useUser } from "../Contexts/UserContext";
 import { Novel } from "../Types/types";
 
 const EditNovelPage = () => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
     const { chapterTitle } = useParams();
 
     const { addError } = useError();
@@ -37,15 +37,15 @@ const EditNovelPage = () => {
     const { searchNovelHandler } = useSearchHandler();
 
     const handleNovelSearch = useCallback(() => {
-        if (novelTitle) {
+        if (id_novel) {
             searchNovelHandler({
-                title_novel: novelTitle,
+                id_novel,
                 common: { setNovel },
             });
         } else {
             addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let title = e.target.value;

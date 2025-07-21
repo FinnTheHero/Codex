@@ -39,9 +39,9 @@ const EditChapterPage = () => {
     const handleChapterSearch = useCallback(() => {
         if (novelTitle && chapterTitle) {
             searchChapterHandler({
-                title_novel: novelTitle,
-                setChapter,
-                title_chapter: chapterTitle,
+                id_novel: novelTitle,
+                common: { setChapter },
+                id_chapter: chapterTitle,
             });
         } else {
             addError("Novel/Chapter title not found!");
@@ -51,8 +51,8 @@ const EditChapterPage = () => {
     const handleNovelSearch = useCallback(() => {
         if (novelTitle) {
             searchNovelHandler({
-                title_novel: novelTitle,
-                setNovel,
+                id_novel: novelTitle,
+                common: { setNovel },
             });
         } else {
             addError("Novel/Chapter title not found!");
