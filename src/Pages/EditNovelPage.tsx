@@ -40,7 +40,7 @@ const EditNovelPage = () => {
         if (novelTitle) {
             searchNovelHandler({
                 title_novel: novelTitle,
-                setNovel,
+                common: { setNovel },
             });
         } else {
             addError("Novel title not found!");

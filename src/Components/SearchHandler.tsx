@@ -1,8 +1,13 @@
 import { useCallback } from "react";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
-import { searchChapter, searchNovel } from "../Services/searchService";
 import {
+    searchAllNovels,
+    searchChapter,
+    searchNovel,
+} from "../Services/searchService";
+import {
+    SearchAllNovelsHandlerProps,
     SearchChapterHandlerProps,
     SearchNovelHandlerProps,
 } from "../Types/types";
@@ -13,8 +18,11 @@ export const useSearchHandler = () => {
 
     const searchChapterHandler = useCallback(
         async (props: SearchChapterHandlerProps) => {
-            const { title_novel, title_chapter, setChapter, setChapters } =
-                props;
+            const {
+                title_novel,
+                title_chapter,
+                common: { setChapter, setChapters },
+            } = props;
 
             setLoading(true);
 
@@ -41,7 +49,10 @@ export const useSearchHandler = () => {
 
     const searchNovelHandler = useCallback(
         async (props: SearchNovelHandlerProps) => {
-            const { title_novel, setNovel, setNovels } = props;
+            const {
+                title_novel,
+                common: { setNovel, setNovels },
+            } = props;
 
             setLoading(true);
 
@@ -66,5 +77,29 @@ export const useSearchHandler = () => {
         [addError, setLoading],
     );
 
-    return { searchChapterHandler, searchNovelHandler };
+    const searchAllNovelsHandler = useCallback(
+        async (props: SearchAllNovelsHandlerProps) => {
+            const {
+                common: { setNovels },
+            } = props;
+
+            setLoading(true);
+
+            try {
+                const data = await searchAllNovels();
+
+                if (setNovels && data.novels?.length > 0) {
+                    setNovels(data.novels);
+                    return data;
+                }
+            } catch (err) {
+                addError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [addError, setLoading],
+    );
+
+    return { searchChapterHandler, searchNovelHandler, searchAllNovelsHandler };
 };

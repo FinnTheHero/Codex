@@ -45,13 +45,15 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
             try {
                 await searchNovelHandler({
                     title_novel: novelTitle,
-                    setNovel: (novel) => {
-                        if (
-                            user?.username !== novel.author &&
-                            user?.type !== "admin"
-                        ) {
-                            return navigate("/login");
-                        }
+                    common: {
+                        setNovel: (novel) => {
+                            if (
+                                user?.username !== novel.author &&
+                                user?.type !== "admin"
+                            ) {
+                                return navigate("/login");
+                            }
+                        },
                     },
                 });
             } catch (err) {

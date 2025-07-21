@@ -24,19 +24,17 @@ const NovelsPage: React.FC = () => {
     const { setLoading } = useLoading();
     const { errors, addError } = useError();
 
-    const { searchNovelHandler } = useSearchHandler();
+    const { searchNovelHandler, searchAllNovelsHandler } = useSearchHandler();
 
-    const handleNovelSearch = useCallback(async (title_novel: string) => {
-        await searchNovelHandler({
-            title_novel: title_novel,
-            setNovel,
-            setNovels,
+    const handleAllNovelsSearch = useCallback(async (title_novel: string) => {
+        await searchAllNovelsHandler({
+            common: { setNovels },
         });
     }, []);
 
     // Load default stuff
     useEffect(() => {
-        handleNovelSearch("");
+        handleAllNovelsSearch("");
     }, []);
 
     return (

@@ -51,7 +51,7 @@ const ChapterPage = () => {
         if (novelTitle) {
             await searchNovelHandler({
                 title_novel: novelTitle,
-                setNovel,
+                common: { setNovel },
             });
         } else {
             addError("Novel title not found!");
@@ -64,7 +64,7 @@ const ChapterPage = () => {
                 await searchChapterHandler({
                     title_novel: novelTitle,
                     title_chapter: c || chapterTitle,
-                    setChapters,
+                    common: { setChapters },
                 });
             } else {
                 addError("Novel or Chapter title not found!");

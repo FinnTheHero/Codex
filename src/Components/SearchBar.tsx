@@ -19,10 +19,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ setNovel, setNovels }) => {
             setNovels([]);
             searchNovelHandler({
                 title_novel: novelTitle,
-                setNovel: (novel) => {
-                    setNovels((old: Novel[]) => [...old, novel]);
+                common: {
+                    setNovel: (novel) => {
+                        setNovels((old: Novel[]) => [...old, novel]);
+                    },
+                    setNovels,
                 },
-                setNovels,
             });
         },
         [searchNovelHandler, setNovels],
