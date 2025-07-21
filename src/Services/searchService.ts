@@ -12,11 +12,11 @@ const handleErr = (err: any) => {
 export const searchChapter = async (novel: string, chapter: string) => {
     try {
         if (novel === undefined || chapter === undefined) {
-            throw new Error("Novel or chapter title not provided!");
+            throw new Error("Novel or chapter id not provided!");
         }
 
         if (novel === "" || chapter === "") {
-            throw new Error("Novel or chapter title not provided!");
+            throw new Error("Novel or chapter id not provided!");
         }
 
         const response = await api.get(`/${novel}/${chapter}`);
@@ -29,7 +29,7 @@ export const searchChapter = async (novel: string, chapter: string) => {
 export const searchAllChapters = async (novel: string) => {
     try {
         if (novel === undefined || novel === "") {
-            throw new Error("Novel title not provided!");
+            throw new Error("Novel id not provided!");
         }
 
         const response = await api.get(`/${novel}/all`);
@@ -42,7 +42,7 @@ export const searchAllChapters = async (novel: string) => {
 export const searchNovel = async (novel: string) => {
     try {
         if (novel === undefined || novel === "") {
-            throw new Error("Novel title not provided!");
+            throw new Error("Novel id not provided!");
         }
 
         const response = await api.get(`/${novel}`);
