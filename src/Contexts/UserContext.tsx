@@ -66,7 +66,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
         try {
             const response = await api.post(
-                "/auth/logout",
+                "/user/logout",
                 {},
                 { withCredentials: true },
             );
