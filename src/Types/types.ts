@@ -94,15 +94,32 @@ export interface NotificationContextType {
     setNotification: (notification: string | null) => void;
 }
 
-export interface SearchChapterHandlerProps {
-    title_novel: string;
-    title_chapter: string;
+export interface chapterCommon {
     setChapter?: (chapter: Chapter) => void;
     setChapters?: (chapters: Chapter[]) => void;
 }
 
-export interface SearchNovelHandlerProps {
+export interface SearchChapterHandlerProps {
     title_novel: string;
+    title_chapter: string;
+    common: chapterCommon;
+}
+
+export interface SearchAllChaptersHandlerProps {
+    title_novel: string;
+    common: chapterCommon;
+}
+
+export interface novelCommon {
     setNovel?: (novel: Novel) => void;
     setNovels?: (novel: Novel[]) => void;
+}
+
+export interface SearchNovelHandlerProps {
+    title_novel: string;
+    common: novelCommon;
+}
+
+export interface SearchAllNovelsHandlerProps {
+    common: novelCommon;
 }
