@@ -13,8 +13,8 @@ import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 
 const ChapterPage = () => {
-    const { novelTitle } = useParams();
-    const { chapterTitle } = useParams();
+    const { id_novel } = useParams();
+    const { id_chapter } = useParams();
 
     const { errors, addError } = useError();
     const { loading } = useLoading();
@@ -31,7 +31,7 @@ const ChapterPage = () => {
     const setPrevAndNextChapters = useCallback(() => {
         if (chapters.length < 3) {
             chapters.forEach((c, i) => {
-                if (c.title === chapterTitle) {
+                if (c.title === id_chapter) {
                     setChapter(c);
                     if (i === 0) {
                         setPrevChapter(chapters[1]);
@@ -45,32 +45,32 @@ const ChapterPage = () => {
             setChapter(chapters[1]);
             setNextChapter(chapters[2]);
         }
-    }, [chapterTitle, chapters]);
+    }, [id_chapter, chapters]);
 
     const handleNovelSearch = useCallback(async () => {
-        if (novelTitle) {
+        if (id_novel) {
             await searchNovelHandler({
-                id_novel: novelTitle,
+                id_novel: id_novel,
                 common: { setNovel },
             });
         } else {
             addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
     const handleChapterSearch = useCallback(
         async (c?: string) => {
-            if (novelTitle && chapterTitle) {
+            if (id_novel && id_chapter) {
                 await searchChapterHandler({
-                    id_novel: novelTitle,
-                    id_chapter: c || chapterTitle,
+                    id_novel: id_novel,
+                    id_chapter: c || id_chapter,
                     common: { setChapter },
                 });
             } else {
                 addError("Novel or Chapter title not found!");
             }
         },
-        [novelTitle, chapterTitle, searchChapterHandler],
+        [id_novel, id_chapter, searchChapterHandler],
     );
 
     // Force the fucking react to render chapter
@@ -97,7 +97,7 @@ const ChapterPage = () => {
                         <Popover text={prevChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${novelTitle}/${prevChapter.title}`}
+                                to={`/novels/${id_novel}/${prevChapter.title}`}
                             >
                                 [Previous]
                             </Link>
@@ -111,7 +111,7 @@ const ChapterPage = () => {
                         <Popover text={nextChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${novelTitle}/${nextChapter.title}`}
+                                to={`/novels/${id_novel}/${nextChapter.title}`}
                             >
                                 [Next]
                             </Link>
@@ -125,7 +125,7 @@ const ChapterPage = () => {
 
                 <GoBackButton
                     className="link mt-4"
-                    to={`/novels/${novelTitle}`}
+                    to={`/novels/${id_novel}`}
                 />
             </div>
         );
@@ -136,7 +136,7 @@ const ChapterPage = () => {
             {chapter && novel && (
                 <div className="flex flex-col justify-center items-center">
                     <Link
-                        to={`/dashboard/${novel.title}/${chapter.title}`}
+                        to={`/dashboard/${novel.id}/${chapter.id}`}
                         className="w-full text-lg content text-end"
                     >
                         [Edit Chapter]
