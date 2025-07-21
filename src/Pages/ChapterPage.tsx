@@ -14,6 +14,7 @@ import { useLoading } from "../Contexts/LoadingContext";
 import ReactMarkdown from "react-markdown";
 import { addToMarkdownExtension$ } from "@mdxeditor/editor";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 const ChapterPage = () => {
     const { id_novel } = useParams();
@@ -141,11 +142,10 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <p className="subtitle">{chapter.description}</p>
-
                     <ReactMarkdown
-                        className="prose max-w-2xl mt-4"
+                        className="max-w-2xl mt-4 prose prose-lg font-sans leading-relaxed"
                         remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw]}
                     >
                         {chapter.content}
                     </ReactMarkdown>
