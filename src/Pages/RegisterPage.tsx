@@ -7,7 +7,7 @@ import { register } from "../Services/authService";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-    const { addError } = useError();
+    const { errors, addError, removeError } = useError();
     const { setLoading } = useLoading();
     const { setNotification } = useNotification();
 
@@ -16,14 +16,64 @@ const RegisterPage = () => {
     const [password, setPassword] = useState<string | null>(null);
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.length >= 25) {
+            addError("Username is too long!");
+            return;
+        } else {
+            errors.forEach((error) => {
+                if (error.message === "Username is too long!") {
+                    removeError(error.id);
+                }
+            });
+        }
         setUsername(e.target.value);
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (
+            !e.target.value.match(
+                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            )
+        ) {
+            addError("Invalid email!");
+            return;
+        } else if (e.target.value.length >= 50) {
+            addError("Email is too long!");
+            return;
+        } else if (e.target.value.length <= 5) {
+            addError("Email is too short!");
+            return;
+        } else {
+            errors.forEach((error) => {
+                if (
+                    error.message === "Invalid email!" ||
+                    error.message === "Email is too short!" ||
+                    error.message === "Email is too long!"
+                ) {
+                    removeError(error.id);
+                }
+            });
+        }
         setEmail(e.target.value);
     };
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.length <= 8) {
+            addError("Password is too short!");
+            return;
+        } else if (e.target.value.length >= 25) {
+            addError("Password is too long!");
+            return;
+        } else {
+            errors.forEach((error) => {
+                if (
+                    error.message === "Password is too short!" ||
+                    error.message === "Password is too long!"
+                ) {
+                    removeError(error.id);
+                }
+            });
+        }
         setPassword(e.target.value);
     };
 
@@ -72,6 +122,7 @@ const RegisterPage = () => {
                         placeholder="Username"
                         className="search-input mb-3 pl-1"
                         required
+                        maxLength={25}
                     />
 
                     <input
@@ -83,6 +134,7 @@ const RegisterPage = () => {
                         placeholder="Email"
                         className="search-input mb-3 pl-1"
                         required
+                        maxLength={50}
                     />
 
                     <input
@@ -94,6 +146,8 @@ const RegisterPage = () => {
                         placeholder="Password"
                         className="search-input pl-1"
                         required
+                        minLength={8}
+                        maxLength={25}
                     />
                 </div>
 
