@@ -25,6 +25,22 @@ code {
         "Courier New", monospace;
 }
 
+/* Override ReactMarkdown component styles */
+.markdown,
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6,
+.markdown p {
+    color: #94e2d5;
+}
+
+.markdown a {
+    color: #fab387;
+}
+
 /* Custom scrollbar for webkit browsers */
 /* Vertical scrollbar */
 ::-webkit-scrollbar {

@@ -1,86 +1,85 @@
-import { useParams } from "react-router-dom";
-import { search } from "../Services/searchService";
-import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { Chapter, Novel } from "../Types/types";
-import ErrorAlert from "../Components/ErrorAlert";
-import LoadingAlert from "../Components/LoadingAlert";
 import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
+import { useError } from "../Contexts/ErrorContext";
+import { useUser } from "../Contexts/UserContext";
+import { useSearchHandler } from "../Components/SearchHandler";
 
 const NovelPage = () => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
+
+    const { user } = useUser();
+    const { addError } = useError();
 
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+
+    const {
+        searchAllNovelsHandler,
+        searchAllChaptersHandler,
+        searchNovelHandler,
+    } = useSearchHandler();
+
+    const handleNovelSearch = useCallback(async () => {
+        if (id_novel) {
+            await searchNovelHandler({
+                id_novel,
+                common: { setNovel },
+            });
+        } else {
+            addError("Novel id not found!");
+        }
+    }, []);
+
+    const handleAllChaptersSearch = useCallback(async () => {
+        if (id_novel) {
+            await searchAllChaptersHandler({
+                id_novel,
+                common: { setChapters },
+            });
+        } else {
+            addError("Novel id not found!");
+        }
+    }, []);
 
     useEffect(() => {
-        try {
-            if (!novelTitle) {
-                setError("Cant find novel title!");
-                return;
-            }
-
-            handleSearch(novelTitle, "");
-            handleSearch(novelTitle, "all");
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
-    }, [novelTitle]);
-
-    const handleSearch = async (title_novel: string, title_chapter: string) => {
-        setError(null);
-        setLoading(true);
-        try {
-            const data = await search(title_novel, title_chapter);
-            if (data.chapters && data.chapters.length > 0) {
-                setChapters(data.chapters);
-                return;
-            }
-
-            if (data.novel) {
-                setNovel(data.novel);
-                return;
-            }
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Clear Error
-    useEffect(() => {
-        if (error !== null) {
-            const timer = setTimeout(() => {
-                setError(null);
-                setLoading(false);
-            }, 3000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [error]);
+        handleNovelSearch();
+        handleAllChaptersSearch();
+    }, []);
 
     return (
         <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
-            {error ? <ErrorAlert error={error} /> : loading && <LoadingAlert />}
-
             <div className="w-full flex flex-row flex-wrap justify-between">
                 <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
                     {novel && (
-                        <div className="flex flex-col flex-nowrap">
-                            <h2 className="text-4xl">{novel.title}</h2>
-                            <h2 className="ml-3 text-1xl">By {novel.author}</h2>
-                            <p className="mt-2 subtitle text-">
-                                {" > "} {novel.description}
-                            </p>
+                        <div className="flex flex-row flex-nowrap justify-between">
+                            <div className="flex flex-col flex-nowrap">
+                                <h2 className="text-4xl">{novel.title}</h2>
+                                <h2 className="ml-3 text-1xl">
+                                    By {novel.author}
+                                </h2>
+                                <p className="mt-2 subtitle text-">
+                                    {" > "} {novel.description}
+                                </p>
+                            </div>
+                            {user &&
+                                (user.username === novel.author ||
+                                    user.type === "Admin") && (
+                                    <div>
+                                        <Link
+                                            to={`/dashboard/${novel.id}`}
+                                            className="text-lg content"
+                                        >
+                                            [Edit Novel]
+                                        </Link>
+                                    </div>
+                                )}
                         </div>
                     )}
                 </div>

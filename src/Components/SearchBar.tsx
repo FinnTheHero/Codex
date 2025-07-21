@@ -1,19 +1,38 @@
-import React, { useState } from "react";
-import { SearchBarProps } from "../Types/types";
+import React, { useCallback, useState } from "react";
+import { Novel, SearchBarProps } from "../Types/types";
 
 import "../Styles/ComponentStyles.css";
+import { useSearchHandler } from "./SearchHandler";
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ setNovel, setNovels }) => {
     const [input, setInput] = useState("");
+
+    const { searchNovelHandler } = useSearchHandler();
 
     // TODO: Add some level of security!
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
     };
 
+    const handleNovelSearch = useCallback(
+        (novelTitle: string) => {
+            setNovels([]);
+            searchNovelHandler({
+                id_novel: novelTitle,
+                common: {
+                    setNovel: (novel) => {
+                        setNovels((old: Novel[]) => [...old, novel]);
+                    },
+                    setNovels,
+                },
+            });
+        },
+        [searchNovelHandler, setNovels],
+    );
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSearch(input, "");
+        handleNovelSearch(input);
     };
 
     return (

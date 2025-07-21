@@ -1,10 +1,6 @@
 const LoadingAlert = () => {
     return (
-        <div
-            id="toast-top-right"
-            className="custom-alert fixed w-max max-w-xl p-4 space-x-4 divide-x rtl:divide-x-reverse rounded-lg top-5 right-5"
-            role="alert"
-        >
+        <div className="custom-alert flex items-center w-full max-w-fit p-4 my-2 rounded-lg">
             <div className="content">
                 <h1>Loading</h1>
                 <div className="ml-12" role="status">

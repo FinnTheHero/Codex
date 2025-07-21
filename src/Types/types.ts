@@ -1,19 +1,12 @@
-export interface NovelDTO {
-    Title: string;
-    Author: string;
-    Novel: Novel;
-}
-
 export interface NovelCardProps {
     novel: Novel;
     setNovel: (setNovel: Novel | null) => void;
     setChapters: (setChapters: Chapter[]) => void;
     // TODO: Probably need a better way to handle this case!
-    setError: (value: string | null) => void;
-    setLoading: (value: boolean) => void;
 }
 
 export interface Novel {
+    id: string;
     title: string;
     author: string;
     description: string;
@@ -23,6 +16,7 @@ export interface Novel {
 }
 
 export interface Chapter {
+    id: string;
     title: string;
     author: string;
     description: string;
@@ -37,13 +31,89 @@ export interface ChapterCardProps {
     novel: Novel;
 }
 
-export interface ChapterDTO {}
-
 export interface SearchBarProps {
-    onSearch: (searchTerm1: string, searchTerm2: string) => void;
+    setNovel: (novel: Novel | null) => void;
+    setNovels: React.Dispatch<React.SetStateAction<Novel[]>>;
 }
 
 export interface PopoverProps {
     text: string;
     children: React.ReactNode;
+}
+
+export interface AuthPopoverProps {
+    children: React.ReactNode;
+}
+
+export interface RequireAuthProps {
+    children: React.ReactNode;
+}
+
+export interface LoginProps {
+    email: string | null;
+    password: string | null;
+}
+
+export interface User {
+    email: string | null;
+    username: string | null;
+    type: string | null;
+}
+
+export interface UserContextType {
+    user: User | null;
+    authenticated: boolean;
+    setUser: (user: User | null) => void;
+    logout: () => void;
+}
+
+export interface ErrorNotification {
+    id: number;
+    message: string;
+}
+
+export interface ErrorContextType {
+    errors: ErrorNotification[];
+    addError: (msg: string) => void;
+    removeError: (id: number) => void;
+}
+
+export interface LoadingContextType {
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
+}
+
+export interface NotificationContextType {
+    notification: string | null;
+    setNotification: (notification: string | null) => void;
+}
+
+export interface chapterCommon {
+    setChapter?: (chapter: Chapter) => void;
+    setChapters?: (chapters: Chapter[]) => void;
+}
+
+export interface SearchChapterHandlerProps {
+    id_novel: string;
+    id_chapter: string;
+    common: chapterCommon;
+}
+
+export interface SearchAllChaptersHandlerProps {
+    id_novel: string;
+    common: chapterCommon;
+}
+
+export interface novelCommon {
+    setNovel?: (novel: Novel) => void;
+    setNovels?: (novel: Novel[]) => void;
+}
+
+export interface SearchNovelHandlerProps {
+    id_novel: string;
+    common: novelCommon;
+}
+
+export interface SearchAllNovelsHandlerProps {
+    common: novelCommon;
 }

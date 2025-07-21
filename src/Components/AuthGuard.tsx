@@ -1,0 +1,99 @@
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { RequireAuthProps } from "../Types/types";
+import { useUser } from "../Contexts/UserContext";
+import { useLoading } from "../Contexts/LoadingContext";
+import { authenticate } from "../Services/authService";
+import { useError } from "../Contexts/ErrorContext";
+import { useEffect } from "react";
+import { useSearchHandler } from "./SearchHandler";
+
+export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
+    const { user } = useUser();
+    const { loading } = useLoading();
+
+    if (loading) {
+        return <></>;
+    }
+
+    if (user) {
+        return <Navigate to={"/"} />;
+    }
+
+    return <>{children}</>;
+};
+
+export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
+    const { id_novel } = useParams();
+
+    const { user } = useUser();
+    const { loading } = useLoading();
+
+    const navigate = useNavigate();
+
+    const { searchNovelHandler } = useSearchHandler();
+
+    useEffect(() => {
+        const handleNovelSearch = async () => {
+            if (!user && !loading) {
+                return navigate("/login");
+            }
+
+            if (!id_novel) {
+                return navigate("/dashboard");
+            }
+
+            try {
+                await searchNovelHandler({
+                    id_novel: id_novel,
+                    common: {
+                        setNovel: (novel) => {
+                            if (
+                                user?.username !== novel.author &&
+                                user?.type !== "Admin"
+                            ) {
+                                return navigate("/login");
+                            }
+                        },
+                    },
+                });
+            } catch (err) {
+                return navigate("/login");
+            }
+        };
+        handleNovelSearch();
+    }, []);
+
+    return <>{children}</>;
+};
+
+export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
+    const { addError } = useError();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const data = await authenticate();
+
+                if (!data.authenticated) {
+                    return navigate("/login");
+                }
+
+                if (!data.user) {
+                    return navigate("/login");
+                }
+
+                if (data.user && data.user.type !== "admin") {
+                    return navigate("/login");
+                }
+            } catch (err) {
+                addError((err as Error).message);
+                return navigate("/login");
+            }
+        };
+
+        checkAuth();
+    }, []);
+
+    return <>{children}</>;
+};

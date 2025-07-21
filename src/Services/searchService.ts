@@ -1,36 +1,62 @@
 import axios from "axios";
+import api from "./apiService";
 
-/*
-Search for specific novels and chapters
-Args: Novel title and chapter title, both string
-If `Novel` title is empty it will list all the novels
-If `Chapter` title is empty it will return just novel details
-*/
-const api = process.env.REACT_APP_API;
+const handleErr = (err: any) => {
+    if (axios.isAxiosError(err)) {
+        throw new Error(err.response?.statusText || "Unknown Error");
+    } else {
+        throw new Error("Unknown Error");
+    }
+};
 
-export const search = async (novel: string, chapter: string) => {
+export const searchChapter = async (novel: string, chapter: string) => {
     try {
-        if (!api) {
-            throw new Error("API Not Found!");
-        }
-
         if (novel === undefined || chapter === undefined) {
-            throw new Error("Bad Request!");
+            throw new Error("Novel or chapter id not provided!");
         }
 
-        let searchTerm = "";
-        if (novel !== "") {
-            searchTerm = novel;
-            if (chapter !== "") {
-                searchTerm += `/${chapter}`;
-            }
-        } else {
-            searchTerm = "all";
+        if (novel === "" || chapter === "") {
+            throw new Error("Novel or chapter id not provided!");
         }
 
-        const response = await axios.get(`${api}/${searchTerm}`);
+        const response = await api.get(`/${novel}/${chapter}`);
         return response.data;
     } catch (err) {
-        throw new Error("Couldn't find content!");
+        handleErr(err);
+    }
+};
+
+export const searchAllChapters = async (novel: string) => {
+    try {
+        if (novel === undefined || novel === "") {
+            throw new Error("Novel id not provided!");
+        }
+
+        const response = await api.get(`/${novel}/all`);
+        return response.data;
+    } catch (err) {
+        handleErr(err);
+    }
+};
+
+export const searchNovel = async (novel: string) => {
+    try {
+        if (novel === undefined || novel === "") {
+            throw new Error("Novel id not provided!");
+        }
+
+        const response = await api.get(`/${novel}`);
+        return response.data;
+    } catch (err) {
+        handleErr(err);
+    }
+};
+
+export const searchAllNovels = async () => {
+    try {
+        const response = await api.get(`/all`);
+        return response.data;
+    } catch (err) {
+        handleErr(err);
     }
 };

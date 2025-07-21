@@ -5,13 +5,24 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/courier-prime";
 import "@fortawesome/fontawesome-svg-core";
+import { UserProvider } from "./Contexts/UserContext";
+import { AppNotificationProvider } from "./Components/AppNotificationProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
 );
 root.render(
     <React.StrictMode>
-        <App />
+        <AppNotificationProvider>
+            <UserProvider>
+                <QueryClientProvider client={queryClient}>
+                    <App />
+                </QueryClientProvider>
+            </UserProvider>
+        </AppNotificationProvider>
     </React.StrictMode>,
 );
 
