@@ -94,17 +94,13 @@ const EditNovelPage = () => {
             <div className="w-full h-full flex justify-center mb-12 lg:mb-0">
                 {novel && (
                     <form className="flex flex-col items-start justify-between flex-nowrap w-full h-full">
-                        <label className="w-full mb-16 flex flex-wrap justify-center items-center text-center text-xl">
-                            <h2 className="link ml-3 text-2xl">
-                                [{novel.title}]
-                            </h2>
+                        <label className="w-full mb-16 flex flex-wrap justify-center items-center text-center text-2xl">
+                            <h2 className="link">[{novel.title}]</h2>
                             <h2 className="mx-4">By</h2>
-                            <h2 className="content text-2xl">
-                                [{novel.author}]
-                            </h2>
+                            <h2 className="content">[{novel.author}]</h2>
                         </label>
 
-                        <div className="w-full my-14 flex flex-row flex-wrap justify-start items-center">
+                        <div className="w-full my-16 flex flex-row flex-wrap justify-start items-center">
                             <div className="w-full flex flex-col flex-nowrap">
                                 <div className="w-full flex flex-row flex-nowrap mx-2">
                                     <label className="text-xl font-bold">
