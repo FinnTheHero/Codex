@@ -11,6 +11,9 @@ import Popover from "../Components/Popover";
 import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
+import ReactMarkdown from "react-markdown";
+import { addToMarkdownExtension$ } from "@mdxeditor/editor";
+import remarkGfm from "remark-gfm";
 
 const ChapterPage = () => {
     const { id_novel } = useParams();
@@ -140,9 +143,13 @@ const ChapterPage = () => {
 
                     <p className="subtitle">{chapter.description}</p>
 
-                    <p className="max-w-2xl text-lg content">
+                    <ReactMarkdown
+                        className="prose max-w-2xl mt-4"
+                        remarkPlugins={[remarkGfm]}
+                    >
                         {chapter.content}
-                    </p>
+                    </ReactMarkdown>
+
                     {/* <NavigationButtons
                         prevChapter={}
                         nextChapter={}
