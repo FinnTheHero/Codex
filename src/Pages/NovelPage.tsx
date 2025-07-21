@@ -12,7 +12,7 @@ import { useUser } from "../Contexts/UserContext";
 import { useSearchHandler } from "../Components/SearchHandler";
 
 const NovelPage = () => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
 
     const { user } = useUser();
     const { addError } = useError();
@@ -27,9 +27,9 @@ const NovelPage = () => {
     } = useSearchHandler();
 
     const handleNovelSearch = useCallback(async () => {
-        if (novelTitle) {
+        if (id_novel) {
             await searchNovelHandler({
-                id_novel: novelTitle,
+                id_novel,
                 common: { setNovel },
             });
         } else {
@@ -38,9 +38,9 @@ const NovelPage = () => {
     }, []);
 
     const handleAllChaptersSearch = useCallback(async () => {
-        if (novelTitle) {
+        if (id_novel) {
             await searchAllChaptersHandler({
-                id_novel: novelTitle,
+                id_novel,
                 common: { setChapters },
             });
         } else {
