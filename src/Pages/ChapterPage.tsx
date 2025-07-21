@@ -69,7 +69,7 @@ const ChapterPage = () => {
                         <Popover text={prevChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${id_novel}/${prevChapter.title}`}
+                                to={`/novels/${id_novel}/${prevChapter.id}`}
                             >
                                 [Previous]
                             </Link>
@@ -83,7 +83,7 @@ const ChapterPage = () => {
                         <Popover text={nextChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${id_novel}/${nextChapter.title}`}
+                                to={`/novels/${id_novel}/${nextChapter.id}`}
                             >
                                 [Next]
                             </Link>
