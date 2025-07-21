@@ -16,16 +16,19 @@ import {
     diffSourcePlugin,
 } from "@mdxeditor/editor";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
 import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
+import { useNotification } from "../Contexts/NotificationContext";
+import { updateNovel } from "../Services/updateServices";
 import { Novel } from "../Types/types";
 
 const EditNovelPage = () => {
     const { id_novel } = useParams();
     const { chapterTitle } = useParams();
 
+    const { setNotification } = useNotification();
     const { addError } = useError();
     const { user } = useUser();
 
@@ -35,6 +38,8 @@ const EditNovelPage = () => {
     const [newNovelDescription, setNewNovelDescription] = useState<string>("");
 
     const { searchNovelHandler } = useSearchHandler();
+
+    const navigate = useNavigate();
 
     const handleNovelSearch = useCallback(() => {
         if (id_novel) {
@@ -57,6 +62,27 @@ const EditNovelPage = () => {
     ) => {
         let description = e.target.value;
         setNewNovelDescription(description);
+    };
+
+    const handleUpdateNovel = async () => {
+        try {
+            if (novel) {
+                let n: Novel = {
+                    id: novel.id,
+                    author: "",
+                    title: newNovelTitle,
+                    description: newNovelDescription,
+                    creation_date: "",
+                    upload_date: "",
+                    update_date: "",
+                };
+                const response = await updateNovel(n);
+                setNotification(response.message);
+                navigate(`/novels/${novel.id}`);
+            }
+        } catch (err) {
+            addError("Error updating novel: " + err);
+        }
     };
 
     useEffect(() => {
@@ -154,6 +180,14 @@ const EditNovelPage = () => {
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div className="w-full flex justify-center mt-12">
+                            <h2
+                                className="link text-2xl cursor-pointer"
+                                onClick={handleUpdateNovel}
+                            >
+                                [Submit]
+                            </h2>
                         </div>
                     </form>
                 )}
