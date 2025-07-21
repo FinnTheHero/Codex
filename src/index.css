@@ -21,8 +21,9 @@ body {
 }
 
 code {
-    font-family: "Fira Code", source-code-pro, Menlo, Monaco, Consolas,
-        "Courier New", monospace;
+    font-family:
+        "Fira Code", source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 /* Override ReactMarkdown component styles */
