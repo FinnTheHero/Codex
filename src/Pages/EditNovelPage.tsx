@@ -78,48 +78,45 @@ const EditNovelPage = () => {
                             </h2>
                         </label>
 
-                        <div className="w-full my-14 flex flex-row flex-nowrap justify-between items-center">
-                            <div className="flex flex-col">
-                                <p className="text-sm content">
-                                    Can't change the author!
-                                </p>
-                                <label className="text-xl font-bold">
-                                    Author
-                                </label>
-                                <label className="text-lg mx-2">
-                                    {novel.author}
-                                </label>
-                            </div>
+                        <div className="w-full my-14 flex flex-row flex-wrap justify-start items-center">
+                            <div className="w-full flex flex-col flex-nowrap">
+                                <div className="w-full flex flex-row flex-nowrap mx-2">
+                                    <label className="text-xl font-bold">
+                                        Title
+                                    </label>
 
-                            <div className="flex flex-col flex-nowrap">
-                                <label className="text-xl font-bold">
-                                    Title
-                                </label>
-                                <div className="flex flex-row flex-nowrap mx-2">
-                                    <div className="text-lg flex justify-center items-center">
-                                        <label>{novel.title}</label>
-                                    </div>
+                                    <div className="w-full flex flex-row flex-wrap justify-evenly">
+                                        <div className="ml-8 text-lg flex justify-center items-center">
+                                            <label className="link">
+                                                [{novel.title}]
+                                            </label>
+                                        </div>
 
-                                    <h2 className="mx-4 flex items-center">
-                                        <FontAwesomeIcon
-                                            size="xs"
-                                            icon={faArrowRight}
-                                        />
-                                    </h2>
+                                        <h2 className="mx-4 flex items-center">
+                                            <FontAwesomeIcon
+                                                size="xs"
+                                                icon={faArrowRight}
+                                            />
+                                        </h2>
 
-                                    <div className="border-b border-zinc-800 w-fit">
-                                        <input
-                                            id="title"
-                                            name="title"
-                                            type="text"
-                                            className="search-input mb-1"
-                                            onChange={handleTitleChange}
-                                            placeholder={String(
-                                                "New " + novel.title,
-                                            )}
-                                        />
+                                        <h2>
+                                            <label className="link text-lg flex justify-center items-center">
+                                                [{newNovelTitle}]
+                                            </label>
+                                        </h2>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="border-b border-zinc-800 w-full my-6 mx-4">
+                                <input
+                                    id="title"
+                                    name="title"
+                                    type="text"
+                                    className="search-input w-full"
+                                    onChange={handleTitleChange}
+                                    placeholder={String("New " + novel.title)}
+                                />
                             </div>
                         </div>
 
