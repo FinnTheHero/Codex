@@ -12,7 +12,7 @@ import { useUser } from "../Contexts/UserContext";
 import { useSearchHandler } from "../Components/SearchHandler";
 
 const NovelPage = () => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
 
     const { user } = useUser();
     const { addError } = useError();
@@ -20,34 +20,37 @@ const NovelPage = () => {
     const [novel, setNovel] = useState<Novel>();
     const [chapters, setChapters] = useState<Chapter[]>([]);
 
-    const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
+    const {
+        searchAllNovelsHandler,
+        searchAllChaptersHandler,
+        searchNovelHandler,
+    } = useSearchHandler();
 
     const handleNovelSearch = useCallback(async () => {
-        if (novelTitle) {
+        if (id_novel) {
             await searchNovelHandler({
-                title_novel: novelTitle,
-                setNovel,
+                id_novel,
+                common: { setNovel },
             });
         } else {
-            addError("Novel title not found!");
+            addError("Novel id not found!");
         }
     }, []);
 
-    const handleChapterSearch = useCallback(async (c?: string) => {
-        if (novelTitle && c) {
-            await searchChapterHandler({
-                title_novel: novelTitle,
-                title_chapter: c,
-                setChapters,
+    const handleAllChaptersSearch = useCallback(async () => {
+        if (id_novel) {
+            await searchAllChaptersHandler({
+                id_novel,
+                common: { setChapters },
             });
         } else {
-            addError("Novel or Chapter title not found!");
+            addError("Novel id not found!");
         }
     }, []);
 
     useEffect(() => {
         handleNovelSearch();
-        handleChapterSearch("all");
+        handleAllChaptersSearch();
     }, []);
 
     return (
@@ -67,10 +70,10 @@ const NovelPage = () => {
                             </div>
                             {user &&
                                 (user.username === novel.author ||
-                                    user.type === "admin") && (
+                                    user.type === "Admin") && (
                                     <div>
                                         <Link
-                                            to={`/dashboard/${novel.title}`}
+                                            to={`/dashboard/${novel.id}`}
                                             className="text-lg content"
                                         >
                                             [Edit Novel]

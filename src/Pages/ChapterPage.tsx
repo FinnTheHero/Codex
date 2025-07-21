@@ -13,8 +13,8 @@ import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 
 const ChapterPage = () => {
-    const { novelTitle } = useParams();
-    const { chapterTitle } = useParams();
+    const { id_novel } = useParams();
+    const { id_chapter } = useParams();
 
     const { errors, addError } = useError();
     const { loading } = useLoading();
@@ -23,64 +23,36 @@ const ChapterPage = () => {
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapter, setChapter] = useState<Chapter | null>(null);
 
-    const [prevChapter, setPrevChapter] = useState<Chapter | null>(null);
-    const [nextChapter, setNextChapter] = useState<Chapter | null>(null);
-
     const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
 
-    const setPrevAndNextChapters = useCallback(() => {
-        if (chapters.length < 3) {
-            chapters.forEach((c, i) => {
-                if (c.title === chapterTitle) {
-                    setChapter(c);
-                    if (i === 0) {
-                        setPrevChapter(chapters[1]);
-                    } else if (i === 1) {
-                        setNextChapter(chapters[0]);
-                    }
-                }
-            });
-        } else {
-            setPrevChapter(chapters[0]);
-            setChapter(chapters[1]);
-            setNextChapter(chapters[2]);
-        }
-    }, [chapterTitle, chapters]);
+    // TODO: Create a method for navigation for new backend.
 
     const handleNovelSearch = useCallback(async () => {
-        if (novelTitle) {
+        if (id_novel) {
             await searchNovelHandler({
-                title_novel: novelTitle,
-                setNovel,
+                id_novel,
+                common: { setNovel },
             });
         } else {
             addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
-    const handleChapterSearch = useCallback(
-        async (c?: string) => {
-            if (novelTitle && chapterTitle) {
-                await searchChapterHandler({
-                    title_novel: novelTitle,
-                    title_chapter: c || chapterTitle,
-                    setChapters,
-                });
-            } else {
-                addError("Novel or Chapter title not found!");
-            }
-        },
-        [novelTitle, chapterTitle, searchChapterHandler],
-    );
-
-    // Force the fucking react to render chapter
-    useEffect(() => {
-        setPrevAndNextChapters();
-    }, [chapters]);
+    const handleChapterSearch = useCallback(async () => {
+        if (id_novel && id_chapter) {
+            await searchChapterHandler({
+                id_novel,
+                id_chapter,
+                common: { setChapter },
+            });
+        } else {
+            addError("Novel or Chapter title not found!");
+        }
+    }, [id_novel, id_chapter, searchChapterHandler]);
 
     useEffect(() => {
         handleNovelSearch();
-        handleChapterSearch(`${chapterTitle}/next-previous`);
+        handleChapterSearch();
     }, []);
 
     const NavigationButtons = ({
@@ -97,7 +69,7 @@ const ChapterPage = () => {
                         <Popover text={prevChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${novelTitle}/${prevChapter.title}`}
+                                to={`/novels/${id_novel}/${prevChapter.id}`}
                             >
                                 [Previous]
                             </Link>
@@ -111,7 +83,7 @@ const ChapterPage = () => {
                         <Popover text={nextChapter.title}>
                             <Link
                                 className="link"
-                                to={`/novels/${novelTitle}/${nextChapter.title}`}
+                                to={`/novels/${id_novel}/${nextChapter.id}`}
                             >
                                 [Next]
                             </Link>
@@ -125,7 +97,7 @@ const ChapterPage = () => {
 
                 <GoBackButton
                     className="link mt-4"
-                    to={`/novels/${novelTitle}`}
+                    to={`/novels/${id_novel}`}
                 />
             </div>
         );
@@ -136,7 +108,7 @@ const ChapterPage = () => {
             {chapter && novel && (
                 <div className="flex flex-col justify-center items-center">
                     <Link
-                        to={`/dashboard/${novel.title}/${chapter.title}`}
+                        to={`/dashboard/${novel.id}/${chapter.id}`}
                         className="w-full text-lg content text-end"
                     >
                         [Edit Chapter]
@@ -171,10 +143,10 @@ const ChapterPage = () => {
                     <p className="max-w-2xl text-lg content">
                         {chapter.content}
                     </p>
-                    <NavigationButtons
-                        prevChapter={prevChapter}
-                        nextChapter={nextChapter}
-                    />
+                    {/* <NavigationButtons
+                        prevChapter={}
+                        nextChapter={}
+                    /> */}
                 </div>
             )}
         </div>

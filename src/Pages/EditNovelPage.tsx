@@ -23,7 +23,7 @@ import { useUser } from "../Contexts/UserContext";
 import { Novel } from "../Types/types";
 
 const EditNovelPage = () => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
     const { chapterTitle } = useParams();
 
     const { addError } = useError();
@@ -37,15 +37,15 @@ const EditNovelPage = () => {
     const { searchNovelHandler } = useSearchHandler();
 
     const handleNovelSearch = useCallback(() => {
-        if (novelTitle) {
+        if (id_novel) {
             searchNovelHandler({
-                title_novel: novelTitle,
-                setNovel,
+                id_novel,
+                common: { setNovel },
             });
         } else {
             addError("Novel title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let title = e.target.value;
@@ -69,9 +69,10 @@ const EditNovelPage = () => {
                 {novel && (
                     <form className="flex flex-col items-start justify-between flex-nowrap w-full h-full">
                         <label className="w-full mb-16 flex justify-center text-xl">
-                            Currently Editing
-                            <h2 className="mx-2 content">[Novel]</h2>
-                            <h2 className="link">[{novel.title}]</h2>
+                            <h2>Currently Editing</h2>
+                            <h2 className="link ml-3 text-2xl">
+                                [{novel.title}]
+                            </h2>
                         </label>
 
                         <div className="w-full my-14 flex flex-row flex-nowrap justify-between items-center">

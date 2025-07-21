@@ -80,13 +80,13 @@ const RouterTransition = () => {
                         <Route index element={<NovelsPage />} />
                     </Route>
                     <Route
-                        path="/novels/:novelTitle"
+                        path="/novels/:id_novel"
                         element={<NovelPageLayout />}
                     >
                         <Route index element={<NovelPage />} />
                     </Route>
                     <Route
-                        path="/novels/:novelTitle/:chapterTitle"
+                        path="/novels/:id_novel/:id_chapter"
                         element={<ChapterPageLayout />}
                     >
                         <Route index element={<ChapterPage />} />
@@ -95,7 +95,7 @@ const RouterTransition = () => {
                     <Route path="/dashboard" element={<HeroPageLayout />}>
                         <Route index element={<Dashboard />} />
                         <Route
-                            path="/dashboard/:novelTitle"
+                            path="/dashboard/:id_novel"
                             element={
                                 <EditPageAccess>
                                     <EditNovelPage />
@@ -103,7 +103,7 @@ const RouterTransition = () => {
                             }
                         />
                         <Route
-                            path="/dashboard/:novelTitle/:chapterTitle"
+                            path="/dashboard/:id_novel/:id_chapter"
                             element={
                                 <EditPageAccess>
                                     <EditChapterPage />

@@ -22,8 +22,8 @@ import { useUser } from "../Contexts/UserContext";
 import { Chapter, Novel } from "../Types/types";
 
 const EditChapterPage = () => {
-    const { novelTitle } = useParams();
-    const { chapterTitle } = useParams();
+    const { id_novel } = useParams();
+    const { id_chapter } = useParams();
 
     const { addError } = useError();
     const { user } = useUser();
@@ -37,27 +37,27 @@ const EditChapterPage = () => {
     const { searchNovelHandler, searchChapterHandler } = useSearchHandler();
 
     const handleChapterSearch = useCallback(() => {
-        if (novelTitle && chapterTitle) {
+        if (id_novel && id_chapter) {
             searchChapterHandler({
-                title_novel: novelTitle,
-                setChapter,
-                title_chapter: chapterTitle,
+                id_novel,
+                id_chapter,
+                common: { setChapter },
             });
         } else {
             addError("Novel/Chapter title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
     const handleNovelSearch = useCallback(() => {
-        if (novelTitle) {
+        if (id_novel) {
             searchNovelHandler({
-                title_novel: novelTitle,
-                setNovel,
+                id_novel,
+                common: { setNovel },
             });
         } else {
             addError("Novel/Chapter title not found!");
         }
-    }, [novelTitle, searchNovelHandler]);
+    }, [id_novel, searchNovelHandler]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let title = e.target.value;

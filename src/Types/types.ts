@@ -1,9 +1,3 @@
-export interface NovelDTO {
-    Title: string;
-    Author: string;
-    Novel: Novel;
-}
-
 export interface NovelCardProps {
     novel: Novel;
     setNovel: (setNovel: Novel | null) => void;
@@ -12,6 +6,7 @@ export interface NovelCardProps {
 }
 
 export interface Novel {
+    id: string;
     title: string;
     author: string;
     description: string;
@@ -21,6 +16,7 @@ export interface Novel {
 }
 
 export interface Chapter {
+    id: string;
     title: string;
     author: string;
     description: string;
@@ -34,8 +30,6 @@ export interface ChapterCardProps {
     chapter: Chapter;
     novel: Novel;
 }
-
-export interface ChapterDTO {}
 
 export interface SearchBarProps {
     setNovel: (novel: Novel | null) => void;
@@ -94,15 +88,32 @@ export interface NotificationContextType {
     setNotification: (notification: string | null) => void;
 }
 
-export interface SearchChapterHandlerProps {
-    title_novel: string;
-    title_chapter: string;
+export interface chapterCommon {
     setChapter?: (chapter: Chapter) => void;
     setChapters?: (chapters: Chapter[]) => void;
 }
 
-export interface SearchNovelHandlerProps {
-    title_novel: string;
+export interface SearchChapterHandlerProps {
+    id_novel: string;
+    id_chapter: string;
+    common: chapterCommon;
+}
+
+export interface SearchAllChaptersHandlerProps {
+    id_novel: string;
+    common: chapterCommon;
+}
+
+export interface novelCommon {
     setNovel?: (novel: Novel) => void;
     setNovels?: (novel: Novel[]) => void;
+}
+
+export interface SearchNovelHandlerProps {
+    id_novel: string;
+    common: novelCommon;
+}
+
+export interface SearchAllNovelsHandlerProps {
+    common: novelCommon;
 }

@@ -3,7 +3,7 @@ import api from "./apiService";
 
 export const authenticate = async () => {
     try {
-        const response = await api.get("/auth/validate", {
+        const response = await api.get("/user/validate", {
             withCredentials: true,
         });
         return response.data;
@@ -23,7 +23,7 @@ export const login = async (email: string, password: string) => {
         }
 
         const response = await api.post(
-            "/auth/login",
+            "/user/login",
             {
                 email,
                 password,
@@ -52,7 +52,7 @@ export const register = async (
 ) => {
     try {
         const response = await api.post(
-            "/auth/register",
+            "/user/register",
             {
                 username,
                 email,
