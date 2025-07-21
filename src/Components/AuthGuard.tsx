@@ -23,7 +23,7 @@ export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
 };
 
 export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
-    const { novelTitle } = useParams();
+    const { id_novel } = useParams();
 
     const { user } = useUser();
     const { loading } = useLoading();
@@ -38,18 +38,18 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
                 return navigate("/login");
             }
 
-            if (!novelTitle) {
+            if (!id_novel) {
                 return navigate("/dashboard");
             }
 
             try {
                 await searchNovelHandler({
-                    title_novel: novelTitle,
+                    id_novel: id_novel,
                     common: {
                         setNovel: (novel) => {
                             if (
                                 user?.username !== novel.author &&
-                                user?.type !== "admin"
+                                user?.type !== "Admin"
                             ) {
                                 return navigate("/login");
                             }

@@ -14,7 +14,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, novel }) => {
                     popover_text={"Uploaded"}
                 />
                 <Link
-                    to={`/novels/${novel.title}/${chapter.title}`}
+                    to={`/novels/${novel.id}/${chapter.id}`}
                     className="mx-1 link "
                 >
                     [Read]
