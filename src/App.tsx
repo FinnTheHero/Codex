@@ -95,7 +95,7 @@ const RouterTransition = () => {
                     <Route path="/dashboard" element={<HeroPageLayout />}>
                         <Route index element={<Dashboard />} />
                         <Route
-                            path="/dashboard/:novelTitle"
+                            path="/dashboard/:id_novel"
                             element={
                                 <EditPageAccess>
                                     <EditNovelPage />
