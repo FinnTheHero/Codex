@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/courier-prime";
+import "@fontsource/merriweather";
+import "@fontsource/merriweather/700.css";
 import "@fortawesome/fontawesome-svg-core";
 import { UserProvider } from "./Contexts/UserContext";
 import { AppNotificationProvider } from "./Components/AppNotificationProvider";

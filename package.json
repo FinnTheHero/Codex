@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@fontsource/courier-prime": "^5.1.0",
+        "@fontsource/merriweather": "^5.2.9",
         "@fortawesome/fontawesome-svg-core": "^6.6.0",
         "@fortawesome/free-solid-svg-icons": "^6.6.0",
         "@fortawesome/react-fontawesome": "^0.2.2",
@@ -27,6 +28,7 @@
         "react-scripts": "^5.0.1",
         "react-syntax-highlighter": "^15.6.1",
         "react-transition-group": "^4.4.5",
+        "rehype-raw": "^7.0.0",
         "remark-gfm": "^4.0.1",
         "typescript": "^4.9.5",
         "web-vitals": "^2.1.4"
