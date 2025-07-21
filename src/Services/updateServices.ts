@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Novel } from "../Types/types";
+import { Chapter, Novel } from "../Types/types";
 import api from "./apiService";
 
 const handleErr = (err: any) => {
@@ -15,6 +15,21 @@ export const updateNovel = async (novel: Novel) => {
         const response = await api.put(`/manage/${novel.id}`, novel, {
             withCredentials: true,
         });
+        return response.data;
+    } catch (err) {
+        handleErr(err);
+    }
+};
+
+export const updateChapter = async (id_novel: string, chapter: Chapter) => {
+    try {
+        const response = await api.put(
+            `/manage/${id_novel}/${chapter.id}`,
+            chapter,
+            {
+                withCredentials: true,
+            },
+        );
         return response.data;
     } catch (err) {
         handleErr(err);
