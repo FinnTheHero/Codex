@@ -23,34 +23,14 @@ const ChapterPage = () => {
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapter, setChapter] = useState<Chapter | null>(null);
 
-    const [prevChapter, setPrevChapter] = useState<Chapter | null>(null);
-    const [nextChapter, setNextChapter] = useState<Chapter | null>(null);
-
     const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
 
-    const setPrevAndNextChapters = useCallback(() => {
-        if (chapters.length < 3) {
-            chapters.forEach((c, i) => {
-                if (c.title === id_chapter) {
-                    setChapter(c);
-                    if (i === 0) {
-                        setPrevChapter(chapters[1]);
-                    } else if (i === 1) {
-                        setNextChapter(chapters[0]);
-                    }
-                }
-            });
-        } else {
-            setPrevChapter(chapters[0]);
-            setChapter(chapters[1]);
-            setNextChapter(chapters[2]);
-        }
-    }, [id_chapter, chapters]);
+    // TODO: Create a method for navigation for new backend.
 
     const handleNovelSearch = useCallback(async () => {
         if (id_novel) {
             await searchNovelHandler({
-                id_novel: id_novel,
+                id_novel,
                 common: { setNovel },
             });
         } else {
@@ -58,25 +38,17 @@ const ChapterPage = () => {
         }
     }, [id_novel, searchNovelHandler]);
 
-    const handleChapterSearch = useCallback(
-        async (c?: string) => {
-            if (id_novel && id_chapter) {
-                await searchChapterHandler({
-                    id_novel: id_novel,
-                    id_chapter: c || id_chapter,
-                    common: { setChapter },
-                });
-            } else {
-                addError("Novel or Chapter title not found!");
-            }
-        },
-        [id_novel, id_chapter, searchChapterHandler],
-    );
-
-    // Force the fucking react to render chapter
-    useEffect(() => {
-        setPrevAndNextChapters();
-    }, [chapters]);
+    const handleChapterSearch = useCallback(async () => {
+        if (id_novel && id_chapter) {
+            await searchChapterHandler({
+                id_novel,
+                id_chapter,
+                common: { setChapter },
+            });
+        } else {
+            addError("Novel or Chapter title not found!");
+        }
+    }, [id_novel, id_chapter, searchChapterHandler]);
 
     useEffect(() => {
         handleNovelSearch();
@@ -171,10 +143,10 @@ const ChapterPage = () => {
                     <p className="max-w-2xl text-lg content">
                         {chapter.content}
                     </p>
-                    <NavigationButtons
-                        prevChapter={prevChapter}
-                        nextChapter={nextChapter}
-                    />
+                    {/* <NavigationButtons
+                        prevChapter={}
+                        nextChapter={}
+                    /> */}
                 </div>
             )}
         </div>
