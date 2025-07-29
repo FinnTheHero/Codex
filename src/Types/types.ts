@@ -1,8 +1,5 @@
 export interface NovelCardProps {
-    novel: Novel;
-    setNovel: (setNovel: Novel | null) => void;
-    setChapters: (setChapters: Chapter[]) => void;
-    // TODO: Probably need a better way to handle this case!
+    index: number;
 }
 
 export interface Novel {
@@ -65,6 +62,17 @@ export interface UserContextType {
     authenticated: boolean;
     setUser: (user: User | null) => void;
     logout: () => void;
+}
+
+export interface ContentContextType {
+    novel: Novel | null;
+    setNovel: (novel: Novel | null) => void;
+    novels: Novel[];
+    setNovels: (novels: Novel[]) => void;
+    chapter: Chapter | null;
+    setChapter: (chapter: Chapter | null) => void;
+    chapters: Chapter[];
+    setChapters: (chapters: Chapter[]) => void;
 }
 
 export interface ErrorNotification {
