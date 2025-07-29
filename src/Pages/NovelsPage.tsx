@@ -15,22 +15,26 @@ import GoBackButton from "../Components/GoBackButton";
 import { useSearchHandler } from "../Components/SearchHandler";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useError } from "../Contexts/ErrorContext";
+import useSWR from "swr";
+import { useContent } from "../Contexts/ContentContext";
 
 const NovelsPage: React.FC = () => {
-    const [novels, setNovels] = useState<Novel[]>([]);
-    const [novel, setNovel] = useState<Novel | null>(null);
-    const [chapters, setChapters] = useState<Chapter[]>([]);
+    const { novel, novels, setNovels, chapters, setChapters } = useContent();
 
+    const { data, error } = useSWR<any>(`/all`);
     const { setLoading } = useLoading();
     const { errors, addError } = useError();
 
     const { searchAllChaptersHandler, searchAllNovelsHandler } =
         useSearchHandler();
 
-    const handleAllNovelsSearch = useCallback(async () => {
-        await searchAllNovelsHandler({
-            common: { setNovels },
-        });
+    const handleAllNovelsSearch = useCallback(() => {
+        try {
+            if (data.novels) {
+                setNovels(data.novels as Novel[]);
+                console.log(data.novels);
+            }
+        } catch (err) {}
     }, []);
 
     // Load default stuff
@@ -45,20 +49,13 @@ const NovelsPage: React.FC = () => {
                 <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                        <SearchBar setNovels={setNovels} setNovel={setNovel} />
+                        <SearchBar />
                     </div>
 
                     <div className="mt-4">
                         {novels.length > 0 &&
                             novels.map((n, index) => {
-                                return (
-                                    <NovelCard
-                                        novel={n}
-                                        setNovel={setNovel}
-                                        setChapters={setChapters}
-                                        key={index}
-                                    />
-                                );
+                                return <NovelCard index={index} key={index} />;
                             })}
                     </div>
                 </div>

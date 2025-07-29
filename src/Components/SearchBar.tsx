@@ -2,12 +2,14 @@ import React, { useCallback, useState } from "react";
 import { Novel, SearchBarProps } from "../Types/types";
 
 import "../Styles/ComponentStyles.css";
-import { useSearchHandler } from "./SearchHandler";
+import { useContent } from "../Contexts/ContentContext";
+import useSWR from "swr";
 
-const SearchBar: React.FC<SearchBarProps> = ({ setNovel, setNovels }) => {
+const SearchBar = () => {
     const [input, setInput] = useState("");
 
-    const { searchNovelHandler } = useSearchHandler();
+    const { setNovel, setNovels } = useContent();
+    const { data, error } = useSWR<any>(`/all`);
 
     // TODO: Add some level of security!
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,17 +19,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ setNovel, setNovels }) => {
     const handleNovelSearch = useCallback(
         (novelTitle: string) => {
             setNovels([]);
-            searchNovelHandler({
-                id_novel: novelTitle,
-                common: {
-                    setNovel: (novel) => {
-                        setNovels((old: Novel[]) => [...old, novel]);
-                    },
-                    setNovels,
-                },
-            });
+            setNovel(data.novel || null);
         },
-        [searchNovelHandler, setNovels],
+        [setNovels, setNovel],
     );
 
     const handleSubmit = (e: React.FormEvent) => {
