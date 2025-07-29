@@ -15,11 +15,13 @@ import ReactMarkdown from "react-markdown";
 import { addToMarkdownExtension$ } from "@mdxeditor/editor";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import { useUser } from "../Contexts/UserContext";
 
 const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
+    const { user } = useUser();
     const { errors, addError } = useError();
     const { loading } = useLoading();
 
@@ -111,12 +113,16 @@ const ChapterPage = () => {
         <div className="max-w-5xl w-full px-12 flex flex-col flex-nowrap">
             {chapter && novel && (
                 <div className="flex flex-col justify-center items-center">
-                    <Link
-                        to={`/dashboard/${novel.id}/${chapter.id}`}
-                        className="w-full text-lg content text-end"
-                    >
-                        [Edit Chapter]
-                    </Link>
+                    {user &&
+                        (user.username == novel.author ||
+                            user.type == "Admin") && (
+                            <Link
+                                to={`/dashboard/${novel.id}/${chapter.id}`}
+                                className="w-full text-lg content text-end"
+                            >
+                                [Edit Chapter]
+                            </Link>
+                        )}
                     <h2 className="text-base">{novel.title}</h2>
                     <h2 className="mb-3 mt-2 text-4xl">{chapter.title}</h2>
 
