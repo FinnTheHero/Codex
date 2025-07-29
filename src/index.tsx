@@ -9,22 +9,34 @@ import "@fontsource/merriweather/700.css";
 import "@fortawesome/fontawesome-svg-core";
 import { UserProvider } from "./Contexts/UserContext";
 import { AppNotificationProvider } from "./Components/AppNotificationProvider";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { SWRConfig } from "swr";
+import { axiosFetcher } from "./Services/apiService";
+import { useError } from "./Contexts/ErrorContext";
+import { localSyncProvider } from "./Services/cacheService";
+import { ContentProvider } from "./Contexts/ContentContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
 );
 root.render(
     <React.StrictMode>
-        <AppNotificationProvider>
-            <UserProvider>
-                <QueryClientProvider client={queryClient}>
-                    <App />
-                </QueryClientProvider>
-            </UserProvider>
-        </AppNotificationProvider>
+        <SWRConfig
+            value={{
+                fetcher: axiosFetcher,
+                provider: localSyncProvider("my-swr-cache"),
+                onError: (err, key) => {
+                    throw new Error(`Error fetching ${key}:`, err);
+                },
+            }}
+        >
+            <AppNotificationProvider>
+                <UserProvider>
+                    <ContentProvider>
+                        <App />
+                    </ContentProvider>
+                </UserProvider>
+            </AppNotificationProvider>
+        </SWRConfig>
     </React.StrictMode>,
 );
 
