@@ -32,8 +32,6 @@ const ChapterPage = () => {
     setChapter(chapters.find((chapter) => chapter.id === id_chapter) || null);
     setNovel(novels.find((novel) => novel.id === id_novel) || null);
 
-    // TODO: Create a method for navigation for new backend.
-
     const NavigationButtons = () => {
         let index = chapters.findIndex((chapter) => chapter.id === id_chapter);
 
