@@ -24,7 +24,7 @@ export function GetAllNovels() {
     );
 
     return {
-        chapters: data ?? [],
+        novels: data ?? [],
         error,
         isLoading,
         mutate,
