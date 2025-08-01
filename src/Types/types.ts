@@ -28,9 +28,9 @@ export interface ChapterCardProps {
     novel: Novel;
 }
 
-export interface SearchBarProps {
-    setNovel: (novel: Novel | null) => void;
-    setNovels: React.Dispatch<React.SetStateAction<Novel[]>>;
+export interface SearchInputProps {
+    query: string;
+    onQueryChange: (newQuery: string) => void;
 }
 
 export interface PopoverProps {
