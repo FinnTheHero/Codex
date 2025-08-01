@@ -68,11 +68,11 @@ export interface ContentContextType {
     novel: Novel | null;
     setNovel: (novel: Novel | null) => void;
     novels: Novel[];
-    setNovels: (novels: Novel[]) => void;
     chapter: Chapter | null;
     setChapter: (chapter: Chapter | null) => void;
     chapters: Chapter[];
-    setChapters: (chapters: Chapter[]) => void;
+    refreshAllChapters: () => Promise<void>;
+    refreshAllNovels: () => Promise<void>;
 }
 
 export interface ErrorNotification {
