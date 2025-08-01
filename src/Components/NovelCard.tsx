@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
@@ -12,10 +12,9 @@ const NovelCard: React.FC<NovelCardProps> = ({ index }) => {
 
     const { novel, novels, setNovel } = useContent();
 
-    setNovel(novels[index]);
-
-    const { setLoading } = useLoading();
-    const { addError } = useError();
+    useEffect(() => {
+        setNovel(novels[index]);
+    }, []);
 
     const handleMouseEnter = () => {
         hoverTimeout = setTimeout(() => {}, 1000);
@@ -24,7 +23,6 @@ const NovelCard: React.FC<NovelCardProps> = ({ index }) => {
     const handleMouseLeave = () => {
         clearTimeout(hoverTimeout);
     };
-
 
     return (
         <div

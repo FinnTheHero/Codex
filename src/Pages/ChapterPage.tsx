@@ -23,14 +23,16 @@ const ChapterPage = () => {
     const { id_chapter } = useParams();
 
     const { user } = useUser();
-    const { errors, addError } = useError();
-    const { loading } = useLoading();
 
     const { chapter, novel, novels, chapters, setChapter, setNovel } =
         useContent();
 
-    setChapter(chapters.find((chapter) => chapter.id === id_chapter) || null);
-    setNovel(novels.find((novel) => novel.id === id_novel) || null);
+    useEffect(() => {
+        setChapter(
+            chapters.find((chapter) => chapter.id === id_chapter) || null,
+        );
+        setNovel(novels.find((novel) => novel.id === id_novel) || null);
+    }, []);
 
     const NavigationButtons = () => {
         let index = chapters.findIndex((chapter) => chapter.id === id_chapter);

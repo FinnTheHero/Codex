@@ -21,7 +21,9 @@ const NovelPage = () => {
     const { novel, setNovel, novels, chapters, refreshAllNovels } =
         useContent();
 
-    setNovel(novels.find((novel) => novel.id === id_novel) || null);
+    useEffect(() => {
+        setNovel(novels.find((novel) => novel.id === id_novel) || null);
+    }, []);
 
     // TODO: Not sure if this is needed
     // if (!novel) {
