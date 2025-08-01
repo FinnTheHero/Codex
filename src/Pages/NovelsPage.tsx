@@ -51,7 +51,7 @@ const NovelsPage: React.FC = () => {
                 <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                        <SearchBar query={query} onQueryChange={setQuerry} />
+                        <SearchBar query={query} onQueryChange={setQuery} />
                     </div>
 
                     <div className="mt-4">
