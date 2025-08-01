@@ -31,7 +31,10 @@ const NovelsPage: React.FC = () => {
         threshold: 0.4,
     };
 
-    const fuse = useMemo(() => new Fuse(novels, fuseOptions), []);
+    const fuse = useMemo(
+        () => new Fuse(novels, fuseOptions),
+        [novels, fuseOptions],
+    );
 
     const filteredNovels = useMemo(() => {
         if (!query) {
