@@ -21,7 +21,7 @@ import { useContent } from "../Contexts/ContentContext";
 
 const NovelsPage: React.FC = () => {
     const { novel, novels, chapters } = useContent();
-    const [query, setQuerry] = useState("");
+    const [query, setQuery] = useState("");
 
     const { setLoading } = useLoading();
     const { errors, addError } = useError();
