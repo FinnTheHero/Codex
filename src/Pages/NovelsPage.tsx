@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import Fuse from "fuse.js";
 
 // Types
 import { Chapter, Novel } from "../Types/types";
@@ -20,9 +21,25 @@ import { useContent } from "../Contexts/ContentContext";
 
 const NovelsPage: React.FC = () => {
     const { novel, novels, chapters } = useContent();
+    const [query, setQuerry] = useState("");
 
     const { setLoading } = useLoading();
     const { errors, addError } = useError();
+
+    const fuseOptions = {
+        keys: ["title", "author"],
+        threshold: 0.4,
+    };
+
+    const fuse = useMemo(() => new Fuse(novels, fuseOptions), []);
+
+    const filteredNovels = useMemo(() => {
+        if (!query) {
+            return novels;
+        }
+
+        return fuse.search(query).map((result) => result.item);
+    }, [query, novels]);
 
     return (
         <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
@@ -31,14 +48,19 @@ const NovelsPage: React.FC = () => {
                 <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
-                        <SearchBar />
+                        <SearchBar query={query} onQueryChange={setQuerry} />
                     </div>
 
                     <div className="mt-4">
-                        {novels.length > 0 &&
-                            novels.map((_, i) => {
-                                return <NovelCard index={i} key={i} />;
-                            })}
+                        {filteredNovels
+                            ? filteredNovels.length > 0 &&
+                              filteredNovels.map((_, i) => {
+                                  return <NovelCard index={i} key={i} />;
+                              })
+                            : novels.length > 0 &&
+                              novels.map((_, i) => {
+                                  return <NovelCard index={i} key={i} />;
+                              })}
                     </div>
                 </div>
                 {/* Chapter List Preview */}
