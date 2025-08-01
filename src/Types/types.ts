@@ -1,8 +1,5 @@
 export interface NovelCardProps {
-    novel: Novel;
-    setNovel: (setNovel: Novel | null) => void;
-    setChapters: (setChapters: Chapter[]) => void;
-    // TODO: Probably need a better way to handle this case!
+    index: number;
 }
 
 export interface Novel {
@@ -31,9 +28,9 @@ export interface ChapterCardProps {
     novel: Novel;
 }
 
-export interface SearchBarProps {
-    setNovel: (novel: Novel | null) => void;
-    setNovels: React.Dispatch<React.SetStateAction<Novel[]>>;
+export interface SearchInputProps {
+    query: string;
+    onQueryChange: (newQuery: string) => void;
 }
 
 export interface PopoverProps {
@@ -65,6 +62,17 @@ export interface UserContextType {
     authenticated: boolean;
     setUser: (user: User | null) => void;
     logout: () => void;
+}
+
+export interface ContentContextType {
+    novel: Novel | null;
+    setNovel: (novel: Novel | null) => void;
+    novels: Novel[];
+    chapter: Chapter | null;
+    setChapter: (chapter: Chapter | null) => void;
+    chapters: Chapter[];
+    refreshAllChapters: () => Promise<void>;
+    refreshAllNovels: () => Promise<void>;
 }
 
 export interface ErrorNotification {

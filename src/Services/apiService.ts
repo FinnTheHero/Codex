@@ -10,4 +10,8 @@ const api = axios.create({
     },
 });
 
+export const axiosFetcher = async <T = unknown>(url: string): Promise<T> => {
+    return await api.get<T>(url).then((response) => response.data);
+};
+
 export default api;
