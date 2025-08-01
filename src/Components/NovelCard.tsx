@@ -25,7 +25,6 @@ const NovelCard: React.FC<NovelCardProps> = ({ index }) => {
         clearTimeout(hoverTimeout);
     };
 
-    console.log(novel, novels);
 
     return (
         <div
