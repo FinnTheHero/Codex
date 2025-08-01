@@ -10,7 +10,7 @@ const ChapterCard: React.FC<NovelCardProps> = ({ index }) => {
 
     if (!novel) return null;
 
-    if (!chapter && chapters.length >= 0) {
+    if (!chapter && chapters.length > 0) {
         setChapter(chapters[index]);
     }
 
