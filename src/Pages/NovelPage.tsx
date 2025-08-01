@@ -10,48 +10,24 @@ import GoBackButton from "../Components/GoBackButton";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useSearchHandler } from "../Components/SearchHandler";
+import { useContent } from "../Contexts/ContentContext";
+import useSWR from "swr";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
 
     const { user } = useUser();
     const { addError } = useError();
+    const { novel, setNovel, novels, chapters, refreshAllNovels } =
+        useContent();
 
-    const [novel, setNovel] = useState<Novel>();
-    const [chapters, setChapters] = useState<Chapter[]>([]);
+    setNovel(novels.find((novel) => novel.id === id_novel) || null);
 
-    const {
-        searchAllNovelsHandler,
-        searchAllChaptersHandler,
-        searchNovelHandler,
-    } = useSearchHandler();
-
-    const handleNovelSearch = useCallback(async () => {
-        if (id_novel) {
-            await searchNovelHandler({
-                id_novel,
-                common: { setNovel },
-            });
-        } else {
-            addError("Novel id not found!");
-        }
-    }, []);
-
-    const handleAllChaptersSearch = useCallback(async () => {
-        if (id_novel) {
-            await searchAllChaptersHandler({
-                id_novel,
-                common: { setChapters },
-            });
-        } else {
-            addError("Novel id not found!");
-        }
-    }, []);
-
-    useEffect(() => {
-        handleNovelSearch();
-        handleAllChaptersSearch();
-    }, []);
+    // TODO: Not sure if this is needed
+    // if (!novel) {
+    //     refreshAllNovels();
+    //     setNovel(novels.find((novel) => novel.id === id_novel) || null);
+    // }
 
     return (
         <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
@@ -105,12 +81,8 @@ const NovelPage = () => {
 
                             {chapters &&
                                 chapters.length > 0 &&
-                                chapters.map((chapter, index) => (
-                                    <ChapterCard
-                                        novel={novel}
-                                        chapter={chapter}
-                                        key={index}
-                                    />
+                                chapters.map((_, i) => (
+                                    <ChapterCard index={i} key={i} />
                                 ))}
                         </div>
                     )}

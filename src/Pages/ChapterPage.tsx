@@ -16,6 +16,7 @@ import { addToMarkdownExtension$ } from "@mdxeditor/editor";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { useUser } from "../Contexts/UserContext";
+import { useContent } from "../Contexts/ContentContext";
 
 const ChapterPage = () => {
     const { id_novel } = useParams();
@@ -25,57 +26,25 @@ const ChapterPage = () => {
     const { errors, addError } = useError();
     const { loading } = useLoading();
 
-    const [novel, setNovel] = useState<Novel | null>(null);
-    const [chapters, setChapters] = useState<Chapter[]>([]);
-    const [chapter, setChapter] = useState<Chapter | null>(null);
+    const { chapter, novel, novels, chapters, setChapter, setNovel } =
+        useContent();
 
-    const { searchChapterHandler, searchNovelHandler } = useSearchHandler();
+    setChapter(chapters.find((chapter) => chapter.id === id_chapter) || null);
+    setNovel(novels.find((novel) => novel.id === id_novel) || null);
 
     // TODO: Create a method for navigation for new backend.
 
-    const handleNovelSearch = useCallback(async () => {
-        if (id_novel) {
-            await searchNovelHandler({
-                id_novel,
-                common: { setNovel },
-            });
-        } else {
-            addError("Novel title not found!");
-        }
-    }, [id_novel, searchNovelHandler]);
+    const NavigationButtons = () => {
+        let index = chapters.findIndex((chapter) => chapter.id === id_chapter);
 
-    const handleChapterSearch = useCallback(async () => {
-        if (id_novel && id_chapter) {
-            await searchChapterHandler({
-                id_novel,
-                id_chapter,
-                common: { setChapter },
-            });
-        } else {
-            addError("Novel or Chapter title not found!");
-        }
-    }, [id_novel, id_chapter, searchChapterHandler]);
-
-    useEffect(() => {
-        handleNovelSearch();
-        handleChapterSearch();
-    }, []);
-
-    const NavigationButtons = ({
-        prevChapter,
-        nextChapter,
-    }: {
-        prevChapter: Chapter | null;
-        nextChapter: Chapter | null;
-    }) => {
         return (
             <div className="max-w-2xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full">
-                    {prevChapter ? (
-                        <Popover text={prevChapter.title}>
+                    {index > 0 ? (
+                        <Popover text={chapters[index - 1].title}>
                             <Link
                                 className="link"
-                                to={`/novels/${id_novel}/${prevChapter.id}`}
+                                to={`/novels/${id_novel}/${chapters[index - 1].id}`}
                             >
                                 [Previous]
                             </Link>
@@ -85,11 +54,11 @@ const ChapterPage = () => {
                             [First]
                         </h2>
                     )}
-                    {nextChapter ? (
-                        <Popover text={nextChapter.title}>
+                    {index < chapters.length - 1 ? (
+                        <Popover text={chapters[index + 1].title}>
                             <Link
                                 className="link"
-                                to={`/novels/${id_novel}/${nextChapter.id}`}
+                                to={`/novels/${id_novel}/${chapters[index + 1].id}`}
                             >
                                 [Next]
                             </Link>
@@ -156,10 +125,7 @@ const ChapterPage = () => {
                         {chapter.content}
                     </ReactMarkdown>
 
-                    {/* <NavigationButtons
-                        prevChapter={}
-                        nextChapter={}
-                    /> */}
+                    <NavigationButtons />
                 </div>
             )}
         </div>

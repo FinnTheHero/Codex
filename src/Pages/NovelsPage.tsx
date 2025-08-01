@@ -19,28 +19,10 @@ import useSWR from "swr";
 import { useContent } from "../Contexts/ContentContext";
 
 const NovelsPage: React.FC = () => {
-    const { novel, novels, setNovels, chapters, setChapters } = useContent();
+    const { novel, novels, chapters } = useContent();
 
-    const { data, error } = useSWR<any>(`/all`);
     const { setLoading } = useLoading();
     const { errors, addError } = useError();
-
-    const { searchAllChaptersHandler, searchAllNovelsHandler } =
-        useSearchHandler();
-
-    const handleAllNovelsSearch = useCallback(() => {
-        try {
-            if (data.novels) {
-                setNovels(data.novels as Novel[]);
-                console.log(data.novels);
-            }
-        } catch (err) {}
-    }, []);
-
-    // Load default stuff
-    useEffect(() => {
-        handleAllNovelsSearch();
-    }, []);
 
     return (
         <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
@@ -54,8 +36,8 @@ const NovelsPage: React.FC = () => {
 
                     <div className="mt-4">
                         {novels.length > 0 &&
-                            novels.map((n, index) => {
-                                return <NovelCard index={index} key={index} />;
+                            novels.map((_, i) => {
+                                return <NovelCard index={i} key={i} />;
                             })}
                     </div>
                 </div>
@@ -71,14 +53,8 @@ const NovelsPage: React.FC = () => {
                     <div>
                         {chapters.length > 0 ? (
                             novel &&
-                            chapters.map((chapter, index) => {
-                                return (
-                                    <ChapterCard
-                                        novel={novel}
-                                        chapter={chapter}
-                                        key={index}
-                                    />
-                                );
+                            chapters.map((_, i) => {
+                                return <ChapterCard index={i} key={i} />;
                             })
                         ) : (
                             <p className="subtitle text-center mt-16">
