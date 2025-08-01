@@ -8,7 +8,7 @@ import useSWR from "swr";
 const SearchBar = () => {
     const [input, setInput] = useState("");
 
-    const { setNovel, setNovels } = useContent();
+    const { setNovel } = useContent();
     const { data, error } = useSWR<any>(`/all`);
 
     // TODO: Add some level of security!
@@ -18,10 +18,9 @@ const SearchBar = () => {
 
     const handleNovelSearch = useCallback(
         (novelTitle: string) => {
-            setNovels([]);
             setNovel(data.novel || null);
         },
-        [setNovels, setNovel],
+        [setNovel],
     );
 
     const handleSubmit = (e: React.FormEvent) => {
