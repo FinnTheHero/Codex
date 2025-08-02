@@ -57,7 +57,7 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
 
         if (!id_novel) {
             addError("Novel ID is required for Editing!");
-            return navigate("*");
+            return navigate("/novels");
         }
 
         if (!novel) {
