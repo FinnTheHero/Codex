@@ -86,7 +86,7 @@ const ChapterPage = () => {
                         (user.username == novel.author ||
                             user.type == "Admin") && (
                             <Link
-                                to={`/dashboard/${novel.id}/${chapter.id}`}
+                                to={`/dashboard/edit/${novel.id}/${chapter.id}`}
                                 className="w-full text-lg content text-end"
                             >
                                 [Edit Chapter]

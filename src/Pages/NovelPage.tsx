@@ -51,7 +51,7 @@ const NovelPage = () => {
                                     user.type === "Admin") && (
                                     <div>
                                         <Link
-                                            to={`/dashboard/${novel.id}`}
+                                            to={`/dashboard/edit/${novel.id}`}
                                             className="text-lg content"
                                         >
                                             [Edit Novel]

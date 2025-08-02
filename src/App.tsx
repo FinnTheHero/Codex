@@ -30,9 +30,14 @@ import ChapterPage from "./Pages/ChapterPage";
 import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+import UploadPage from "./Pages/UploadPage";
 
 // Components
-import { DenyUserAuth, EditPageAccess } from "./Components/AuthGuard";
+import {
+    DenyUserAuth,
+    EditPageAccess,
+    RequireUser,
+} from "./Components/AuthGuard";
 import EditNovelPage from "./Pages/EditNovelPage";
 import EditChapterPage from "./Pages/EditChapterPage";
 
@@ -95,7 +100,7 @@ const RouterTransition = () => {
                     <Route path="/dashboard" element={<HeroPageLayout />}>
                         <Route index element={<Dashboard />} />
                         <Route
-                            path="/dashboard/:id_novel"
+                            path="/dashboard/edit/:id_novel"
                             element={
                                 <EditPageAccess>
                                     <EditNovelPage />
@@ -103,11 +108,19 @@ const RouterTransition = () => {
                             }
                         />
                         <Route
-                            path="/dashboard/:id_novel/:id_chapter"
+                            path="/dashboard/edit/:id_novel/:id_chapter"
                             element={
                                 <EditPageAccess>
                                     <EditChapterPage />
                                 </EditPageAccess>
+                            }
+                        />
+                        <Route
+                            path="/dashboard/upload"
+                            element={
+                                <RequireUser>
+                                    <UploadPage />
+                                </RequireUser>
                             }
                         />
                     </Route>

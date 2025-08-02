@@ -5,7 +5,7 @@ import { useLoading } from "../Contexts/LoadingContext";
 import { authenticate } from "../Services/authService";
 import { useError } from "../Contexts/ErrorContext";
 import { useEffect } from "react";
-import { useSearchHandler } from "./SearchHandler";
+import { useContent } from "../Contexts/ContentContext";
 
 export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
     const { user } = useUser();
@@ -22,46 +22,54 @@ export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
     return <>{children}</>;
 };
 
+export const RequireUser: React.FC<RequireAuthProps> = ({ children }) => {
+    const { user } = useUser();
+    const { loading } = useLoading();
+    const { addError } = useError();
+
+    if (loading) {
+        return <></>;
+    }
+
+    if (!user) {
+        addError("Valid User account required for Uploading!");
+        return <Navigate to={"/login"} />;
+    }
+
+    return <>{children}</>;
+};
+
 export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
     const { id_novel } = useParams();
 
     const { user } = useUser();
-    const { loading } = useLoading();
+    const { addError } = useError();
+
+    const { novel } = useContent();
 
     const navigate = useNavigate();
 
-    const { searchNovelHandler } = useSearchHandler();
-
     useEffect(() => {
-        const handleNovelSearch = async () => {
-            if (!user && !loading) {
-                return navigate("/login");
-            }
+        if (!user) {
+            addError("Valid User account required for Editing!");
+            return navigate("/login");
+        }
 
-            if (!id_novel) {
-                return navigate("/dashboard");
-            }
+        if (!id_novel) {
+            addError("Novel ID is required for Editing!");
+            return navigate("/novels");
+        }
 
-            try {
-                await searchNovelHandler({
-                    id_novel: id_novel,
-                    common: {
-                        setNovel: (novel) => {
-                            if (
-                                user?.username !== novel.author &&
-                                user?.type !== "Admin"
-                            ) {
-                                return navigate("/login");
-                            }
-                        },
-                    },
-                });
-            } catch (err) {
-                return navigate("/login");
-            }
-        };
-        handleNovelSearch();
-    }, []);
+        if (!novel) {
+            addError("Novel not found!");
+            return navigate("/novels");
+        }
+
+        if (novel.author !== user.username && user.type !== "Admin") {
+            addError("You are not authorized to edit!");
+            return navigate(`/novels/${id_novel}`);
+        }
+    }, [user, id_novel, novel, addError, navigate]);
 
     return <>{children}</>;
 };
