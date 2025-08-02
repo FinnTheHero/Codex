@@ -69,7 +69,7 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
             addError("You are not authorized to edit!");
             return navigate(`/novels/${id_novel}`);
         }
-    }, []);
+    }, [user, id_novel, novel, addError, navigate]);
 
     return <>{children}</>;
 };
