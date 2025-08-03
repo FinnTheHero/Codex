@@ -4,8 +4,8 @@ import {
     Route,
     useLocation,
 } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { AnimatePresence, motion } from "framer-motion";
 
 // Styles
 import "./App.css";
@@ -40,6 +40,7 @@ import {
 } from "./Components/AuthGuard";
 import EditNovelPage from "./Pages/EditNovelPage";
 import EditChapterPage from "./Pages/EditChapterPage";
+import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
 
 function App() {
     return (
@@ -57,76 +58,123 @@ const RouterTransition = () => {
     const location = useLocation();
 
     return (
-        <TransitionGroup>
-            <CSSTransition timeout={300} classNames="fade" key={location.key}>
-                <Routes>
-                    <Route path="/" element={<HeroPageLayout />}>
-                        <Route index element={<HeroPage />} />
-                        <Route path="*" element={<NotFound />} />
-                        <Route path="/about" element={<AboutPage />} />
-                        <Route
-                            path="/login"
-                            element={
+        <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<HeroPageLayout />}>
+                    <Route
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <HeroPage />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="*"
+                        element={
+                            <PageAnimationWrapper>
+                                <NotFound />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/about"
+                        element={
+                            <PageAnimationWrapper>
+                                <AboutPage />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <PageAnimationWrapper>
                                 <DenyUserAuth>
                                     <LoginPage />
                                 </DenyUserAuth>
-                            }
-                        />
-                        <Route
-                            path="/register"
-                            element={
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/register"
+                        element={
+                            <PageAnimationWrapper>
                                 <DenyUserAuth>
                                     <RegisterPage />
                                 </DenyUserAuth>
-                            }
-                        />
-                    </Route>
-                    <Route path="/novels" element={<NovelsPageLayout />}>
-                        <Route index element={<NovelsPage />} />
-                    </Route>
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
+                <Route path="/novels" element={<NovelsPageLayout />}>
                     <Route
-                        path="/novels/:id_novel"
-                        element={<NovelPageLayout />}
-                    >
-                        <Route index element={<NovelPage />} />
-                    </Route>
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <NovelsPage />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
+                <Route path="/novels/:id_novel" element={<NovelPageLayout />}>
                     <Route
-                        path="/novels/:id_novel/:id_chapter"
-                        element={<ChapterPageLayout />}
-                    >
-                        <Route index element={<ChapterPage />} />
-                    </Route>
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <NovelPage />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
+                <Route
+                    path="/novels/:id_novel/:id_chapter"
+                    element={<ChapterPageLayout />}
+                >
+                    <Route
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <ChapterPage />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
 
-                    <Route path="/dashboard" element={<HeroPageLayout />}>
-                        <Route index element={<Dashboard />} />
-                        <Route
-                            path="/dashboard/edit/:id_novel"
-                            element={
+                <Route path="/dashboard" element={<HeroPageLayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route
+                        path="/dashboard/edit/:id_novel"
+                        element={
+                            <PageAnimationWrapper>
                                 <EditPageAccess>
                                     <EditNovelPage />
                                 </EditPageAccess>
-                            }
-                        />
-                        <Route
-                            path="/dashboard/edit/:id_novel/:id_chapter"
-                            element={
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/dashboard/edit/:id_novel/:id_chapter"
+                        element={
+                            <PageAnimationWrapper>
                                 <EditPageAccess>
                                     <EditChapterPage />
                                 </EditPageAccess>
-                            }
-                        />
-                        <Route
-                            path="/dashboard/upload"
-                            element={
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/dashboard/upload"
+                        element={
+                            <PageAnimationWrapper>
                                 <RequireUser>
                                     <UploadPage />
                                 </RequireUser>
-                            }
-                        />
-                    </Route>
-                </Routes>
-            </CSSTransition>
-        </TransitionGroup>
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
+            </Routes>
+        </AnimatePresence>
     );
 };
 
