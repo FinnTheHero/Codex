@@ -23,18 +23,29 @@ export const DenyUserAuth: React.FC<RequireAuthProps> = ({ children }) => {
 };
 
 export const RequireUser: React.FC<RequireAuthProps> = ({ children }) => {
-    const { user } = useUser();
-    const { loading } = useLoading();
     const { addError } = useError();
+    const navigate = useNavigate();
 
-    if (loading) {
-        return <></>;
-    }
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const data = await authenticate();
 
-    if (!user) {
-        addError("Valid User account required for Uploading!");
-        return <Navigate to={"/login"} />;
-    }
+                if (!data.authenticated) {
+                    return navigate("/login");
+                }
+
+                if (!data.user) {
+                    return navigate("/login");
+                }
+            } catch (err) {
+                addError((err as Error).message);
+                return navigate("/login");
+            }
+        };
+
+        checkAuth();
+    }, []);
 
     return <>{children}</>;
 };
