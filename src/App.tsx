@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 // Styles
 import "./App.css";
@@ -49,6 +50,7 @@ function App() {
                 <RouterTransition />
             </Router>
 
+            <Analytics />
             <SpeedInsights />
         </div>
     );
