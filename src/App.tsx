@@ -41,6 +41,7 @@ import {
 import EditNovelPage from "./Pages/EditNovelPage";
 import EditChapterPage from "./Pages/EditChapterPage";
 import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
+import UploadEPUBPage from "./Pages/UploadEPUBPage";
 
 function App() {
     return (
@@ -168,6 +169,17 @@ const RouterTransition = () => {
                             <PageAnimationWrapper>
                                 <RequireUser>
                                     <UploadPage />
+                                </RequireUser>
+                            </PageAnimationWrapper>
+                        }
+                    />
+
+                    <Route
+                        path="/dashboard/upload/epub"
+                        element={
+                            <PageAnimationWrapper>
+                                <RequireUser>
+                                    <UploadEPUBPage />
                                 </RequireUser>
                             </PageAnimationWrapper>
                         }
