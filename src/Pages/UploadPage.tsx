@@ -16,7 +16,9 @@ const UploadPage = () => {
                     <p className="content">
                         Upload EPUB file to parse Novel and Chapters directly
                     </p>
-                    <p className="link">[Pick EPUB file]</p>
+                    <Link to="/dashboard/upload/epub" className="link">
+                        [Pick EPUB file]
+                    </Link>
                 </div>
             </div>
         </div>
