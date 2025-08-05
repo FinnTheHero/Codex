@@ -25,7 +25,7 @@ export interface Chapter {
 
 export interface ChapterCardProps {
     chapter: Chapter;
-    novel: Novel;
+    index: number;
 }
 
 export interface SearchInputProps {
