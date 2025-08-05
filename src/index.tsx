@@ -11,9 +11,9 @@ import { UserProvider } from "./Contexts/UserContext";
 import { AppNotificationProvider } from "./Components/AppNotificationProvider";
 import { SWRConfig } from "swr";
 import { axiosFetcher } from "./Services/apiService";
-import { useError } from "./Contexts/ErrorContext";
 import { localSyncProvider } from "./Services/cacheService";
 import { ContentProvider } from "./Contexts/ContentContext";
+import { isAxiosError } from "axios";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -25,7 +25,13 @@ root.render(
                 fetcher: axiosFetcher,
                 provider: localSyncProvider("my-swr-cache"),
                 onError: (err, key) => {
-                    throw new Error(`Error fetching ${key}:`, err);
+                    if (isAxiosError(err)) {
+                        throw new Error(
+                            `Error fetching ${key}: ${err.response?.statusText}`,
+                        );
+                    } else {
+                        console.error(`Error fetching ${key}: ${err}`);
+                    }
                 },
             }}
         >
