@@ -5,14 +5,10 @@ import FormattedTime from "./FormattedTime";
 import useSWR from "swr";
 import { useContent } from "../Contexts/ContentContext";
 
-const ChapterCard: React.FC<NovelCardProps> = ({ index }) => {
-    const { novel, chapter, setChapter, chapters } = useContent();
+const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
+    const { novel } = useContent();
 
     if (!novel) return null;
-
-    if (!chapter && chapters.length > 0) {
-        setChapter(chapters[index]);
-    }
 
     return (
         <div className="my-3 py-2 border-b border-zinc-800">

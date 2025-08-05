@@ -1,5 +1,6 @@
 import axios from "axios";
 import api from "./apiService";
+import { HandleErr } from "./errorHandler";
 
 export const authenticate = async () => {
     try {
@@ -8,11 +9,7 @@ export const authenticate = async () => {
         });
         return response.data;
     } catch (err) {
-        if (axios.isAxiosError(err)) {
-            throw new Error(err.response?.statusText || "Unknown Error");
-        } else {
-            throw new Error("Unknown Error");
-        }
+        HandleErr(err);
     }
 };
 
@@ -37,11 +34,7 @@ export const login = async (email: string, password: string) => {
         );
         return response.data;
     } catch (err) {
-        if (axios.isAxiosError(err)) {
-            throw new Error(err.response?.statusText || "Unknown Error");
-        } else {
-            throw new Error("Unknown Error");
-        }
+        HandleErr(err);
     }
 };
 
@@ -67,10 +60,6 @@ export const register = async (
         );
         return response;
     } catch (err) {
-        if (axios.isAxiosError(err)) {
-            throw new Error(err.response?.statusText || "Unknown Error");
-        } else {
-            throw new Error("Unknown Error");
-        }
+        HandleErr(err);
     }
 };

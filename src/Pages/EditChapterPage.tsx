@@ -16,7 +16,6 @@ import {
 } from "@mdxeditor/editor";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useNotification } from "../Contexts/NotificationContext";
 import { useUser } from "../Contexts/UserContext";
@@ -39,32 +38,7 @@ const EditChapterPage = () => {
         useState<string>("");
     const [newChapterContent, setNewChapterContent] = useState<string>("");
 
-    const { searchNovelHandler, searchChapterHandler } = useSearchHandler();
-
     const navigate = useNavigate();
-
-    const handleChapterSearch = useCallback(() => {
-        if (id_novel && id_chapter) {
-            searchChapterHandler({
-                id_novel,
-                id_chapter,
-                common: { setChapter },
-            });
-        } else {
-            addError("Novel/Chapter title not found!");
-        }
-    }, [id_novel, searchNovelHandler]);
-
-    const handleNovelSearch = useCallback(() => {
-        if (id_novel) {
-            searchNovelHandler({
-                id_novel,
-                common: { setNovel },
-            });
-        } else {
-            addError("Novel/Chapter title not found!");
-        }
-    }, [id_novel, searchNovelHandler]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let title = e.target.value;
@@ -97,11 +71,6 @@ const EditChapterPage = () => {
             addError("Error updating novel: " + err);
         }
     };
-
-    useEffect(() => {
-        handleNovelSearch();
-        handleChapterSearch();
-    }, []);
 
     return (
         <div className="max-w-4xl w-full h-full px-8 lg:px-12 flex flex-row flex-wrap">

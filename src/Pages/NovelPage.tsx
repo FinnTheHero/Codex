@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Chapter, Novel } from "../Types/types";
 import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
@@ -9,15 +9,16 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useContent } from "../Contexts/ContentContext";
 import useSWR from "swr";
+import { c } from "framer-motion/dist/types.d-Cjd591yU";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
 
+    const [sortBy, setSortBy] = useState<"title" | "time">("title");
+
     const { user } = useUser();
-    const { addError } = useError();
     const { novel, setNovel, novels, chapters, refreshAllNovels } =
         useContent();
 
@@ -25,11 +26,25 @@ const NovelPage = () => {
         setNovel(novels.find((novel) => novel.id === id_novel) || null);
     }, []);
 
-    // TODO: Not sure if this is needed
-    // if (!novel) {
-    //     refreshAllNovels();
-    //     setNovel(novels.find((novel) => novel.id === id_novel) || null);
-    // }
+    const sortedChapters = useMemo(() => {
+        const copy = [...chapters];
+        if (sortBy === "title") {
+            return copy.sort((a, b) =>
+                a.title.localeCompare(b.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                }),
+            );
+        }
+        if (sortBy === "time") {
+            return copy.sort(
+                (a, b) =>
+                    new Date(a.creation_date).getTime() -
+                    new Date(b.creation_date).getTime(),
+            );
+        }
+        return copy;
+    }, [chapters, sortBy]);
 
     return (
         <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
@@ -81,10 +96,14 @@ const NovelPage = () => {
                                 />
                             </div>
 
-                            {chapters &&
-                                chapters.length > 0 &&
-                                chapters.map((_, i) => (
-                                    <ChapterCard index={i} key={i} />
+                            {sortedChapters &&
+                                sortedChapters.length > 0 &&
+                                sortedChapters.map((c, i) => (
+                                    <ChapterCard
+                                        chapter={c}
+                                        index={i}
+                                        key={i}
+                                    />
                                 ))}
                         </div>
                     )}

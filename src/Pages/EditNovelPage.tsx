@@ -17,51 +17,34 @@ import {
 } from "@mdxeditor/editor";
 import { useCallback, useEffect, useState } from "react";
 import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useNotification } from "../Contexts/NotificationContext";
 import { updateNovel } from "../Services/updateServices";
 import { Novel } from "../Types/types";
+import { useContent } from "../Contexts/ContentContext";
 
 const EditNovelPage = () => {
     const { id_novel } = useParams();
-    const { chapterTitle } = useParams();
 
-    const { setNotification } = useNotification();
-    const { addError } = useError();
     const { user } = useUser();
-
-    const [novel, setNovel] = useState<Novel>();
+    const { addError } = useError();
+    const { setNotification } = useNotification();
+    const { novel, refreshAllNovels } = useContent();
 
     const [newNovelTitle, setNewNovelTitle] = useState<string>("");
     const [newNovelDescription, setNewNovelDescription] = useState<string>("");
 
-    const { searchNovelHandler } = useSearchHandler();
-
     const navigate = useNavigate();
 
-    const handleNovelSearch = useCallback(() => {
-        if (id_novel) {
-            searchNovelHandler({
-                id_novel,
-                common: { setNovel },
-            });
-        } else {
-            addError("Novel title not found!");
-        }
-    }, [id_novel, searchNovelHandler]);
-
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let title = e.target.value;
-        setNewNovelTitle(title);
+        setNewNovelTitle(e.target.value);
     };
 
     const handleDescriptionChange = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        let description = e.target.value;
-        setNewNovelDescription(description);
+        setNewNovelDescription(e.target.value);
     };
 
     const handleUpdateNovel = async () => {
@@ -78,7 +61,8 @@ const EditNovelPage = () => {
                 };
                 const response = await updateNovel(n);
                 setNotification(response.message);
-                navigate(`/novels/${novel.id}`);
+                refreshAllNovels();
+                return navigate(`/novels/${novel.id}`);
             }
         } catch (err) {
             addError("Error updating novel: " + err);
@@ -86,8 +70,8 @@ const EditNovelPage = () => {
     };
 
     useEffect(() => {
-        handleNovelSearch();
-    }, [handleNovelSearch]);
+        // setNovel(novel);
+    }, []);
 
     return (
         <div className="max-w-4xl w-full h-full px-8 lg:px-12 flex flex-row flex-wrap">
