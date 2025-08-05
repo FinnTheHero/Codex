@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Fuse from "fuse.js";
 
-// Types
-import { Chapter, Novel } from "../Types/types";
-
 // Components
 import SearchBar from "../Components/SearchBar";
 import NovelCard from "../Components/NovelCard";
@@ -13,7 +10,6 @@ import ChapterCard from "../Components/ChapterCard";
 import "../Styles/PageStyles.css";
 import { useCallback } from "react";
 import GoBackButton from "../Components/GoBackButton";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useError } from "../Contexts/ErrorContext";
 import useSWR from "swr";
@@ -22,9 +18,6 @@ import { useContent } from "../Contexts/ContentContext";
 const NovelsPage: React.FC = () => {
     const { novel, novels, chapters } = useContent();
     const [query, setQuery] = useState("");
-
-    const { setLoading } = useLoading();
-    const { errors, addError } = useError();
 
     const fuseOptions = {
         keys: ["title", "author"],
