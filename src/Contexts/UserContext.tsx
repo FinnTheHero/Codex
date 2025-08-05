@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import api from "../Services/apiService";
 import { authenticate } from "../Services/authService";
+import { HandleErr } from "../Services/errorHandler";
 import { User, UserContextType } from "../Types/types";
 import { useError } from "./ErrorContext";
 import { useLoading } from "./LoadingContext";
@@ -42,9 +43,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                     setAuthenticated(false);
                 }
             } catch (err) {
-                if (axios.isAxiosError(err)) {
-                    addError(err.response?.statusText || "Unknown Error");
-                }
+                HandleErr(err);
 
                 setUser(null);
                 setAuthenticated(false);
@@ -77,11 +76,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                 window.location.reload();
             }
         } catch (err) {
-            if (axios.isAxiosError(err)) {
-                addError(err.response?.statusText || "Unknown Error");
-            } else {
-                throw new Error("Unknown Error");
-            }
+            HandleErr(err);
         } finally {
             setUser(null);
             setAuthenticated(false);
