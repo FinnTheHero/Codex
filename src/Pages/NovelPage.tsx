@@ -30,7 +30,7 @@ const NovelPage = () => {
         const copy = [...chapters];
         if (sortBy === "title") {
             return copy.sort((a, b) =>
-                a.title.localeCompare(b.title, undefined, {
+                b.title.localeCompare(a.title, undefined, {
                     numeric: true,
                     sensitivity: "base",
                 }),
@@ -39,8 +39,8 @@ const NovelPage = () => {
         if (sortBy === "time") {
             return copy.sort(
                 (a, b) =>
-                    new Date(a.creation_date).getTime() -
-                    new Date(b.creation_date).getTime(),
+                    new Date(b.creation_date).getTime() -
+                    new Date(a.creation_date).getTime(),
             );
         }
         return copy;
