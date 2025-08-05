@@ -19,6 +19,8 @@ const NovelsPage: React.FC = () => {
     const { novel, novels, chapters } = useContent();
     const [query, setQuery] = useState("");
 
+    const [sortBy, setSortBy] = useState<"title" | "time">("title");
+
     const fuseOptions = {
         keys: ["title", "author"],
         threshold: 0.4,
@@ -36,6 +38,26 @@ const NovelsPage: React.FC = () => {
 
         return fuse.search(query).map((result) => result.item);
     }, [query, novels]);
+
+    const sortedChapters = useMemo(() => {
+        const copy = [...chapters];
+        if (sortBy === "title") {
+            return copy.sort((a, b) =>
+                b.title.localeCompare(a.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                }),
+            );
+        }
+        if (sortBy === "time") {
+            return copy.sort(
+                (a, b) =>
+                    new Date(b.creation_date).getTime() -
+                    new Date(a.creation_date).getTime(),
+            );
+        }
+        return copy;
+    }, [chapters, sortBy]);
 
     return (
         <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
@@ -69,10 +91,16 @@ const NovelsPage: React.FC = () => {
                     </div>
 
                     <div>
-                        {chapters.length > 0 ? (
+                        {sortedChapters.length > 0 ? (
                             novel &&
-                            chapters.map((_, i) => {
-                                return <ChapterCard index={i} key={i} />;
+                            sortedChapters.map((c, i) => {
+                                return (
+                                    <ChapterCard
+                                        chapter={c}
+                                        index={i}
+                                        key={i}
+                                    />
+                                );
                             })
                         ) : (
                             <p className="subtitle text-center mt-16">
