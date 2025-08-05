@@ -1,13 +1,7 @@
 import axios from "axios";
+import { useError } from "../Contexts/ErrorContext";
 import api from "./apiService";
-
-const handleErr = (err: any) => {
-    if (axios.isAxiosError(err)) {
-        throw new Error(err.response?.statusText || "Unknown Error");
-    } else {
-        throw new Error("Unknown Error");
-    }
-};
+import { HandleErr } from "./errorHandler";
 
 export const searchChapter = async (novel: string, chapter: string) => {
     try {
@@ -22,7 +16,7 @@ export const searchChapter = async (novel: string, chapter: string) => {
         const response = await api.get(`/${novel}/${chapter}`);
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };
 
@@ -35,7 +29,7 @@ export const searchAllChapters = async (novel: string) => {
         const response = await api.get(`/${novel}/all`);
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };
 
@@ -48,7 +42,7 @@ export const searchNovel = async (novel: string) => {
         const response = await api.get(`/${novel}`);
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };
 
@@ -57,6 +51,6 @@ export const searchAllNovels = async () => {
         const response = await api.get(`/all`);
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };
