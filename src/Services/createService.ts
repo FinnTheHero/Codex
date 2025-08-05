@@ -28,3 +28,17 @@ export const createChapter = async (id_novel: string, chapter: Chapter) => {
         HandleErr(err);
     }
 };
+
+export const batchUploadChapters = async (
+    id_novel: string,
+    chapters: Chapter[],
+) => {
+    try {
+        const response = await api.post(`/manage/${id_novel}`, chapters, {
+            withCredentials: true,
+        });
+        return response.data;
+    } catch (err) {
+        HandleErr(err);
+    }
+};
