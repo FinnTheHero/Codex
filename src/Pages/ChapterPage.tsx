@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import Popover from "../Components/Popover";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import ReactMarkdown from "react-markdown";
