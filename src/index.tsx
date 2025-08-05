@@ -26,7 +26,7 @@ root.render(
                 provider: localSyncProvider("my-swr-cache"),
                 onError: (err, key) => {
                     if (isAxiosError(err)) {
-                        throw new Error(
+                        console.error(
                             `Error fetching ${key}: ${err.response?.statusText}`,
                         );
                     } else {
