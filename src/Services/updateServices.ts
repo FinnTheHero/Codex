@@ -1,14 +1,7 @@
 import axios from "axios";
 import { Chapter, Novel } from "../Types/types";
 import api from "./apiService";
-
-const handleErr = (err: any) => {
-    if (axios.isAxiosError(err)) {
-        throw new Error(err.response?.statusText || err.message);
-    } else {
-        throw new Error(err.message);
-    }
-};
+import { HandleErr } from "./errorHandler";
 
 export const updateNovel = async (novel: Novel) => {
     try {
@@ -17,7 +10,7 @@ export const updateNovel = async (novel: Novel) => {
         });
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };
 
@@ -32,6 +25,6 @@ export const updateChapter = async (id_novel: string, chapter: Chapter) => {
         );
         return response.data;
     } catch (err) {
-        handleErr(err);
+        HandleErr(err);
     }
 };

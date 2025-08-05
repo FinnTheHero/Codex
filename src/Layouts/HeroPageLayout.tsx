@@ -11,7 +11,7 @@ const HeroPageLayout = () => {
     return (
         <div className="hero-page-layout">
             <Navbar />
-            <div className="w-full flex justify-center">
+            <div className="w-full h-full flex justify-center">
                 <Outlet />
             </div>
             <Footer />

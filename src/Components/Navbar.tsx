@@ -45,14 +45,21 @@ const Navbar = () => {
                             <FontAwesomeIcon size="xl" icon={faBars} />
                         </button>
                         <div className="hidden sm:flex items-center justify-between space-x-5">
-                            <Link to="/novels" className="link">
-                                [Novels]
-                            </Link>
-                            {user && user.type === "admin" && (
+                            {user && (
+                                <Link to="/dashboard/upload" className="link">
+                                    [Upload]
+                                </Link>
+                            )}
+
+                            {user && user.type === "Admin" && (
                                 <Link to="/dashboard" className="link">
                                     [Dashboard]
                                 </Link>
                             )}
+
+                            <Link to="/novels" className="link">
+                                [Novels]
+                            </Link>
                             <AuthPopover>
                                 {user ? (
                                     <div className="text-lg content cursor-pointer">
@@ -74,7 +81,7 @@ const Navbar = () => {
                         <Link to="/novels" className="link">
                             [Novels]
                         </Link>
-                        {user && user.type === "admin" && (
+                        {user && user.type === "Admin" && (
                             <Link to="/dashboard" className="link">
                                 [Dashboard]
                             </Link>
