@@ -6,6 +6,8 @@ import { useNotification } from "./NotificationContext";
 import useSWR from "swr";
 import { axiosFetcher } from "../Services/apiService";
 import { useEffect } from "react";
+import { HandleErr } from "../Services/errorHandler";
+import axios from "axios";
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
@@ -41,16 +43,50 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
     }, [novelsLoading, chaptersLoading]);
 
     useEffect(() => {
-        if (error_n) addError(error_n);
-        if (error_c) addError(error_c);
+        if (error_n && axios.isAxiosError(error_n)) {
+            switch (error_n.response?.status) {
+                case 401:
+                    return addError(`Unauthorized`);
+                case 404:
+                    return addError(`Novel not found`);
+                case 500:
+                    return addError(`Internal server error`);
+                default:
+                    return addError(`An error occurred while fetching Novels`);
+            }
+        }
+
+        if (error_c && axios.isAxiosError(error_c)) {
+            switch (error_c.response?.status) {
+                case 401:
+                    return addError(`Unauthorized`);
+                case 404:
+                    return addError(`Chapters not found`);
+                case 500:
+                    return addError(`Internal server error`);
+                default:
+                    return addError(
+                        `An error occurred while fetching Chapters`,
+                    );
+            }
+        }
+        setLoading(false);
     }, [error_n, error_c]);
 
     async function refreshAllChapters() {
-        mutateChapters();
+        try {
+            await mutateChapters();
+        } catch (err) {
+            HandleErr(err);
+        }
     }
 
     async function refreshAllNovels() {
-        mutateNovels();
+        try {
+            await mutateNovels();
+        } catch (err) {
+            HandleErr(err);
+        }
     }
 
     return (
