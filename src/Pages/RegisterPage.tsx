@@ -98,7 +98,7 @@ const RegisterPage = () => {
 
         try {
             const response = await register(username, email, password);
-            if (response.status === 201 && response.data.message) {
+            if (response?.status === 201 && response.data.message) {
                 setNotification(response.data.message);
                 return navigate("/login");
             }

@@ -24,7 +24,7 @@
         "epubjs": "^0.3.93",
         "framer-motion": "^12.23.12",
         "fuse.js": "^7.1.0",
-        "react": "^18.3.1",
+        "react": "^19.1.1",
         "react-dom": "^19.1.1",
         "react-markdown": "^9.0.1",
         "react-router-dom": "^6.27.0",
