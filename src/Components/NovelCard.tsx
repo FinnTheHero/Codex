@@ -3,21 +3,18 @@ import { Link } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import { Chapter, NovelCardProps } from "../Types/types";
-import { useSearchHandler } from "./SearchHandler";
 import useSWR, { mutate } from "swr";
 import { useContent } from "../Contexts/ContentContext";
 
 const NovelCard: React.FC<NovelCardProps> = ({ index }) => {
     let hoverTimeout: ReturnType<typeof setTimeout>;
 
-    const { novel, novels, setNovel } = useContent();
-
-    useEffect(() => {
-        setNovel(novels[index]);
-    }, []);
+    const { novels, setNovel } = useContent();
 
     const handleMouseEnter = () => {
-        hoverTimeout = setTimeout(() => {}, 1000);
+        hoverTimeout = setTimeout(() => {
+            setNovel(novels[index]);
+        }, 1000);
     };
 
     const handleMouseLeave = () => {
@@ -30,14 +27,17 @@ const NovelCard: React.FC<NovelCardProps> = ({ index }) => {
             onMouseLeave={handleMouseLeave}
             className="my-3 py-2 border-b border-zinc-800"
         >
-            {novel && (
+            {novels[index] && (
                 <div>
-                    <h2 className="text-2xl">{novel?.title}</h2>
+                    <h2 className="text-2xl">{novels[index]?.title}</h2>
                     <div className="mx-1 mt-1 flex justify-between">
                         <div className="subtitle">
-                            {" > "} {novel.author}
+                            {" > "} {novels[index].author}
                         </div>
-                        <Link to={`/novels/${novel.id}`} className="mx-1 link">
+                        <Link
+                            to={`/novels/${novels[index].id}`}
+                            className="mx-1 link"
+                        >
                             [Read]
                         </Link>
                     </div>
