@@ -9,7 +9,6 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
-import { useSearchHandler } from "../Components/SearchHandler";
 import { useContent } from "../Contexts/ContentContext";
 import useSWR from "swr";
 
