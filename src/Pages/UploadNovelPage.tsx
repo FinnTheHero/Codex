@@ -1,19 +1,7 @@
-import {
-    BoldItalicUnderlineToggles,
-    diffSourcePlugin,
-    DiffSourceToggleWrapper,
-    headingsPlugin,
-    linkPlugin,
-    listsPlugin,
-    markdownShortcutPlugin,
-    MDXEditor,
-    quotePlugin,
-    thematicBreakPlugin,
-    toolbarPlugin,
-    UndoRedo,
-} from "@mdxeditor/editor";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { mutate } from "swr";
+import { useContent } from "../Contexts/ContentContext";
 import { useError } from "../Contexts/ErrorContext";
 import { useNotification } from "../Contexts/NotificationContext";
 import { useUser } from "../Contexts/UserContext";
@@ -24,42 +12,50 @@ const UploadNovelPage = () => {
     const { user } = useUser();
     const { addError } = useError();
     const { setNotification } = useNotification();
+    const { refreshAllNovels } = useContent();
 
-    const novel = {} as Novel;
+    const [novel, setNovel] = useState<Novel>({
+        id: "",
+        author: "",
+        title: "",
+        description: "",
+        creation_date: "",
+        upload_date: "",
+        update_date: "",
+    });
 
     const navigate = useNavigate();
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        novel.title = e.target.value;
+        setNovel({ ...novel, title: e.target.value });
     };
 
     const handleDescriptionChange = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        novel.description = e.target.value;
+        setNovel({ ...novel, description: e.target.value });
     };
 
     const handleUpdateNovel = async () => {
-        if (!user) {
-            addError("User not logged in");
-            return;
-        }
-
         try {
-            if (novel && user) {
-                let n: Novel = {
-                    id: "",
-                    author: user.username || "",
-                    title: novel.title,
-                    description: novel.description,
-                    creation_date: "",
-                    upload_date: "",
-                    update_date: "",
-                };
-                const response = await createNovel(n);
-                setNotification(response.message);
-                return navigate(`/novels/${novel.id}`);
+            if (!user) {
+                addError("User not logged in");
+                return;
             }
+
+            let n: Novel = {
+                id: "",
+                author: user.username || "",
+                title: novel.title,
+                description: novel.description,
+                creation_date: "",
+                upload_date: "",
+                update_date: "",
+            };
+            const response = await createNovel(n);
+            setNotification(response.message);
+            refreshAllNovels();
+            return navigate(`/novels/`);
         } catch (err) {
             addError("Error updating novel: " + err);
         }
@@ -68,12 +64,14 @@ const UploadNovelPage = () => {
     return (
         <div className="max-w-4xl w-full h-full px-8 lg:px-12 flex flex-row flex-wrap">
             <div className="w-full h-full flex justify-center mb-12 lg:mb-0">
-                {novel && (
+                {user && (
                     <form className="flex flex-col items-start justify-between flex-nowrap w-full h-full">
                         <label className="w-full mb-16 flex flex-wrap justify-center items-center text-center text-2xl">
-                            <h2 className="link">[{novel.title}]</h2>
+                            <h2 className="link">
+                                [{novel?.title || "Untitled"}]
+                            </h2>
                             <h2 className="mx-4">By</h2>
-                            <h2 className="content">[{novel.author}]</h2>
+                            <h2 className="content">[{user.username}]</h2>
                         </label>
 
                         <div className="w-full my-16 flex flex-row flex-wrap justify-start items-center">
@@ -91,8 +89,9 @@ const UploadNovelPage = () => {
                                     name="title"
                                     type="text"
                                     className="search-input w-full"
+                                    value={novel.title}
                                     onChange={handleTitleChange}
-                                    placeholder={String("New " + novel.title)}
+                                    placeholder={String("Title")}
                                 />
                             </div>
                         </div>
@@ -101,19 +100,20 @@ const UploadNovelPage = () => {
                             <div className="w-full flex flex-col flex-nowrap">
                                 <div className="w-full flex flex-row flex-nowrap mx-2">
                                     <label className="text-xl font-bold">
-                                        Title
+                                        Description
                                     </label>
                                 </div>
                             </div>
 
                             <div className="border-b border-zinc-800 w-full my-6 mx-4">
                                 <input
-                                    id="title"
-                                    name="title"
+                                    id="description"
+                                    name="description"
                                     type="text"
                                     className="search-input w-full"
-                                    onChange={handleTitleChange}
-                                    placeholder={String("New " + novel.title)}
+                                    value={novel.description}
+                                    onChange={handleDescriptionChange}
+                                    placeholder={String("Description")}
                                 />
                             </div>
                         </div>
