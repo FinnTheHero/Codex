@@ -7,10 +7,11 @@ import { Chapter, Novel } from "../Types/types";
 import { batchUploadChapters, createNovel } from "../Services/createService";
 import { useContent } from "../Contexts/ContentContext";
 import TurndownService from "turndown";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UploadEPUBPage = () => {
     const [file, setFile] = useState<File | null>(null);
+    const [processing, setProcessing] = useState(false);
 
     const { addError } = useError();
     const { setLoading } = useLoading();
@@ -54,6 +55,7 @@ const UploadEPUBPage = () => {
 
         setNotification(`Processing ${file.name}`);
         setLoading(true);
+        setProcessing(true);
 
         const arrayBuffer = await file.arrayBuffer();
         const book: Book = ePub(arrayBuffer);
@@ -63,6 +65,7 @@ const UploadEPUBPage = () => {
             await book.loaded.spine;
         } catch (error) {
             setLoading(false);
+            setProcessing(false);
             return addError("Error opening file");
         }
 
@@ -80,7 +83,7 @@ const UploadEPUBPage = () => {
 
         const response = await createNovel(novel);
         const id = response.id;
-        console.log("✅ Novel created:", response);
+        setNotification(`Novel created: ${String(response.message) || id}`);
 
         setNotification("Parsing Chapters...");
         const chapters: Chapter[] = [];
@@ -94,7 +97,7 @@ const UploadEPUBPage = () => {
             totalSections++;
         });
 
-        console.log(`📚 Total sections to process: ${totalSections}`);
+        setNotification(`Total sections to process: ${totalSections}`);
 
         // Create a promise that resolves when all sections are processed
         const allSectionsProcessed = new Promise<void>((resolve) => {
@@ -105,8 +108,8 @@ const UploadEPUBPage = () => {
 
             book.spine.each(async (section: any, index: number) => {
                 try {
-                    console.log(
-                        `🔄 Processing section ${index + 1}/${totalSections}: ${section.href}`,
+                    setNotification(
+                        `Processing section ${index + 1}/${totalSections}: ${section.href}`,
                     );
 
                     await section.load(book.load.bind(book));
@@ -128,21 +131,20 @@ const UploadEPUBPage = () => {
                     await section.unload();
 
                     sectionsProcessed++;
-                    console.log(
-                        `✅ Section ${index + 1} processed. Total chapters: ${chapters.length}`,
+                    setNotification(
+                        `Section ${index + 1} processed. Total chapters: ${chapters.length}`,
                     );
 
                     // Check if all sections are processed
                     if (sectionsProcessed === totalSections) {
-                        console.log(
-                            `🎉 All ${totalSections} sections processed!`,
+                        setNotification(
+                            `All ${totalSections} sections processed!`,
                         );
                         resolve();
                     }
                 } catch (error) {
-                    console.error(
-                        `❌ Error processing section ${index + 1}:`,
-                        error,
+                    addError(
+                        `Error processing section ${index + 1}: ${(error as Error).message}`,
                     );
                     sectionsProcessed++;
 
@@ -157,11 +159,9 @@ const UploadEPUBPage = () => {
         // Wait for all sections to be processed
         await allSectionsProcessed;
 
-        console.log(`📋 Final chapters array length: ${chapters.length}`);
-        console.log("📋 Sample chapters:", chapters.slice(0, 3));
-
         if (chapters.length === 0) {
             setLoading(false);
+            setProcessing(false);
             return addError("No chapters were parsed from the EPUB file");
         }
 
@@ -169,8 +169,8 @@ const UploadEPUBPage = () => {
         const batchSize = 100;
         const totalBatches = Math.ceil(chapters.length / batchSize);
 
-        console.log(
-            `🚀 Starting upload: ${chapters.length} chapters in ${totalBatches} batches`,
+        setNotification(
+            `Starting upload: ${chapters.length} chapters in ${totalBatches} batches`,
         );
 
         for (let i = 0; i < totalBatches; i++) {
@@ -178,10 +178,9 @@ const UploadEPUBPage = () => {
             const end = Math.min(start + batchSize, chapters.length);
             const batch = chapters.slice(start, end);
 
-            console.log(
-                `📤 Uploading batch ${i + 1}/${totalBatches}: chapters ${start + 1}-${end} (${batch.length} chapters)`,
+            setNotification(
+                `Uploading batch ${i + 1}/${totalBatches}: chapters ${start + 1}-${end} (${batch.length} chapters)`,
             );
-            console.log("📤 Batch data:", batch.slice(0, 2)); // Log first 2 chapters of the batch
 
             setNotification(
                 `Uploading chapters ${start + 1}-${end} of ${chapters.length}...`,
@@ -189,46 +188,112 @@ const UploadEPUBPage = () => {
 
             try {
                 const result = await batchUploadChapters(id, batch);
-                console.log(`✅ Batch ${i + 1} result:`, result);
+                setNotification(`Batch ${i + 1} result: ${String(result)}`);
             } catch (error) {
-                console.error(`❌ Batch ${i + 1} failed:`, error);
                 setLoading(false);
-                return addError(`Failed to upload batch ${i + 1}: ${error}`);
+                setProcessing(false);
+                return addError(
+                    `Failed to upload batch ${i + 1}: ${(error as Error).message}`,
+                );
             }
         }
 
-        console.log("🎉 All batches uploaded successfully!");
-
         setLoading(false);
+        setProcessing(false);
         await refreshAllNovels();
         await refreshAllChapters();
         return navigate(`/novels/${id}`);
     };
 
     return (
-        <div className="flex flex-col flex-nowrap items-center justify-evenly text-center text-2xl">
-            <p className="content">
-                Upload EPUB file to parse Novel and Chapters directly
-            </p>
-            <div className="flex flex-col flex-nowrap justify-center items-center">
-                <label
-                    htmlFor="epub-picker"
-                    className="link cursor-pointer mb-6"
-                >
-                    [Pick EPUB File]
-                </label>
-                <input
-                    id="epub-picker"
-                    className="hidden"
-                    type="file"
-                    accept=".epub"
-                    onChange={handleFileChange}
-                />
-                <label className="">{file?.name}</label>
+        <div className="max-w-6xl w-full max-h-screen h-full flex flex-row flex-wrap items-center justify-evenly text-center text-2xl">
+            <div className="max-w-1/2 w-1/3 h-full flex flex-col flex-nowrap justify-center items-center">
+                <div className="flex flex-col flex-nowrap justify-center text-start text-xl">
+                    <h2 className="content mb-6">[EPUB Upload Guide]</h2>
+                    <p className="flex flex-row flex-nowrap">
+                        {file && (
+                            <input
+                                className="mr-4"
+                                type={"checkbox"}
+                                checked={file ? true : false}
+                            />
+                        )}
+                        <h2>1. Pick a file</h2>
+                    </p>
+                    <p className="flex flex-row flex-nowrap">
+                        {file && processing && (
+                            <input
+                                className="mr-4"
+                                type={"checkbox"}
+                                checked={file && processing ? true : false}
+                            />
+                        )}
+                        <h2>2. Upload file</h2>
+                    </p>
+                    <p className="flex flex-row flex-nowrap">
+                        {processing && (
+                            <input
+                                className="mr-4"
+                                type={"checkbox"}
+                                checked={file && processing ? true : false}
+                            />
+                        )}
+                        <h2>3. Wait for processing</h2>
+                    </p>
+                    <p className="flex flex-row flex-nowrap">
+                        {processing && (
+                            <input
+                                className="mr-4"
+                                type={"checkbox"}
+                                checked={file && processing ? true : false}
+                            />
+                        )}
+                        <h2>4. Wait for success/fail notification</h2>
+                    </p>
+                    <p className="subtitle mt-6 text-lg">
+                        You will be automatically redirected to the Novel page
+                        after the processing is complete.
+                    </p>
+                    <p className="subtitle mt-6 text-lg">
+                        Chapter upload works in chunks of 100, uploading a large
+                        number of chapters will take longer. Please be patient
+                        and wait for the upload to complete. If you leave this
+                        page it will complete partially or not at all.
+                    </p>
+                    <p className="subtitle mt-6 text-lg">
+                        If you encounter any issues, please open issue on
+                        GitHub.
+                    </p>
+                </div>
             </div>
-            <button className="link" onClick={handleUpload}>
-                [Upload]
-            </button>
+            <div className="max-w-2/3 w-2/3 h-full flex flex-col flex-nowrap justify-center items-center">
+                <p className="w-2/3 content">
+                    Upload EPUB file to parse Novel and Chapters directly
+                </p>
+                <div className="my-12 flex flex-col flex-nowrap justify-center items-center">
+                    <label
+                        htmlFor="epub-picker"
+                        className="link cursor-pointer mb-4"
+                    >
+                        [Pick EPUB File]
+                    </label>
+                    <input
+                        id="epub-picker"
+                        className="hidden"
+                        type="file"
+                        accept=".epub"
+                        onChange={handleFileChange}
+                    />
+                    <label>{file?.name}</label>
+                </div>
+                <button
+                    className={`${processing ? "text-gray-800" : "link"}`}
+                    onClick={handleUpload}
+                    disabled={processing}
+                >
+                    [Upload]
+                </button>
+            </div>
         </div>
     );
 };
