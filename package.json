@@ -6,7 +6,7 @@
         "@fontsource/courier-prime": "^5.2.6",
         "@fontsource/merriweather": "^5.2.9",
         "@fortawesome/fontawesome-svg-core": "^6.6.0",
-        "@fortawesome/free-solid-svg-icons": "^6.6.0",
+        "@fortawesome/free-solid-svg-icons": "^7.0.0",
         "@fortawesome/react-fontawesome": "^0.2.2",
         "@mdxeditor/editor": "^3.20.0",
         "@tailwindcss/typography": "^0.5.15",
