@@ -210,7 +210,9 @@ const UploadEPUBPage = () => {
             <div className="max-w-1/2 w-1/3 h-full flex flex-col flex-nowrap justify-center items-center">
                 <div className="flex flex-col flex-nowrap justify-center text-start text-xl">
                     <h2 className="content mb-6">[EPUB Upload Guide]</h2>
-                    <p className="flex flex-row flex-nowrap">
+                    <p
+                        className={`flex flex-row flex-nowrap ${file ? "link" : ""}`}
+                    >
                         {file && (
                             <input
                                 className="mr-4"
@@ -220,7 +222,9 @@ const UploadEPUBPage = () => {
                         )}
                         <h2>1. Pick a file</h2>
                     </p>
-                    <p className="flex flex-row flex-nowrap">
+                    <p
+                        className={`flex flex-row flex-nowrap ${file && processing ? "link" : ""}`}
+                    >
                         {file && processing && (
                             <input
                                 className="mr-4"
@@ -230,7 +234,9 @@ const UploadEPUBPage = () => {
                         )}
                         <h2>2. Upload file</h2>
                     </p>
-                    <p className="flex flex-row flex-nowrap">
+                    <p
+                        className={`flex flex-row flex-nowrap ${processing ? "link" : ""}`}
+                    >
                         {processing && (
                             <input
                                 className="mr-4"
@@ -240,7 +246,9 @@ const UploadEPUBPage = () => {
                         )}
                         <h2>3. Wait for processing</h2>
                     </p>
-                    <p className="flex flex-row flex-nowrap">
+                    <p
+                        className={`flex flex-row flex-nowrap ${processing ? "link" : ""}`}
+                    >
                         {processing && (
                             <input
                                 className="mr-4"
@@ -248,7 +256,7 @@ const UploadEPUBPage = () => {
                                 checked={file && processing ? true : false}
                             />
                         )}
-                        <h2>4. Wait for success/fail notification</h2>
+                        <h2>4. Wait for success/fail</h2>
                     </p>
                     <p className="subtitle mt-6 text-lg">
                         You will be automatically redirected to the Novel page
