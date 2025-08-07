@@ -1,17 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Chapter, Novel } from "../Types/types";
-import ErrorAlert from "../Components/ErrorAlert";
-import LoadingAlert from "../Components/LoadingAlert";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
-import Popover from "../Components/Popover";
-import { useError } from "../Contexts/ErrorContext";
-import { useLoading } from "../Contexts/LoadingContext";
+import { Popover } from "react-tiny-popover";
 import ReactMarkdown from "react-markdown";
-import { addToMarkdownExtension$ } from "@mdxeditor/editor";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { useUser } from "../Contexts/UserContext";
@@ -20,6 +14,8 @@ import { useContent } from "../Contexts/ContentContext";
 const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
+
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const { user } = useUser();
 
@@ -40,8 +36,20 @@ const ChapterPage = () => {
             <div className="max-w-2xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full">
                     {index > 0 ? (
-                        <Popover text={chapters[index - 1].title}>
+                        <Popover
+                            isOpen={isPopoverOpen}
+                            positions={["bottom", "left"]}
+                            padding={10}
+                            onClickOutside={() => setIsPopoverOpen(false)}
+                            content={
+                                <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                    chapters[index - 1].title
+                                </div>
+                            }
+                        >
                             <Link
+                                onMouseEnter={() => setIsPopoverOpen(true)}
+                                onMouseLeave={() => setIsPopoverOpen(false)}
                                 className="link"
                                 to={`/novels/${id_novel}/${chapters[index - 1].id}`}
                             >
@@ -54,7 +62,17 @@ const ChapterPage = () => {
                         </h2>
                     )}
                     {index < chapters.length - 1 ? (
-                        <Popover text={chapters[index + 1].title}>
+                        <Popover
+                            isOpen={isPopoverOpen}
+                            positions={["bottom", "left"]}
+                            padding={10}
+                            onClickOutside={() => setIsPopoverOpen(false)}
+                            content={
+                                <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                    chapters[index + 1].title
+                                </div>
+                            }
+                        >
                             <Link
                                 className="link"
                                 to={`/novels/${id_novel}/${chapters[index + 1].id}`}
@@ -116,13 +134,14 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <ReactMarkdown
-                        className="max-w-2xl mt-4 prose prose-lg font-sans leading-relaxed"
-                        remarkPlugins={[remarkGfm]}
-                        rehypePlugins={[rehypeRaw]}
-                    >
-                        {chapter.content}
-                    </ReactMarkdown>
+                    <div className="max-w-2xl mt-4 prose prose-lg font-sans text-lg indent-5 leading-relaxed">
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                        >
+                            {chapter.content}
+                        </ReactMarkdown>
+                    </div>
 
                     <NavigationButtons />
                 </div>

@@ -12,6 +12,9 @@ import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
 import useSWR from "swr";
 import { c } from "framer-motion/dist/types.d-Cjd591yU";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
@@ -57,8 +60,15 @@ const NovelPage = () => {
                                 <h2 className="ml-3 text-1xl">
                                     By {novel.author}
                                 </h2>
-                                <p className="mt-2 subtitle text-">
-                                    {" > "} {novel.description}
+                                <p className="mt-4 subtitle">
+                                    <div className="indent-5 leading-snug">
+                                        <ReactMarkdown
+                                            remarkPlugins={[remarkGfm]}
+                                            rehypePlugins={[rehypeRaw]}
+                                        >
+                                            {"&gt; " + novel.description}
+                                        </ReactMarkdown>
+                                    </div>
                                 </p>
                             </div>
                             {user &&

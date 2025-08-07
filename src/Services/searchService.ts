@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useError } from "../Contexts/ErrorContext";
 import api from "./apiService";
 import { HandleErr } from "./errorHandler";
 

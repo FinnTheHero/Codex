@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "./apiService";
 import { HandleErr } from "./errorHandler";
 

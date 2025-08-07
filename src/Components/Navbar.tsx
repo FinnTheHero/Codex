@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../Contexts/UserContext";
-import AuthPopover from "./AuthPopover";
+import { Popover } from "react-tiny-popover";
+import PersistentStoragePermissionButton from "./PersistentStoragePermissionButton";
 
 const Navbar = () => {
-    const { user } = useUser();
+    const { user, logout } = useUser();
 
     const [dropdown, setDropdown] = useState<boolean>(false);
+    const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -40,65 +42,140 @@ const Navbar = () => {
                             onClick={() => {
                                 setDropdown(!dropdown);
                             }}
-                            className={`visible sm:hidden`}
+                            className={`visible sm:hidden m-2`}
                         >
                             <FontAwesomeIcon size="xl" icon={faBars} />
                         </button>
-                        <div className="hidden sm:flex items-center justify-between space-x-5">
-                            {user && (
-                                <Link to="/dashboard/upload" className="link">
-                                    [Upload]
-                                </Link>
-                            )}
+                        {!dropdown && (
+                            <div className="hidden sm:flex items-center justify-between space-x-5">
+                                <PersistentStoragePermissionButton />
+                                {user && (
+                                    <Link
+                                        to="/dashboard/upload"
+                                        className="link"
+                                    >
+                                        [Upload]
+                                    </Link>
+                                )}
 
+                                {user && user.type === "Admin" && (
+                                    <Link to="/dashboard" className="link">
+                                        [Dashboard]
+                                    </Link>
+                                )}
+
+                                <Link to="/novels" className="link">
+                                    [Novels]
+                                </Link>
+                                <Popover
+                                    isOpen={isPopoverOpen && !dropdown}
+                                    positions={["bottom", "left"]}
+                                    padding={10}
+                                    onClickOutside={() =>
+                                        setIsPopoverOpen(false)
+                                    }
+                                    content={
+                                        <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                            {user ? (
+                                                <div
+                                                    className="text-red-700 cursor-pointer"
+                                                    onClick={logout}
+                                                >
+                                                    [Logout]
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col flex-nowrap">
+                                                    <Link
+                                                        className="mx-auto mb-1"
+                                                        to={"/login"}
+                                                    >
+                                                        [Login]
+                                                    </Link>
+                                                    <Link to={"/register"}>
+                                                        [Register]
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                    }
+                                >
+                                    <div
+                                        onMouseEnter={() =>
+                                            setIsPopoverOpen(true)
+                                        }
+                                        onMouseLeave={() => {
+                                            setTimeout(() => {
+                                                setIsPopoverOpen(false);
+                                            }, 3000);
+                                        }}
+                                        className="text-lg content cursor-pointer"
+                                    >
+                                        {user ? `[${user.username}]` : "[User]"}
+                                    </div>
+                                </Popover>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                {dropdown && (
+                    <div className="w-full flex justify-end">
+                        <div
+                            className={`${dropdown ? "text-xl w-fit flex flex-col flex-nowrap items-end pb-4 pt-2 px-2 pl-6 border-t border-zinc-800" : "hidden"}`}
+                        >
+                            <PersistentStoragePermissionButton />
+                            <Link to="/novels" className="link">
+                                [Novels]
+                            </Link>
                             {user && user.type === "Admin" && (
                                 <Link to="/dashboard" className="link">
                                     [Dashboard]
                                 </Link>
                             )}
-
-                            <Link to="/novels" className="link">
-                                [Novels]
-                            </Link>
-                            <AuthPopover>
-                                {user ? (
-                                    <div className="text-lg content cursor-pointer">
-                                        [{user.username}]
+                            <Popover
+                                isOpen={isPopoverOpen && dropdown}
+                                positions={["bottom", "left"]}
+                                padding={10}
+                                onClickOutside={() => setIsPopoverOpen(false)}
+                                content={
+                                    <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                        {user ? (
+                                            <div
+                                                className="text-red-700 cursor-pointer"
+                                                onClick={logout}
+                                            >
+                                                [Logout]
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col flex-nowrap">
+                                                <Link
+                                                    className="mx-auto mb-1"
+                                                    to={"/login"}
+                                                >
+                                                    [Login]
+                                                </Link>
+                                                <Link to={"/register"}>
+                                                    [Register]
+                                                </Link>
+                                            </div>
+                                        )}
                                     </div>
-                                ) : (
-                                    <div className="text-lg content cursor-pointer">
-                                        [User]
-                                    </div>
-                                )}
-                            </AuthPopover>
+                                }
+                            >
+                                <div
+                                    onMouseEnter={() => setIsPopoverOpen(true)}
+                                    onMouseLeave={() => {
+                                        setTimeout(() => {
+                                            setIsPopoverOpen(false);
+                                        }, 3000);
+                                    }}
+                                    className="text-lg content cursor-pointer"
+                                >
+                                    {user ? `[${user.username}]` : "[User]"}
+                                </div>
+                            </Popover>
                         </div>
                     </div>
-                </div>
-                <div className="w-full flex justify-end">
-                    <div
-                        className={`${dropdown ? "w-fit flex flex-col flex-nowrap items-end pb-4 pt-2 px-2 pl-6 border-t border-zinc-800" : "hidden"}`}
-                    >
-                        <Link to="/novels" className="link">
-                            [Novels]
-                        </Link>
-                        {user && user.type === "Admin" && (
-                            <Link to="/dashboard" className="link">
-                                [Dashboard]
-                            </Link>
-                        )}
-                        <AuthPopover>
-                            {user ? (
-                                <div className="text-lg content cursor-pointer">
-                                    [{user.username}]
-                                </div>
-                            ) : (
-                                <div className="text-lg content cursor-pointer">
-                                    [User]
-                                </div>
-                            )}
-                        </AuthPopover>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
