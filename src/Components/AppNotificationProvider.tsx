@@ -15,7 +15,7 @@ const DisplayNotifications: React.FC = () => {
     const { notification } = useNotification();
 
     return (
-        <div className="fixed flex flex-col flex-nowrap items-end top-5 left-1/2 transform -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:top-5 lg:right-5 z-50">
+        <div className="fixed flex flex-col flex-nowrap items-center justify-center top-20 left-1/2 transform -translate-x-1/2 z-50 text-center p-2 w-fit">
             {errors.map((err) => (
                 <ErrorAlert key={err.id} error={String(err.message)} />
             ))}
