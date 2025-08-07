@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Chapter, Novel } from "../Types/types";
 import api from "./apiService";
 import { HandleErr } from "./errorHandler";
