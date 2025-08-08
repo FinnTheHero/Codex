@@ -34,10 +34,10 @@ const NovelsPage: React.FC = () => {
     }, [query, novels]);
 
     return (
-        <div className="min-h-screen max-w-6xl px-8 lg:px-12 w-full flex flex-col flex-nowrap justify-evenly">
+        <div className="min-h-screen h-full max-w-5xl px-4 sm:px-8 md:px-12 w-full flex flex-col flex-nowrap justify-start">
             <div className="flex flex-row flex-nowrap justify-between">
                 {/* Novel List Display */}
-                <div className="w-full lg:w-3/5 flex flex-col flex-nowrap">
+                <div className="w-full md:w-3/5 flex flex-col flex-nowrap">
                     <div>
                         <h1 className="text-4xl mb-4 text-center">Novels</h1>
                         <SearchBar query={query} onQueryChange={setQuery} />
@@ -56,7 +56,7 @@ const NovelsPage: React.FC = () => {
                     </div>
                 </div>
                 {/* Chapter List Preview */}
-                <div className="hidden lg:visible w-2/6 lg:flex flex-col flex-nowrap">
+                <div className="hidden md:visible w-2/6 md:flex flex-col flex-nowrap">
                     <div className="mb-12 text-center">
                         <h2 className="text-4xl text-center">Chapters</h2>
                         <h2 className="text-2xl text-center">
