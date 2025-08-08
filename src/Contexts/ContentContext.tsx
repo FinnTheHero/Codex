@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import { Chapter, ContentContextType, Novel } from "../Types/types";
 import { useError } from "./ErrorContext";
 import { useLoading } from "./LoadingContext";
@@ -53,22 +53,6 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
                     return addError(`An error occurred while fetching Novels`);
             }
         }
-
-        // TODO: This throws error on every action on website. Its annoying need to come up with a solution.
-        // if (error_c && axios.isAxiosError(error_c)) {
-        //     switch (error_c.response?.status) {
-        //         case 401:
-        //             return addError(`Unauthorized`);
-        //         case 404:
-        //             return addError(`Chapters not found`);
-        //         case 500:
-        //             return addError(`Internal server error`);
-        //         default:
-        //             return addError(
-        //                 `An error occurred while fetching Chapters`,
-        //             );
-        //     }
-        // }
         setLoading(false);
     }, [error_n]);
 
@@ -93,7 +77,14 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
             value={{
                 chapter,
                 setChapter,
-                chapters: data_cs?.chapters ?? [],
+                chapters:
+                    data_cs?.chapters.sort(
+                        (a, b) =>
+                            b.title.localeCompare(a.title, undefined, {
+                                numeric: true,
+                                sensitivity: "base",
+                            }) ?? 0,
+                    ) ?? [],
                 novels: data_n?.novels ?? [],
                 novel,
                 setNovel,
