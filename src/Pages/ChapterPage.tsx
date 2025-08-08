@@ -43,7 +43,7 @@ const ChapterPage = () => {
         let index = chapters.findIndex((chapter) => chapter.id === id_chapter);
 
         return (
-            <div className="max-w-2xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
+            <div className="max-w-4xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full">
                     {index > 0 ? (
                         <Popover
@@ -144,7 +144,7 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <div className="w-full max-w-4xl mt-4 prose prose-lg font-sans text-lg leading-normal">
+                    <div className="w-full max-w-3xl mt-4 prose prose-lg font-sans text-lg leading-normal">
                         <ReactMarkdown
                             components={{
                                 p: ({ node, ...props }) => (
