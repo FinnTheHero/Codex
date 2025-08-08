@@ -61,25 +61,29 @@ export const EditPageAccess: React.FC<RequireAuthProps> = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) {
-            addError("Valid User account required for Editing!");
-            return navigate("/login");
-        }
+        const checkPermissions = () => {
+            if (!user) {
+                addError("Valid User account required for Editing!");
+                return navigate("/login");
+            }
 
-        if (!id_novel) {
-            addError("Novel ID is required for Editing!");
-            return navigate("/novels");
-        }
+            if (!id_novel) {
+                addError("Novel ID is required for Editing!");
+                return navigate("/novels");
+            }
 
-        if (!novel) {
-            addError("Novel not found!");
-            return navigate("/novels");
-        }
+            if (!novel) {
+                addError("Novel not found!");
+                return navigate("/novels");
+            }
 
-        if (novel.author !== user.username && user.type !== "Admin") {
-            addError("You are not authorized to edit!");
-            return navigate(`/novels/${id_novel}`);
-        }
+            if (novel.author !== user.username && user.type !== "Admin") {
+                addError("You are not authorized to edit!");
+                return navigate(`/novels/${id_novel}`);
+            }
+        };
+
+        checkPermissions();
     }, [user, id_novel, novel, addError, navigate]);
 
     return <>{children}</>;
