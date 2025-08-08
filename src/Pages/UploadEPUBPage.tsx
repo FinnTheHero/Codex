@@ -21,14 +21,14 @@ const UploadEPUBPage = () => {
 
     // HTML to Markdown conversion rules - Requires further testing and feedback
     const turndown = new TurndownService({
-        headingStyle: "atx",
-        codeBlockStyle: "fenced",
+        headingStyle: "setext",
+        codeBlockStyle: "indented",
         bulletListMarker: "-",
     });
     turndown.remove(["img", "script", "style", "meta"]);
     turndown.addRule("skipTL", {
         filter: (node) =>
-            node.nodeName === "P" && / TL /.test(node.textContent || ""),
+            node.nodeName === "P" && / TL note:/.test(node.textContent || ""),
         replacement: () => "",
     });
     turndown.addRule("skipSynopsis", {
