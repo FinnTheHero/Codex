@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,15 +19,25 @@ const ChapterPage = () => {
 
     const { user } = useUser();
 
-    const { chapter, novel, novels, chapters, setChapter, setNovel } =
-        useContent();
+    const {
+        chapter,
+        novel,
+        novels,
+        chapters,
+        setChapter,
+        setNovel,
+        refreshAllChapters,
+    } = useContent();
 
     useEffect(() => {
-        setChapter(
-            chapters.find((chapter) => chapter.id === id_chapter) || null,
-        );
-        setNovel(novels.find((novel) => novel.id === id_novel) || null);
-    }, []);
+        const setData = () => {
+            setNovel(novels.find((novel) => novel.id === id_novel) || null);
+            setChapter(
+                chapters.find((chapter) => chapter.id === id_chapter) || null,
+            );
+        };
+        setData();
+    }, [novels, chapter, chapters, id_novel, id_chapter]);
 
     const NavigationButtons = () => {
         let index = chapters.findIndex((chapter) => chapter.id === id_chapter);
@@ -96,9 +106,9 @@ const ChapterPage = () => {
     };
 
     return (
-        <div className="max-w-5xl w-full px-12 flex flex-col flex-nowrap">
+        <div className="w-full px-6 flex flex-col flex-nowrap">
             {chapter && novel && (
-                <div className="flex flex-col justify-center items-center">
+                <div className="w-full flex flex-col justify-center items-center">
                     {user &&
                         (user.username == novel.author ||
                             user.type == "Admin") && (
@@ -134,8 +144,13 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <div className="max-w-2xl mt-4 prose prose-lg font-sans text-lg indent-5 leading-relaxed">
+                    <div className="w-full mt-4 prose prose-lg font-sans text-lg leading-normal">
                         <ReactMarkdown
+                            components={{
+                                p: ({ node, ...props }) => (
+                                    <p className="mb-5" {...props} />
+                                ),
+                            }}
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeRaw]}
                         >
