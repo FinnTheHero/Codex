@@ -56,20 +56,21 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
             }
         }
 
-        if (error_c && axios.isAxiosError(error_c)) {
-            switch (error_c.response?.status) {
-                case 401:
-                    return addError(`Unauthorized`);
-                case 404:
-                    return addError(`Chapters not found`);
-                case 500:
-                    return addError(`Internal server error`);
-                default:
-                    return addError(
-                        `An error occurred while fetching Chapters`,
-                    );
-            }
-        }
+        // TODO: This throws error on every action on website. Its annoying need to come up with a solution.
+        // if (error_c && axios.isAxiosError(error_c)) {
+        //     switch (error_c.response?.status) {
+        //         case 401:
+        //             return addError(`Unauthorized`);
+        //         case 404:
+        //             return addError(`Chapters not found`);
+        //         case 500:
+        //             return addError(`Internal server error`);
+        //         default:
+        //             return addError(
+        //                 `An error occurred while fetching Chapters`,
+        //             );
+        //     }
+        // }
         setLoading(false);
     }, [error_n, error_c]);
 
