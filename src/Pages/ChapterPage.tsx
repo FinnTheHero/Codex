@@ -144,7 +144,7 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <div className="w-full mt-4 prose prose-lg font-sans text-lg leading-normal">
+                    <div className="w-full max-w-4xl mt-4 prose prose-lg font-sans text-lg leading-normal">
                         <ReactMarkdown
                             components={{
                                 p: ({ node, ...props }) => (
