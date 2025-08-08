@@ -48,6 +48,7 @@ import { SWRConfig } from "swr";
 import { axiosFetcher } from "./Services/apiService";
 import { isAxiosError } from "axios";
 import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
+import { useEffect } from "react";
 
 function App() {
     const cacheProvider = useCacheProvider({
@@ -85,6 +86,15 @@ function App() {
 
 const RouterTransition = () => {
     const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash) {
+            const el = document.getElementById(location.hash.slice(1));
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [location]);
 
     return (
         <AnimatePresence mode="wait">

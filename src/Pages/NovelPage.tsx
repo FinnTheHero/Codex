@@ -71,7 +71,9 @@ const NovelPage = () => {
                                     </div>
                                 )}
                             <div className="flex flex-col flex-nowrap w-full">
-                                <h2 className="text-4xl">{novel.title}</h2>
+                                <h2 id="novel-id" className="text-4xl">
+                                    {novel.title}
+                                </h2>
                                 <h2 className="ml-3 text-1xl">
                                     By {novel.author}
                                 </h2>

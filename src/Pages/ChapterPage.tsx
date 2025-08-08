@@ -61,7 +61,7 @@ const ChapterPage = () => {
                                 onMouseEnter={() => setIsPopoverOpen(true)}
                                 onMouseLeave={() => setIsPopoverOpen(false)}
                                 className="link"
-                                to={`/novels/${id_novel}/${chapters[index - 1].id}`}
+                                to={`/novels/${id_novel}/${chapters[index + 1].id}#chapter-id`}
                             >
                                 [Previous]
                             </Link>
@@ -85,7 +85,7 @@ const ChapterPage = () => {
                         >
                             <Link
                                 className="link"
-                                to={`/novels/${id_novel}/${chapters[index + 1].id}`}
+                                to={`/novels/${id_novel}/${chapters[index - 1].id}#chapter-id`}
                             >
                                 [Next]
                             </Link>
@@ -99,7 +99,7 @@ const ChapterPage = () => {
 
                 <GoBackButton
                     className="link mt-4"
-                    to={`/novels/${id_novel}`}
+                    to={`/novels/${id_novel}#codex`}
                 />
             </div>
         );
@@ -120,7 +120,9 @@ const ChapterPage = () => {
                             </Link>
                         )}
                     <h2 className="text-base">{novel.title}</h2>
-                    <h2 className="mb-3 mt-2 text-4xl">{chapter.title}</h2>
+                    <h2 id="chapter-id" className="mb-3 mt-2 text-4xl">
+                        {chapter.title}
+                    </h2>
 
                     <p className="max-w-md subtitle text-center">
                         {" > "}
