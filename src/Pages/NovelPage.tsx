@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Chapter, Novel } from "../Types/types";
+import { useEffect, useMemo, useState } from "react";
 import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +10,6 @@ import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
 import useSWR from "swr";
-import { c } from "framer-motion/dist/types.d-Cjd591yU";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
