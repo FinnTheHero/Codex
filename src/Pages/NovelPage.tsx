@@ -22,12 +22,19 @@ const NovelPage = () => {
     const [sortBy, setSortBy] = useState<"title" | "time">("title");
 
     const { user } = useUser();
+    const { addError } = useError();
     const { novel, setNovel, novels, chapters, refreshAllNovels } =
         useContent();
 
     useEffect(() => {
         setNovel(novels.find((novel) => novel.id === id_novel) || null);
     }, []);
+
+    useEffect(() => {
+        if (chapters.length === 0) {
+            addError("Chapters Not Found!");
+        }
+    }, [chapters, addError]);
 
     const sortedChapters = useMemo(() => {
         const copy = [...chapters];
