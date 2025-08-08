@@ -1,6 +1,10 @@
 @import "tailwindcss";
-
 @tailwind utilities;
+
+@font-face {
+    font-family: "Bookerly";
+    src: url("../public/bookerly/Bookerly.ttf");
+}
 
 body {
     margin: 0;

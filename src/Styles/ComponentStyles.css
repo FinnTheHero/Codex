@@ -66,31 +66,6 @@ input.search-input {
     transform: rotate(-90deg);
 }
 
-.popover {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    background-color: #11111b;
-    transform: translateX(-50%) translateY(-5px);
-    color: #7f849c;
-    padding: 5px 10px;
-    z-index: 10;
-    white-space: nowrap;
-    opacity: 1;
-}
-
-.popover-bottom {
-    position: absolute;
-    /* bottom: -300%; */
-    left: 50%;
-    background-color: #11111b;
-    transform: translateX(-50%) translateY(0px);
-    padding: 4px 10px;
-    z-index: 10;
-    white-space: nowrap;
-    opacity: 1;
-}
-
 .custom-alert {
     z-index: 99;
 
@@ -133,6 +108,7 @@ input.search-input {
 .prose h4,
 .prose h5,
 .prose h6 {
+    font-family: "Bookerly", serif;
     color: #89dceb !important;
 }
 

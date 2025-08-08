@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Chapter, Novel } from "../Types/types";
+import { useEffect, useMemo, useState } from "react";
 import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,24 +9,28 @@ import GoBackButton from "../Components/GoBackButton";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
-import useSWR from "swr";
-import { c } from "framer-motion/dist/types.d-Cjd591yU";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import { AnimatePresence } from "framer-motion";
+import { PageAnimationWrapper } from "../Components/PageAnimationWrapper";
+import { ComponentAnimationWrapper } from "../Components/ComponentAnimationWrapper";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
 
+    const [hideDescription, setHideDescription] = useState(false);
+
     const [sortBy, setSortBy] = useState<"title" | "time">("title");
 
     const { user } = useUser();
-    const { novel, setNovel, novels, chapters, refreshAllNovels } =
-        useContent();
+    const { novel, setNovel, novels, chapters } = useContent();
 
     useEffect(() => {
-        setNovel(novels.find((novel) => novel.id === id_novel) || null);
-    }, []);
+        if (!novel) {
+            setNovel(novels.find((novel) => novel.id === id_novel) || null);
+        }
+    }, [novels, setNovel, id_novel]);
 
     const sortedChapters = useMemo(() => {
         const copy = [...chapters];
@@ -50,31 +53,15 @@ const NovelPage = () => {
     }, [chapters, sortBy]);
 
     return (
-        <div className="lg:max-w-6xl w-full px-2 lg:px-12 flex flex-col flex-nowrap justify-between items-center">
+        <div className="lg:max-w-6xl w-full lg:px-12 flex flex-col flex-nowrap justify-between items-center">
             <div className="w-full flex flex-row flex-wrap justify-between">
                 <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
                     {novel && (
-                        <div className="flex flex-row flex-nowrap justify-between">
-                            <div className="flex flex-col flex-nowrap">
-                                <h2 className="text-4xl">{novel.title}</h2>
-                                <h2 className="ml-3 text-1xl">
-                                    By {novel.author}
-                                </h2>
-                                <p className="mt-4 subtitle">
-                                    <div className="indent-5 leading-snug">
-                                        <ReactMarkdown
-                                            remarkPlugins={[remarkGfm]}
-                                            rehypePlugins={[rehypeRaw]}
-                                        >
-                                            {"&gt; " + novel.description}
-                                        </ReactMarkdown>
-                                    </div>
-                                </p>
-                            </div>
+                        <div className="w-full flex flex-col flex-nowrap justify-between">
                             {user &&
                                 (user.username === novel.author ||
                                     user.type === "Admin") && (
-                                    <div>
+                                    <div className="w-full flex items-center justify-center mb-6">
                                         <Link
                                             to={`/dashboard/edit/${novel.id}`}
                                             className="text-lg content"
@@ -83,6 +70,78 @@ const NovelPage = () => {
                                         </Link>
                                     </div>
                                 )}
+                            <div className="flex flex-col flex-nowrap w-full">
+                                <h2 className="text-4xl">{novel.title}</h2>
+                                <h2 className="ml-3 text-1xl">
+                                    By {novel.author}
+                                </h2>
+                                <p
+                                    onClick={() => {
+                                        setHideDescription(!hideDescription);
+                                    }}
+                                    className="mt-4 subtitle cursor-pointer"
+                                >
+                                    <AnimatePresence>
+                                        <ComponentAnimationWrapper
+                                            hidden={!hideDescription}
+                                        >
+                                            <div
+                                                className={`${hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
+                                            >
+                                                <ReactMarkdown
+                                                    components={{
+                                                        p: ({
+                                                            node,
+                                                            ...props
+                                                        }) => (
+                                                            <p
+                                                                className="mb-5"
+                                                                {...props}
+                                                            />
+                                                        ),
+                                                    }}
+                                                    remarkPlugins={[remarkGfm]}
+                                                    rehypePlugins={[rehypeRaw]}
+                                                >
+                                                    {"&gt; " +
+                                                        novel.description}
+                                                </ReactMarkdown>
+                                            </div>
+                                        </ComponentAnimationWrapper>
+
+                                        <ComponentAnimationWrapper
+                                            hidden={hideDescription}
+                                        >
+                                            <div
+                                                className={`${!hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
+                                            >
+                                                <ReactMarkdown
+                                                    components={{
+                                                        p: ({
+                                                            node,
+                                                            ...props
+                                                        }) => (
+                                                            <p
+                                                                className="mb-5"
+                                                                {...props}
+                                                            />
+                                                        ),
+                                                    }}
+                                                    remarkPlugins={[remarkGfm]}
+                                                    rehypePlugins={[rehypeRaw]}
+                                                >
+                                                    {"&gt; " +
+                                                        novel.description.substring(
+                                                            0,
+                                                            25,
+                                                        ) +
+                                                        "..."}
+                                                </ReactMarkdown>
+                                            </div>
+                                        </ComponentAnimationWrapper>
+                                    </AnimatePresence>
+                                </p>
+                            </div>
                         </div>
                     )}
                 </div>

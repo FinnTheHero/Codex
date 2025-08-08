@@ -44,17 +44,42 @@ import EditChapterPage from "./Pages/EditChapterPage";
 import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
 import UploadEPUBPage from "./Pages/UploadEPUBPage";
 import UploadNovelPage from "./Pages/UploadNovelPage";
+import { SWRConfig } from "swr";
+import { axiosFetcher } from "./Services/apiService";
+import { isAxiosError } from "axios";
+import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
 
 function App() {
-    return (
-        <div className="App">
-            <Router>
-                <RouterTransition />
-            </Router>
+    const cacheProvider = useCacheProvider({
+        dbName: "my-app",
+        storeName: "swr-cache",
+    });
 
-            <Analytics />
-            <SpeedInsights />
-        </div>
+    return (
+        <SWRConfig
+            value={{
+                fetcher: axiosFetcher,
+                provider: cacheProvider,
+                onError: (err, key) => {
+                    if (isAxiosError(err)) {
+                        console.error(
+                            `Error fetching ${key}: ${err.response?.statusText}`,
+                        );
+                    } else {
+                        console.error(`Error fetching ${key}: ${err}`);
+                    }
+                },
+            }}
+        >
+            <div className="App">
+                <Router>
+                    <RouterTransition />
+                </Router>
+
+                <Analytics />
+                <SpeedInsights />
+            </div>
+        </SWRConfig>
     );
 }
 
