@@ -29,14 +29,14 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
         error: error_n,
         mutate: mutateNovels,
         isLoading: novelsLoading,
-    } = useSWR<{ novels: Novel[] }>(key_n);
+    } = useSWR<{ novels: Novel[] }>(key_n, axiosFetcher);
 
     const {
         data: data_c,
         error: error_c,
         mutate: mutateChapters,
         isLoading: chaptersLoading,
-    } = useSWR<{ chapters: Chapter[] }>(novel ? key_c : null);
+    } = useSWR<{ chapters: Chapter[] }>(novel ? key_c : null, axiosFetcher);
 
     useEffect(() => {
         setLoading(novelsLoading || chaptersLoading);
