@@ -30,7 +30,7 @@ const Navbar = () => {
             <div className="max-w-6xl px-4 w-full">
                 <div className="flex justify-between ">
                     <div className="my-4 mx-2">
-                        <Link to="/" className="text-2xl font-bold">
+                        <Link id="codex" to="/" className="text-2xl font-bold">
                             [Codex]
                         </Link>
                     </div>

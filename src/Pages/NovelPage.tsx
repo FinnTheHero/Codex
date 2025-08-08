@@ -6,22 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
-import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { AnimatePresence } from "framer-motion";
-import { PageAnimationWrapper } from "../Components/PageAnimationWrapper";
 import { ComponentAnimationWrapper } from "../Components/ComponentAnimationWrapper";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
 
     const [hideDescription, setHideDescription] = useState(false);
-
-    const [sortBy, setSortBy] = useState<"title" | "time">("title");
 
     const { user } = useUser();
     const { novel, setNovel, novels, chapters } = useContent();
@@ -31,26 +27,6 @@ const NovelPage = () => {
             setNovel(novels.find((novel) => novel.id === id_novel) || null);
         }
     }, [novels, setNovel, id_novel]);
-
-    const sortedChapters = useMemo(() => {
-        const copy = [...chapters];
-        if (sortBy === "title") {
-            return copy.sort((a, b) =>
-                b.title.localeCompare(a.title, undefined, {
-                    numeric: true,
-                    sensitivity: "base",
-                }),
-            );
-        }
-        if (sortBy === "time") {
-            return copy.sort(
-                (a, b) =>
-                    new Date(b.creation_date).getTime() -
-                    new Date(a.creation_date).getTime(),
-            );
-        }
-        return copy;
-    }, [chapters, sortBy]);
 
     return (
         <div className="lg:max-w-6xl w-full lg:px-12 flex flex-col flex-nowrap justify-between items-center">
@@ -71,7 +47,9 @@ const NovelPage = () => {
                                     </div>
                                 )}
                             <div className="flex flex-col flex-nowrap w-full">
-                                <h2 className="text-4xl">{novel.title}</h2>
+                                <h2 id="novel-id" className="text-4xl">
+                                    {novel.title}
+                                </h2>
                                 <h2 className="ml-3 text-1xl">
                                     By {novel.author}
                                 </h2>
@@ -165,9 +143,9 @@ const NovelPage = () => {
                                 />
                             </div>
 
-                            {sortedChapters &&
-                                sortedChapters.length > 0 &&
-                                sortedChapters.map((c, i) => (
+                            {chapters &&
+                                chapters.length > 0 &&
+                                chapters.map((c, i) => (
                                     <ChapterCard
                                         chapter={c}
                                         index={i}
