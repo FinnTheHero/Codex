@@ -60,8 +60,14 @@ export interface User {
 export interface UserContextType {
     user: User | null;
     authenticated: boolean;
-    setUser: (user: User | null) => void;
+    setUser: (user: User | null) => void; // This is potentially unsafe
     logout: () => void;
+    colorScheme: string;
+    setColorScheme: (colorScheme: string) => void;
+    fontSize: string;
+    setFontSize: (fontSize: string) => void;
+    sortBy: "asc" | "desc";
+    setSortBy: (sortBy: "asc" | "desc") => void;
 }
 
 export interface ContentContextType {
