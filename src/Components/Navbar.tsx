@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useUser } from "../Contexts/UserContext";
 import { Popover } from "react-tiny-popover";
 import PersistentStoragePermissionButton from "./PersistentStoragePermissionButton";
+import SettingsDropdown from "./SettingsDropdown";
 
 const Navbar = () => {
     const { user, logout } = useUser();
@@ -42,13 +43,15 @@ const Navbar = () => {
                             onClick={() => {
                                 setDropdown(!dropdown);
                             }}
-                            className={`visible sm:hidden m-2`}
+                            className={`visible lg:hidden m-2`}
                         >
                             <FontAwesomeIcon size="xl" icon={faBars} />
                         </button>
                         {!dropdown && (
-                            <div className="hidden sm:flex items-center justify-between space-x-5">
+                            <div className="hidden lg:flex items-center justify-between space-x-5">
                                 <PersistentStoragePermissionButton />
+                                <SettingsDropdown />
+
                                 {user && (
                                     <Link
                                         to="/dashboard/upload"
@@ -123,6 +126,7 @@ const Navbar = () => {
                             className={`${dropdown ? "text-xl w-fit flex flex-col flex-nowrap items-end pb-4 pt-2 px-2 pl-6 border-t border-zinc-800" : "hidden"}`}
                         >
                             <PersistentStoragePermissionButton />
+                            <SettingsDropdown />
                             <Link to="/novels" className="link">
                                 [Novels]
                             </Link>
