@@ -25,6 +25,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     const [user, setUser] = useState<User | null>(null);
     const [authenticated, setAuthenticated] = useState<boolean>(false);
 
+    // Reader settings
+    const [colorScheme, setColorScheme] = useState<string>("light");
+    const [fontSize, setFontSize] = useState<string>("medium");
+    const [sortBy, setSortBy] = useState<"asc" | "desc">("desc");
+
     useEffect(() => {
         const controller = new AbortController();
         const validateUser = async () => {
