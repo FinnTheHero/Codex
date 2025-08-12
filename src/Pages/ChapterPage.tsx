@@ -15,7 +15,8 @@ const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
+    const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
 
     const { user } = useUser();
 
@@ -65,10 +66,10 @@ const ChapterPage = () => {
                 <div className="flex flex-row flex-nowrap justify-between w-full">
                     {chapter && currentIndex > 0 ? (
                         <Popover
-                            isOpen={isPopoverOpen}
+                            isOpen={isLeftPopoverOpen}
                             positions={["bottom", "left"]}
                             padding={10}
-                            onClickOutside={() => setIsPopoverOpen(false)}
+                            onClickOutside={() => setIsLeftPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
                                     {chapters[currentIndex - 1].title}
@@ -76,11 +77,12 @@ const ChapterPage = () => {
                             }
                         >
                             <Link
-                                onMouseEnter={() => setIsPopoverOpen(true)}
-                                onMouseLeave={() => setIsPopoverOpen(false)}
-                                onClick={() =>
-                                    setChapter(chapters[currentIndex - 1])
-                                }
+                                onMouseEnter={() => setIsLeftPopoverOpen(true)}
+                                onMouseLeave={() => setIsLeftPopoverOpen(false)}
+                                onClick={() => {
+                                    setIsLeftPopoverOpen(false);
+                                    setChapter(chapters[currentIndex - 1]);
+                                }}
                                 className="link"
                                 to={`/novels/${id_novel}/${chapters[currentIndex - 1].id}#chapter-id`}
                             >
@@ -94,10 +96,10 @@ const ChapterPage = () => {
                     )}
                     {currentIndex < chapters.length - 1 && chapter ? (
                         <Popover
-                            isOpen={isPopoverOpen}
+                            isOpen={isRightPopoverOpen}
                             positions={["bottom", "left"]}
                             padding={10}
-                            onClickOutside={() => setIsPopoverOpen(false)}
+                            onClickOutside={() => setIsRightPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
                                     {chapters[currentIndex + 1].title}
@@ -105,11 +107,14 @@ const ChapterPage = () => {
                             }
                         >
                             <Link
-                                onMouseEnter={() => setIsPopoverOpen(true)}
-                                onMouseLeave={() => setIsPopoverOpen(false)}
-                                onClick={() =>
-                                    setChapter(chapters[currentIndex + 1])
+                                onMouseEnter={() => setIsRightPopoverOpen(true)}
+                                onMouseLeave={() =>
+                                    setIsRightPopoverOpen(false)
                                 }
+                                onClick={() => {
+                                    setIsRightPopoverOpen(false);
+                                    setChapter(chapters[currentIndex + 1]);
+                                }}
                                 className="link"
                                 to={`/novels/${id_novel}/${chapters[currentIndex + 1].id}#chapter-id`}
                             >
