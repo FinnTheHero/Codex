@@ -13,6 +13,8 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { AnimatePresence } from "framer-motion";
 import { ComponentAnimationWrapper } from "../Components/ComponentAnimationWrapper";
+import { useInView } from "react-intersection-observer";
+import { useLoading } from "../Contexts/LoadingContext";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
@@ -20,13 +22,35 @@ const NovelPage = () => {
     const [hideDescription, setHideDescription] = useState(false);
 
     const { user } = useUser();
-    const { novel, setNovel, novels, chapters } = useContent();
+    const { loading, setLoading } = useLoading();
+    const { novel, setNovel, novels, chapters, loadMore, hasMore, chapter } =
+        useContent();
+
+    const { ref: loadMoreRef, inView } = useInView({
+        threshold: 0,
+        rootMargin: "3000px",
+        triggerOnce: false,
+    });
 
     useEffect(() => {
         if (!novel) {
             setNovel(novels.find((novel) => novel.id === id_novel) || null);
         }
     }, [novels, setNovel, id_novel]);
+
+    useEffect(() => {
+        if (!inView || !hasMore || loading) return;
+
+        const timeoutId = setTimeout(() => {
+            setLoading(true);
+            loadMore();
+        }, 300);
+
+        return () => {
+            setLoading(false);
+            clearTimeout(timeoutId);
+        };
+    }, [inView, hasMore, loadMore]);
 
     return (
         <div className="lg:max-w-6xl w-full lg:px-12 flex flex-col flex-nowrap justify-between items-center">
@@ -143,15 +167,33 @@ const NovelPage = () => {
                                 />
                             </div>
 
-                            {chapters &&
-                                chapters.length > 0 &&
-                                chapters.map((c, i) => (
-                                    <ChapterCard
-                                        chapter={c}
-                                        index={i}
-                                        key={i}
-                                    />
-                                ))}
+                            <div className="">
+                                {chapters &&
+                                    chapters.length > 0 &&
+                                    chapters.map((c, i) => (
+                                        <ChapterCard
+                                            chapter={c}
+                                            index={i}
+                                            key={c.id}
+                                        />
+                                    ))}
+                            </div>
+                            {hasMore ? (
+                                <div
+                                    ref={loadMoreRef}
+                                    className="mt-12 w-full flex justify-center items-center text-center text-xl"
+                                >
+                                    <p className="link text-center">
+                                        [Loading Chapters...]
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="mt-12 w-full flex justify-center items-center text-center text-xl">
+                                    <p className="link text-center">
+                                        [No more chapters]
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

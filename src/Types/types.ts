@@ -24,6 +24,11 @@ export interface Chapter {
     content: string;
 }
 
+export interface PaginationResponse {
+    chapters: Chapter[];
+    next_cursor: string;
+}
+
 export interface ChapterCardProps {
     chapter: Chapter;
     index: number;
@@ -78,8 +83,10 @@ export interface ContentContextType {
     chapter: Chapter | null;
     setChapter: (chapter: Chapter | null) => void;
     chapters: Chapter[];
-    refreshAllChapters: () => Promise<void>;
     refreshAllNovels: () => Promise<void>;
+    loadMore: () => void;
+    hasMore: boolean;
+    setChapterId: (id: string | null) => void;
 }
 
 export interface ErrorNotification {
