@@ -1,4 +1,5 @@
 export interface NovelCardProps {
+    novel: Novel;
     index: number;
 }
 
