@@ -16,7 +16,7 @@ const UploadEPUBPage = () => {
     const { addError } = useError();
     const { setLoading } = useLoading();
     const { setNotification } = useNotification();
-    const { novels, refreshAllNovels, refreshAllChapters } = useContent();
+    const { novels, refreshAllNovels } = useContent();
     const navigate = useNavigate();
 
     // HTML to Markdown conversion rules - Requires further testing and feedback
@@ -201,7 +201,6 @@ const UploadEPUBPage = () => {
         setLoading(false);
         setProcessing(false);
         await refreshAllNovels();
-        await refreshAllChapters();
         return navigate(`/novels/${id}`);
     };
 

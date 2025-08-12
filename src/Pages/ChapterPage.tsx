@@ -38,7 +38,8 @@ const ChapterPage = () => {
             }
             if (!chapter) {
                 setChapterId(id_chapter ?? null);
-
+            }
+            if (chapter && id_chapter !== chapter.id) {
                 setChapter(
                     chapters.find((chapter) => chapter.id === id_chapter) ||
                         null,
@@ -56,7 +57,6 @@ const ChapterPage = () => {
         if (hasMore && currentIndex >= chapters.length - 1) {
             loadMore();
         }
-        console.log(chapters);
     }, [hasMore, loadMore, currentIndex, chapters]);
 
     const NavigationButtons = () => {
