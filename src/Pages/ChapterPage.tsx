@@ -57,7 +57,6 @@ const ChapterPage = () => {
         if (hasMore && currentIndex >= chapters.length - 1) {
             loadMore();
         }
-        console.log(chapters);
     }, [hasMore, loadMore, currentIndex, chapters]);
 
     const NavigationButtons = () => {
