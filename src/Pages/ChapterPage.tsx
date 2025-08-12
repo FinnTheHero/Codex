@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,26 +26,44 @@ const ChapterPage = () => {
         chapters,
         setChapter,
         setNovel,
-        refreshAllChapters,
+        setChapterId,
+        loadMore,
+        hasMore,
     } = useContent();
 
     useEffect(() => {
         const setData = () => {
-            setNovel(novels.find((novel) => novel.id === id_novel) || null);
-            setChapter(
-                chapters.find((chapter) => chapter.id === id_chapter) || null,
-            );
+            if (!novel) {
+                setNovel(novels.find((novel) => novel.id === id_novel) ?? null);
+            }
+            if (!chapter) {
+                setChapterId(id_chapter ?? null);
+
+                setChapter(
+                    chapters.find((chapter) => chapter.id === id_chapter) ||
+                        null,
+                );
+            }
         };
         setData();
     }, [novels, chapter, chapters, id_novel, id_chapter]);
 
-    const NavigationButtons = () => {
-        let index = chapters.findIndex((chapter) => chapter.id === id_chapter);
+    const currentIndex = useMemo(() => {
+        return chapters.findIndex((chapter) => chapter.id === id_chapter);
+    }, [chapters, id_chapter]);
 
+    useEffect(() => {
+        if (hasMore && currentIndex >= chapters.length - 1) {
+            loadMore();
+        }
+        console.log(chapters);
+    }, [hasMore, loadMore, currentIndex, chapters]);
+
+    const NavigationButtons = () => {
         return (
             <div className="max-w-4xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full">
-                    {index > 0 ? (
+                    {chapter && currentIndex > 0 ? (
                         <Popover
                             isOpen={isPopoverOpen}
                             positions={["bottom", "left"]}
@@ -53,15 +71,18 @@ const ChapterPage = () => {
                             onClickOutside={() => setIsPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    chapters[index - 1].title
+                                    {chapters[currentIndex - 1].title}
                                 </div>
                             }
                         >
                             <Link
                                 onMouseEnter={() => setIsPopoverOpen(true)}
                                 onMouseLeave={() => setIsPopoverOpen(false)}
+                                onClick={() =>
+                                    setChapter(chapters[currentIndex - 1])
+                                }
                                 className="link"
-                                to={`/novels/${id_novel}/${chapters[index + 1].id}#chapter-id`}
+                                to={`/novels/${id_novel}/${chapters[currentIndex - 1].id}#chapter-id`}
                             >
                                 [Previous]
                             </Link>
@@ -71,7 +92,7 @@ const ChapterPage = () => {
                             [First]
                         </h2>
                     )}
-                    {index < chapters.length - 1 ? (
+                    {currentIndex < chapters.length - 1 && chapter ? (
                         <Popover
                             isOpen={isPopoverOpen}
                             positions={["bottom", "left"]}
@@ -79,13 +100,18 @@ const ChapterPage = () => {
                             onClickOutside={() => setIsPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    chapters[index + 1].title
+                                    {chapters[currentIndex + 1].title}
                                 </div>
                             }
                         >
                             <Link
+                                onMouseEnter={() => setIsPopoverOpen(true)}
+                                onMouseLeave={() => setIsPopoverOpen(false)}
+                                onClick={() =>
+                                    setChapter(chapters[currentIndex + 1])
+                                }
                                 className="link"
-                                to={`/novels/${id_novel}/${chapters[index - 1].id}#chapter-id`}
+                                to={`/novels/${id_novel}/${chapters[currentIndex + 1].id}#chapter-id`}
                             >
                                 [Next]
                             </Link>
