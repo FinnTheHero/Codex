@@ -69,15 +69,11 @@ const EditNovelPage = () => {
         }
     };
 
-    useEffect(() => {
-        // setNovel(novel);
-    }, []);
-
     return (
         <div className="max-w-4xl w-full h-full px-8 lg:px-12 flex flex-row flex-wrap">
             <div className="w-full h-full flex justify-center mb-12 lg:mb-0">
                 {novel && (
-                    <form className="flex flex-col items-start justify-between flex-nowrap w-full h-full">
+                    <form className="flex flex-col items-start justify-between flex-nowrap w-full h-full mb-12">
                         <label className="w-full mb-16 flex flex-wrap justify-center items-center text-center text-2xl">
                             <h2 className="link">[{novel.title}]</h2>
                             <h2 className="mx-4">By</h2>
@@ -126,12 +122,13 @@ const EditNovelPage = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col flex-nowrap w-full">
+                        <div className="h-full flex flex-col flex-nowrap w-full">
                             <label className="text-xl font-bold mb-2">
                                 Description
                             </label>
 
-                            <div className="flex flex-row flex-nowrap mx-2">
+                            {/*TODO: MDX Content(Along with submit button) goes OVER the footer and in process extends the screen size somehow, need to fix that! */}
+                            <div className="h-full flex flex-row flex-nowrap mx-2">
                                 <div className="w-full">
                                     <MDXEditor
                                         markdown={String(novel.description)}

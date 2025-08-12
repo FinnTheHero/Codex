@@ -10,6 +10,8 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
 
     if (!novel) return null;
 
+    const { setChapter } = useContent();
+
     return (
         <div className="my-3 py-2 border-b border-zinc-800">
             {chapter && (
@@ -22,6 +24,9 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
                             popover_text={"Uploaded"}
                         />
                         <Link
+                            onClick={() => {
+                                setChapter(chapter);
+                            }}
                             to={`/novels/${novel.id}/${chapter.id}`}
                             className="mx-1 link "
                         >

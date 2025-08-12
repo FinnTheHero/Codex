@@ -46,12 +46,24 @@ const NovelsPage: React.FC = () => {
                     <div className="mt-4">
                         {filteredNovels
                             ? filteredNovels.length > 0 &&
-                              filteredNovels.map((_, i) => {
-                                  return <NovelCard index={i} key={i} />;
+                              filteredNovels.map((n, i) => {
+                                  return (
+                                      <NovelCard
+                                          novel={n}
+                                          index={i}
+                                          key={n.id}
+                                      />
+                                  );
                               })
                             : novels.length > 0 &&
-                              novels.map((_, i) => {
-                                  return <NovelCard index={i} key={i} />;
+                              novels.map((n, i) => {
+                                  return (
+                                      <NovelCard
+                                          novel={n}
+                                          index={i}
+                                          key={n.id}
+                                      />
+                                  );
                               })}
                     </div>
                 </div>
