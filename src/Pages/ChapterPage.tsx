@@ -38,7 +38,8 @@ const ChapterPage = () => {
             }
             if (!chapter) {
                 setChapterId(id_chapter ?? null);
-
+            }
+            if (chapter && id_chapter !== chapter.id) {
                 setChapter(
                     chapters.find((chapter) => chapter.id === id_chapter) ||
                         null,
