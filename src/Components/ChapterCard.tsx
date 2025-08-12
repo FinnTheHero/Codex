@@ -27,7 +27,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
                             onClick={() => {
                                 setChapter(chapter);
                             }}
-                            to={`/novels/${novel.id}/${chapter.id}`}
+                            to={`/novels/${novel.id}/${chapter.id}#chapter-id`}
                             className="mx-1 link "
                         >
                             [Read]

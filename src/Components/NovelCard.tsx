@@ -34,7 +34,7 @@ const NovelCard: React.FC<NovelCardProps> = ({ novel, index }) => {
                             onClick={() => {
                                 setNovel(novel);
                             }}
-                            to={`/novels/${novel.id}`}
+                            to={`/novels/${novel.id}#codex`}
                             className="mx-1 link"
                         >
                             [Read]
