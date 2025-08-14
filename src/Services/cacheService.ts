@@ -1,35 +1,4 @@
-import useSWR, { Cache } from "swr";
-import { Chapter, Novel } from "../Types/types";
-import { axiosFetcher } from "./apiService";
-
-export function GetAllChapters(novelId: string | null) {
-    const key = novelId ? `/${novelId}/all` : null;
-    const { data, error, isLoading, mutate } = useSWR<Chapter[]>(
-        key,
-        axiosFetcher,
-    );
-
-    return {
-        chapters: data ?? [],
-        error,
-        isLoading,
-        mutate,
-    };
-}
-
-export function GetAllNovels() {
-    const { data, error, isLoading, mutate } = useSWR<Novel[]>(
-        "/all",
-        axiosFetcher,
-    );
-
-    return {
-        novels: data ?? [],
-        error,
-        isLoading,
-        mutate,
-    };
-}
+import { Cache } from "swr";
 
 export function localStorageProvider(cacheKey = "app-cache") {
     return (previousCache: Readonly<Cache<any>>): Cache<any> => {

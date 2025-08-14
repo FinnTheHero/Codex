@@ -25,7 +25,7 @@ const NovelCard: React.FC<NovelCardProps> = ({ novel, index }) => {
         >
             {novel && (
                 <div>
-                    <h2 className="text-2xl">{novel?.title}</h2>
+                    <h2 className="text-2xl">{novel.title}</h2>
                     <div className="mx-1 mt-1 flex justify-between">
                         <div className="subtitle">
                             {" > "} {novel.author}
