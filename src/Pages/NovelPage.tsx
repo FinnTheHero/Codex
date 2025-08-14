@@ -15,11 +15,13 @@ import { AnimatePresence } from "framer-motion";
 import { ComponentAnimationWrapper } from "../Components/ComponentAnimationWrapper";
 import { useInView } from "react-intersection-observer";
 import { useLoading } from "../Contexts/LoadingContext";
+import { Popover } from "react-tiny-popover";
 
 const NovelPage = () => {
     const { id_novel } = useParams();
 
     const [hideDescription, setHideDescription] = useState(false);
+    const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
 
     const { user } = useUser();
     const { loading, setLoading } = useLoading();
@@ -28,7 +30,7 @@ const NovelPage = () => {
 
     const { ref: loadMoreRef, inView } = useInView({
         threshold: 0,
-        rootMargin: "3000px",
+        rootMargin: "500px",
         triggerOnce: false,
     });
 
@@ -198,7 +200,11 @@ const NovelPage = () => {
                     )}
                 </div>
             </div>
-            <GoBackButton className={"text-xl mt-36 link"} to={"/novels/"} />
+            <GoBackButton
+                to="/novels/#root"
+                className="link text-xl mt-16"
+                desc="Novels"
+            />
         </div>
     );
 };

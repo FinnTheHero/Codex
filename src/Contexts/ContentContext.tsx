@@ -20,8 +20,6 @@ import { axiosFetcher } from "../Services/apiService";
 import { useEffect } from "react";
 import { HandleErr } from "../Services/errorHandler";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { c } from "framer-motion/dist/types.d-Cjd591yU";
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
