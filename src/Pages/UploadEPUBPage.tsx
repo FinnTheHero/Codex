@@ -294,7 +294,7 @@ const UploadEPUBPage = () => {
                     <label>{file?.name}</label>
                 </div>
                 <button
-                    className={`${processing ? "text-gray-800" : "link"}`}
+                    className={`${processing ? "text-gray-800" : "link cursor-pointer"}`}
                     onClick={handleUpload}
                     disabled={processing}
                 >
