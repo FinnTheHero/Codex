@@ -64,7 +64,7 @@ const ChapterPage = () => {
     const NavigationButtons = () => {
         return (
             <div className="max-w-4xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
-                <div className="flex flex-row flex-nowrap justify-between w-full">
+                <div className="flex flex-row flex-nowrap justify-between w-full text-xl">
                     {chapter && currentIndex < chapters.length - 1 ? (
                         <Popover
                             isOpen={isLeftPopoverOpen}
@@ -75,7 +75,7 @@ const ChapterPage = () => {
                             onClickOutside={() => setIsLeftPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    {chapters[currentIndex + 1].title}
+                                    [{chapters[currentIndex + 1].title}]
                                 </div>
                             }
                         >
@@ -106,7 +106,7 @@ const ChapterPage = () => {
                             onClickOutside={() => setIsRightPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    {chapters[currentIndex - 1].title}
+                                    [{chapters[currentIndex - 1].title}]
                                 </div>
                             }
                         >
