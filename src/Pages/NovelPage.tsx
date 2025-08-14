@@ -28,7 +28,7 @@ const NovelPage = () => {
 
     const { ref: loadMoreRef, inView } = useInView({
         threshold: 0,
-        rootMargin: "3000px",
+        rootMargin: "500px",
         triggerOnce: false,
     });
 
