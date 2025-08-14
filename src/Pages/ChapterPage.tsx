@@ -17,6 +17,7 @@ const ChapterPage = () => {
 
     const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
     const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
+    const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
 
     const { user } = useUser();
 
@@ -130,10 +131,28 @@ const ChapterPage = () => {
                     )}
                 </div>
 
-                <GoBackButton
-                    className="link mt-4"
-                    to={`/novels/${id_novel}#codex`}
-                />
+                <Popover
+                    isOpen={isBackPopoverOpen}
+                    positions={["bottom", "left"]}
+                    padding={10}
+                    reposition={true}
+                    boundaryInset={document.body.scrollHeight}
+                    onClickOutside={() => setIsBackPopoverOpen(false)}
+                    content={
+                        <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                            {novel?.title}
+                        </div>
+                    }
+                >
+                    <Link
+                        onMouseEnter={() => setIsBackPopoverOpen(true)}
+                        onMouseLeave={() => setIsBackPopoverOpen(false)}
+                        className="link mt-4"
+                        to={`/novels/${id_novel}#root`}
+                    >
+                        [Go Back]
+                    </Link>
+                </Popover>
             </div>
         );
     };
