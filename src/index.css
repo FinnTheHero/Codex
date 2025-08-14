@@ -3,7 +3,7 @@
 
 @font-face {
     font-family: "Bookerly";
-    src: url("../public/bookerly/Bookerly.ttf");
+    src: url("/bookerly/Bookerly.ttf");
 }
 
 body {
