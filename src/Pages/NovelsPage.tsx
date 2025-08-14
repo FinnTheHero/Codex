@@ -96,7 +96,11 @@ const NovelsPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <GoBackButton className={"text-xl mt-10 link text-center"} to="/" />
+            <GoBackButton
+                className={"text-xl mt-10 link text-center"}
+                to="/"
+                desc="Codex"
+            />
         </div>
     );
 };
