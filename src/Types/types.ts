@@ -9,17 +9,12 @@ export interface Novel {
     author: string;
     description: string;
     creation_date: string;
-    upload_date: string;
     update_date: string;
 }
 
 export interface Chapter {
     id: string;
     title: string;
-    author: string;
-    description: string;
-    creation_date: string;
-    upload_date: string;
     update_date: string;
     content: string;
 }
