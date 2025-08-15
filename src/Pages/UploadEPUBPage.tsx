@@ -117,29 +117,16 @@ const UploadEPUBPage = () => {
                                 checked={file && processing ? true : false}
                             />
                         )}
-                        <h2>3. Wait for processing</h2>
-                    </p>
-                    <p
-                        className={`flex flex-row flex-nowrap ${processing ? "link" : ""}`}
-                    >
-                        {processing && (
-                            <input
-                                className="mr-4"
-                                type={"checkbox"}
-                                checked={file && processing ? true : false}
-                            />
-                        )}
                         <h2>4. Wait for success/fail</h2>
                     </p>
                     <p className="subtitle mt-6 text-lg">
                         You will be automatically redirected to the Novel page
-                        after the processing is complete.
+                        after the processing is completed successfully.
                     </p>
                     <p className="subtitle mt-6 text-lg">
-                        Chapter upload works in chunks of 100, uploading a large
-                        number of chapters will take longer. Please be patient
-                        and wait for the upload to complete. If you leave this
-                        page it will complete partially or not at all.
+                        Uploading a novel with a large number of chapters will
+                        take longer. Please be patient and wait for the upload
+                        to complete.
                     </p>
                     <p className="subtitle mt-6 text-lg">
                         If you encounter any issues, please open issue on
@@ -148,32 +135,52 @@ const UploadEPUBPage = () => {
                 </div>
             </div>
             <div className="max-w-2/3 w-2/3 h-full flex flex-col flex-nowrap justify-center items-center">
-                <p className="w-2/3 content">
-                    Upload EPUB file to parse Novel and Chapters directly
-                </p>
-                <div className="my-12 flex flex-col flex-nowrap justify-center items-center">
-                    <label
-                        htmlFor="epub-picker"
-                        className="link cursor-pointer mb-4"
-                    >
-                        [Pick EPUB File]
-                    </label>
-                    <input
-                        id="epub-picker"
-                        className="hidden"
-                        type="file"
-                        accept=".epub"
-                        onChange={handleFileChange}
-                    />
-                    <label>{file?.name}</label>
+                <div className="w-full h-3/5 flex flex-col flex-nowrap justify-center items-center">
+                    <div className="flex flex-row flex-nowrap w-full h-auto justify-evenly items-center mb-4">
+                        <div className="my-12 flex flex-col flex-nowrap justify-center items-center">
+                            <label
+                                htmlFor="epub-picker"
+                                className={`${processing ? "text-gray-800" : "link cursor-pointer"}`}
+                            >
+                                {file ? `[${file?.name}]` : "[Pick EPUB File]"}
+                            </label>
+                            <input
+                                id="epub-picker"
+                                className="hidden"
+                                type="file"
+                                accept=".epub"
+                                onChange={handleFileChange}
+                                disabled={processing}
+                            />
+                        </div>
+                        <button
+                            className={`${!file || processing ? "text-gray-800" : "link cursor-pointer"}`}
+                            onClick={handleUpload}
+                            disabled={!file || processing}
+                        >
+                            [Upload]
+                        </button>
+                    </div>
+
+                    <p className="w-2/3 content text-2xl">
+                        Pick and Upload EPUB File
+                    </p>
                 </div>
-                <button
-                    className={`${processing ? "text-gray-800" : "link cursor-pointer"}`}
-                    onClick={handleUpload}
-                    disabled={processing}
-                >
-                    [Upload]
-                </button>
+
+                <div className="w-full h-2/5 text-xl text-start max-w-xl">
+                    {status &&
+                        status.length > 0 && ( // Update this in a bit
+                            <div className="w-full h-auto">
+                                <p className="mb-4">[Status]</p>
+                                {status.map((item, index) => (
+                                    <div key={index} className="mb-2 content">
+                                        {index} - {item}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    {processing && "..."}
+                </div>
             </div>
         </div>
     );
