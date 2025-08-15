@@ -15,8 +15,8 @@ import {
     listsPlugin,
     diffSourcePlugin,
 } from "@mdxeditor/editor";
-import { useCallback, useEffect, useState } from "react";
-import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useUser } from "../Contexts/UserContext";
 import { useNotification } from "../Contexts/NotificationContext";
@@ -56,7 +56,6 @@ const EditNovelPage = () => {
                     title: newNovelTitle,
                     description: newNovelDescription,
                     creation_date: "",
-                    upload_date: "",
                     update_date: "",
                 };
                 const response = await updateNovel(n);

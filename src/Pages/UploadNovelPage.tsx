@@ -20,7 +20,6 @@ const UploadNovelPage = () => {
         title: "",
         description: "",
         creation_date: "",
-        upload_date: "",
         update_date: "",
     });
 
@@ -49,7 +48,6 @@ const UploadNovelPage = () => {
                 title: novel.title,
                 description: novel.description,
                 creation_date: "",
-                upload_date: "",
                 update_date: "",
             };
             const response = await createNovel(n);
