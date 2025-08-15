@@ -125,8 +125,11 @@ const UploadEPUBPage = () => {
                     </p>
                     <p className="subtitle mt-6 text-lg">
                         Uploading a novel with a large number of chapters will
-                        take longer. Please be patient and wait for the upload
-                        to complete.
+                        take longer.
+                    </p>
+                    <p className="subtitle mt-6 text-lg">
+                        Large uploads may even take up to 15 minutes to be
+                        available to read.
                     </p>
                     <p className="subtitle mt-6 text-lg">
                         If you encounter any issues, please open issue on
