@@ -159,21 +159,7 @@ const ChapterPage = () => {
                         {chapter.title}
                     </h2>
 
-                    <p className="max-w-md subtitle text-center">
-                        {" > "}
-                        {chapter.description}
-                    </p>
-
                     <div className="my-5 flex flex-row justify-center">
-                        <FormattedTime
-                            date={chapter.creation_date}
-                            classname={"subtitle"}
-                            popover_text={"Created"}
-                        />
-                        <FontAwesomeIcon
-                            icon={faArrowRight}
-                            className="content mx-3 pt-1"
-                        />
                         <FormattedTime
                             date={chapter.update_date}
                             classname={"content"}
