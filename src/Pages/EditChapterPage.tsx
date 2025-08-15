@@ -14,7 +14,7 @@ import {
     toolbarPlugin,
     UndoRedo,
 } from "@mdxeditor/editor";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useNotification } from "../Contexts/NotificationContext";
@@ -34,8 +34,6 @@ const EditChapterPage = () => {
     const [chapter, setChapter] = useState<Chapter>();
 
     const [newChapterTitle, setNewChapterTitle] = useState<string>("");
-    const [newChapterDescription, setNewChapterDescription] =
-        useState<string>("");
     const [newChapterContent, setNewChapterContent] = useState<string>("");
 
     const navigate = useNavigate();
@@ -55,12 +53,8 @@ const EditChapterPage = () => {
             if (novel && chapter) {
                 let c: Chapter = {
                     id: chapter.id,
-                    author: "",
                     title: newChapterTitle,
-                    description: newChapterDescription,
                     content: newChapterContent,
-                    creation_date: "",
-                    upload_date: "",
                     update_date: "",
                 };
                 const response = await updateChapter(novel.id, c);
@@ -122,42 +116,6 @@ const EditChapterPage = () => {
                                     onChange={handleTitleChange}
                                     placeholder={String("New " + novel.title)}
                                 />
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col flex-nowrap w-full mb-16">
-                            <label className="text-xl font-bold mb-2">
-                                Description
-                            </label>
-
-                            <div className="flex flex-row flex-nowrap mx-2">
-                                <div className="w-full">
-                                    <MDXEditor
-                                        markdown={String(chapter.description)}
-                                        contentEditableClassName="prose"
-                                        plugins={[
-                                            headingsPlugin(),
-                                            toolbarPlugin({
-                                                toolbarClassName: "dark-editor",
-                                                toolbarContents: () => (
-                                                    <>
-                                                        <DiffSourceToggleWrapper>
-                                                            <UndoRedo />
-                                                            <BoldItalicUnderlineToggles />
-                                                        </DiffSourceToggleWrapper>
-                                                    </>
-                                                ),
-                                            }),
-                                            linkPlugin(),
-                                            listsPlugin(),
-                                            quotePlugin(),
-                                            diffSourcePlugin(),
-                                            thematicBreakPlugin(),
-                                            markdownShortcutPlugin(),
-                                        ]}
-                                        onChange={setNewChapterDescription}
-                                    />
-                                </div>
                             </div>
                         </div>
 
