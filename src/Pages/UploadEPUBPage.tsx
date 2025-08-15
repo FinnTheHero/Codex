@@ -170,19 +170,25 @@ const UploadEPUBPage = () => {
                     </p>
                 </div>
 
-                <div className="w-full h-2/5 text-xl text-start max-w-xl">
-                    {status &&
-                        status.length > 0 && ( // Update this in a bit
-                            <div className="w-full h-auto">
-                                <p className="mb-4">[Status]</p>
-                                {status.map((item, index) => (
-                                    <div key={index} className="mb-2 content">
-                                        {index} - {item}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    {processing && "..."}
+                <div className="w-full h-2/5 text-xl text-start max-w-xl px-12">
+                    {status && (
+                        <div className="w-full h-full">
+                            <p className="mb-4">[Status]</p>
+                            {status.length > 0 && (
+                                <div className="w-full min-h-3/4 my-auto mx-3 px-3 border-l border-zinc-800">
+                                    {status.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className="mb-2 content"
+                                        >
+                                            {index} - {item}
+                                        </div>
+                                    ))}
+                                    {processing && "..."}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
