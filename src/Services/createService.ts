@@ -28,15 +28,16 @@ export const createChapter = async (id_novel: string, chapter: Chapter) => {
     }
 };
 
-export const batchUploadChapters = async (
-    id_novel: string,
-    chapters: Chapter[],
-) => {
+export const batchUploadChapters = async (epub: FormData) => {
     try {
-        const response = await api.post(`/manage/${id_novel}`, chapters, {
-            withCredentials: true,
+        const response = await api.post(`/manage/epub`, epub, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
         });
-        return response.data;
+        return response;
     } catch (err) {
         HandleErr(err);
     }

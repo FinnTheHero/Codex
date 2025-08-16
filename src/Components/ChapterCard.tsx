@@ -19,7 +19,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
                     <h2 className="text-2xl">{chapter.title}</h2>
                     <div className="mx-1 mt-1 flex justify-between">
                         <FormattedTime
-                            date={chapter.upload_date}
+                            date={chapter.update_date}
                             classname={"link"}
                             popover_text={"Uploaded"}
                         />
