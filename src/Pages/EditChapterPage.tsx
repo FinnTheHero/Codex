@@ -85,25 +85,29 @@ const EditChapterPage = () => {
                                     <label className="text-xl font-bold">
                                         Title
                                     </label>
-                                    <div className="w-full flex flex-row flex-wrap justify-evenly">
+                                    <div className="w-full flex flex-row flex-wrap items-center">
                                         <div className="ml-8 text-lg flex justify-center items-center">
                                             <label className="link">
                                                 [{chapter.title}]
                                             </label>
                                         </div>
 
-                                        <h2 className="mx-4 flex items-center">
-                                            <FontAwesomeIcon
-                                                size="xs"
-                                                icon={faArrowRight}
-                                            />
-                                        </h2>
+                                        {newChapterTitle && (
+                                            <div className="w-fit flex flex-row flex-nowrap">
+                                                <h2 className="mx-4 flex items-center">
+                                                    <FontAwesomeIcon
+                                                        size="xs"
+                                                        icon={faArrowRight}
+                                                    />
+                                                </h2>
 
-                                        <h2>
-                                            <label className="link text-lg flex justify-center items-center">
-                                                [{newChapterTitle}]
-                                            </label>
-                                        </h2>
+                                                <h2>
+                                                    <label className="link text-lg flex justify-center items-center">
+                                                        [{newChapterTitle}]
+                                                    </label>
+                                                </h2>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +118,7 @@ const EditChapterPage = () => {
                                     type="text"
                                     className="search-input w-full"
                                     onChange={handleTitleChange}
-                                    placeholder={String("New " + novel.title)}
+                                    placeholder={String("New " + chapter.title)}
                                 />
                             </div>
                         </div>
