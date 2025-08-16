@@ -21,6 +21,7 @@ import { useNotification } from "../Contexts/NotificationContext";
 import { useUser } from "../Contexts/UserContext";
 import { updateChapter } from "../Services/updateServices";
 import { Chapter, Novel } from "../Types/types";
+import { useContent } from "../Contexts/ContentContext";
 
 const EditChapterPage = () => {
     const { id_novel } = useParams();
@@ -30,8 +31,7 @@ const EditChapterPage = () => {
     const { addError } = useError();
     const { user } = useUser();
 
-    const [novel, setNovel] = useState<Novel>();
-    const [chapter, setChapter] = useState<Chapter>();
+    const { novel, chapter } = useContent();
 
     const [newChapterTitle, setNewChapterTitle] = useState<string>("");
     const [newChapterContent, setNewChapterContent] = useState<string>("");
