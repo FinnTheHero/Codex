@@ -1,0 +1,19 @@
+{
+    "name": "codex",
+    "main": "src/index.tsx",
+    "compatibility_date": "2022-07-12",
+    "workers_dev": false,
+    "route": {
+        "pattern": "codex.org/*",
+        "zone_name": "codex.org",
+    },
+    "env": {
+        "staging": {
+            "name": "codex-staging",
+            "route": {
+                "pattern": "staging.codex.org/*",
+                "zone_name": "codex.org",
+            },
+        },
+    },
+}
