@@ -40,11 +40,13 @@ const LoginPage = () => {
 
         try {
             const data = await login(email, password);
-            if (data.authorized && data.user) {
+            if (data.message && data.user) {
                 setUser(data.user);
-                setNotification("Logged in successfully");
-                return navigate("/novels");
+                setNotification(data.message);
+            } else {
+                setNotification("Something went wrong!");
             }
+            return navigate("/novels");
         } catch (err) {
             addError((err as Error).message);
         } finally {
