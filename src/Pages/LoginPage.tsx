@@ -4,7 +4,7 @@ import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useNotification } from "../Contexts/NotificationContext";
 import { useUser } from "../Contexts/UserContext";
-import { login } from "../Services/authService";
+import { Login } from "../Services/authService";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const LoginPage = () => {
         setPassword(e.target.value);
     };
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const HandleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
@@ -39,7 +39,8 @@ const LoginPage = () => {
         }
 
         try {
-            const data = await login(email, password);
+            const data = await Login(email, password);
+            console.log(data);
             if (data.message && data.user) {
                 setUser(data.user);
                 setNotification(data.message);
@@ -48,6 +49,7 @@ const LoginPage = () => {
             }
             return navigate("/novels");
         } catch (err) {
+            console.log(err);
             addError((err as Error).message);
         } finally {
             setLoading(false);
@@ -56,7 +58,7 @@ const LoginPage = () => {
 
     return (
         <div className="max-w-7xl w-full flex flex-col justify-center items-center">
-            <form onSubmit={handleLogin} className="max-w-sm w-full p-12">
+            <form onSubmit={HandleLogin} className="max-w-sm w-full p-12">
                 <div className="flex flex-col justify-evenly pb-2 border-b border-zinc-800">
                     <input
                         id="email"
