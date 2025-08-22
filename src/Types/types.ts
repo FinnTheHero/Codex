@@ -53,6 +53,7 @@ export interface LoginProps {
 }
 
 export interface User {
+    id: string;
     email: string | null;
     username: string | null;
     type: string | null;
