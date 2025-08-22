@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useError } from "../Contexts/ErrorContext";
 import { useLoading } from "../Contexts/LoadingContext";
 import { useNotification } from "../Contexts/NotificationContext";
-import { register } from "../Services/authService";
+import { Register } from "../Services/authService";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -77,7 +77,7 @@ const RegisterPage = () => {
         setPassword(e.target.value);
     };
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const HandlerRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
@@ -97,7 +97,7 @@ const RegisterPage = () => {
         }
 
         try {
-            const response = await register(username, email, password);
+            const response = await Register(username, email, password);
             if (response?.status === 201 && response.data.message) {
                 setNotification(response.data.message);
                 return navigate("/login");
@@ -111,7 +111,7 @@ const RegisterPage = () => {
 
     return (
         <div className="max-w-7xl w-full flex flex-col justify-center items-center">
-            <form onSubmit={handleLogin} className="max-w-sm w-full p-12">
+            <form onSubmit={HandlerRegister} className="max-w-sm w-full p-12">
                 <div className="flex flex-col justify-evenly pb-2 border-b border-zinc-800">
                     <input
                         id="username"

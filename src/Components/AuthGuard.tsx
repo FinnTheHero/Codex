@@ -2,7 +2,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { RequireAuthProps } from "../Types/types";
 import { useUser } from "../Contexts/UserContext";
 import { useLoading } from "../Contexts/LoadingContext";
-import { authenticate } from "../Services/authService";
+import { Authenticate } from "../Services/authService";
 import { useError } from "../Contexts/ErrorContext";
 import { useEffect } from "react";
 import { useContent } from "../Contexts/ContentContext";
@@ -27,9 +27,9 @@ export const RequireUser: React.FC<RequireAuthProps> = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkAuth = async () => {
+        const CheckAuth = async () => {
             try {
-                const data = await authenticate();
+                const data = await Authenticate();
 
                 if (!data.authenticated) {
                     return navigate("/login");
@@ -44,7 +44,7 @@ export const RequireUser: React.FC<RequireAuthProps> = ({ children }) => {
             }
         };
 
-        checkAuth();
+        CheckAuth();
     }, []);
 
     return <>{children}</>;
@@ -94,9 +94,9 @@ export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkAuth = async () => {
+        const CheckAuth = async () => {
             try {
-                const data = await authenticate();
+                const data = await Authenticate();
 
                 if (!data.authenticated) {
                     return navigate("/login");
@@ -115,7 +115,7 @@ export const RequireAdmin: React.FC<RequireAuthProps> = ({ children }) => {
             }
         };
 
-        checkAuth();
+        CheckAuth();
     }, []);
 
     return <>{children}</>;

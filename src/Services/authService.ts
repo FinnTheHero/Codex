@@ -1,7 +1,7 @@
 import api from "./apiService";
 import { HandleErr } from "./errorHandler";
 
-export const authenticate = async () => {
+export const Authenticate = async () => {
     try {
         const response = await api.get("/user/validate", {
             withCredentials: true,
@@ -12,7 +12,7 @@ export const authenticate = async () => {
     }
 };
 
-export const login = async (email: string, password: string) => {
+export const Login = async (email: string, password: string) => {
     try {
         if (email === "" || password === "") {
             throw new Error("Provide email and password!");
@@ -37,7 +37,7 @@ export const login = async (email: string, password: string) => {
     }
 };
 
-export const register = async (
+export const Register = async (
     username: string,
     email: string,
     password: string,

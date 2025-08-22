@@ -6,7 +6,7 @@ import React, {
     useEffect,
 } from "react";
 import api from "../Services/apiService";
-import { authenticate } from "../Services/authService";
+import { Authenticate } from "../Services/authService";
 import { HandleErr } from "../Services/errorHandler";
 import { User, UserContextType } from "../Types/types";
 import { useError } from "./ErrorContext";
@@ -36,7 +36,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             setLoading(true);
 
             try {
-                const data = await authenticate();
+                const data = await Authenticate();
 
                 if (data.authenticated) {
                     setAuthenticated(true);

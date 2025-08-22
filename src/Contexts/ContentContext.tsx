@@ -20,6 +20,7 @@ import { axiosFetcher } from "../Services/apiService";
 import { useEffect } from "react";
 import { HandleErr } from "../Services/errorHandler";
 import axios from "axios";
+import { useUser } from "./UserContext";
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
@@ -29,13 +30,15 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
     const { addError } = useError();
     const { setLoading } = useLoading();
 
+    const { user } = useUser();
+
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapterId, setChapterId] = useState<string | null>(null);
     const [chapter, setChapter] = useState<Chapter | null>(null);
     const [novel, setNovel] = useState<Novel | null>(null);
 
-    const key_n = `/all`;
-    const key_c = novel && chapterId && `/${novel.id}/${chapterId}`;
+    const key_n = user && `/all`;
+    const key_c = user && novel && chapterId && `/${novel.id}/${chapterId}`;
 
     const getKey = (
         pageIndex: number,
