@@ -100,7 +100,18 @@ const RouterTransition = () => {
     return (
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
+                <Route path="*" element={<HeroPageLayout />}>
+                    <Route
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <NotFound />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
                 <Route path="/" element={<HeroPageLayout />}>
+                    {/* Main Page */}
                     <Route
                         index
                         element={
@@ -109,6 +120,7 @@ const RouterTransition = () => {
                             </PageAnimationWrapper>
                         }
                     />
+                    {/* 404 Page */}
                     <Route
                         path="*"
                         element={
@@ -117,6 +129,7 @@ const RouterTransition = () => {
                             </PageAnimationWrapper>
                         }
                     />
+
                     <Route
                         path="/about"
                         element={
