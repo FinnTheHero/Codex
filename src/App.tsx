@@ -60,6 +60,7 @@ import { axiosFetcher } from "./Services/apiService";
 import { isAxiosError } from "axios";
 import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
 import { useEffect } from "react";
+import SettingsPage from "./Pages/settings";
 
 function App() {
     const cacheProvider = useCacheProvider({
@@ -165,6 +166,16 @@ const RouterTransition = () => {
                                 <DenyUserAuth>
                                     <RegisterPage />
                                 </DenyUserAuth>
+                            </PageAnimationWrapper>
+                        }
+                    />
+                    <Route
+                        path="/settings"
+                        element={
+                            <PageAnimationWrapper>
+                                <RequireUser>
+                                    <SettingsPage />
+                                </RequireUser>
                             </PageAnimationWrapper>
                         }
                     />
