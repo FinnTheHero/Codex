@@ -8,7 +8,7 @@ import React, {
 import api from "../Services/apiService";
 import { Authenticate } from "../Services/authService";
 import { HandleErr } from "../Services/errorHandler";
-import { User, UserContextType } from "../Types/types";
+import { User, UserContextType, ValidationResponse } from "../Types/types";
 import { useError } from "./ErrorContext";
 import { useLoading } from "./LoadingContext";
 import { useNotification } from "./NotificationContext";
@@ -37,10 +37,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
             try {
                 const data = await Authenticate();
+                console.log(data);
 
-                if (data.authenticated) {
+                if (data) {
                     setAuthenticated(true);
-                    setUser(data.user);
+                    setUser(data as User);
                     setNotification("Logged back in");
                 } else {
                     setUser(null);

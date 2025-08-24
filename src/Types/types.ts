@@ -53,10 +53,15 @@ export interface LoginProps {
 }
 
 export interface User {
-    id: string;
+    id: string | null;
     email: string | null;
     username: string | null;
     type: string | null;
+}
+
+export interface ValidationResponse {
+    id: string | null;
+    email: string | null;
 }
 
 export interface UserContextType {
