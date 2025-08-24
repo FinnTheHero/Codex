@@ -1,14 +1,13 @@
 import { Outlet } from "react-router-dom";
 
-// Components
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
 const NovelsPageLayout = () => {
     return (
-        <div className="">
+        <div className="novels-page-layout">
             <Navbar />
-            <div className="w-full flex justify-center">
+            <div className="w-full px-8 flex justify-center">
                 <Outlet />
             </div>
             <Footer />
