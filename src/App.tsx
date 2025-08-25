@@ -50,17 +50,6 @@ import {
     EditPageAccess,
     RequireUser,
 } from "./Components/AuthGuard";
-import EditNovelPage from "./Pages/EditNovelPage";
-import EditChapterPage from "./Pages/EditChapterPage";
-import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
-import UploadEPUBPage from "./Pages/UploadEPUBPage";
-import UploadNovelPage from "./Pages/UploadNovelPage";
-import { SWRConfig } from "swr";
-import { axiosFetcher } from "./Services/apiService";
-import { isAxiosError } from "axios";
-import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
-import { useEffect } from "react";
-import SettingsPage from "./Pages/settings";
 
 function App() {
     const cacheProvider = useCacheProvider({
