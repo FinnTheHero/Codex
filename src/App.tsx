@@ -7,6 +7,12 @@ import {
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
+import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
+import { SWRConfig } from "swr";
+import { axiosFetcher } from "./Services/apiService";
+import { isAxiosError } from "axios";
+import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
+import { useEffect } from "react";
 
 // Styles
 import "./App.css";
@@ -32,6 +38,11 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import UploadPage from "./Pages/UploadPage";
+import SettingsPage from "./Pages/Settings";
+import EditNovelPage from "./Pages/EditNovelPage";
+import EditChapterPage from "./Pages/EditChapterPage";
+import UploadEPUBPage from "./Pages/UploadEPUBPage";
+import UploadNovelPage from "./Pages/UploadNovelPage";
 
 // Components
 import {
