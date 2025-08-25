@@ -31,11 +31,7 @@ export const RequireUser: React.FC<RequireAuthProps> = ({ children }) => {
             try {
                 const data = await Authenticate();
 
-                if (!data.authenticated) {
-                    return navigate("/login");
-                }
-
-                if (!data.user) {
+                if (!data) {
                     return navigate("/login");
                 }
             } catch (err) {
