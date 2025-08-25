@@ -15,6 +15,8 @@ const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
+    const { fontSize } = useUser();
+
     const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
     const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
     const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
@@ -167,7 +169,9 @@ const ChapterPage = () => {
                         />
                     </div>
 
-                    <div className="w-full max-w-3xl mt-4 prose prose-lg font-sans text-lg leading-normal">
+                    <div
+                        className={`w-full max-w-3xl mt-4 prose prose-lg font-sans text-${fontSize ?? "lg"} leading-normal`}
+                    >
                         <ReactMarkdown
                             components={{
                                 p: ({ node, ...props }) => (
