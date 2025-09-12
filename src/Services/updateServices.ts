@@ -4,7 +4,7 @@ import { HandleErr } from "./errorHandler";
 
 export const updateNovel = async (novel: Novel) => {
     try {
-        const response = await api.put(`/manage/${novel.id}`, novel, {
+        const response = await api.put(`/manage/update/${novel.id}`, novel, {
             withCredentials: true,
         });
         return response.data;
@@ -16,7 +16,7 @@ export const updateNovel = async (novel: Novel) => {
 export const updateChapter = async (id_novel: string, chapter: Chapter) => {
     try {
         const response = await api.put(
-            `/manage/${id_novel}/${chapter.id}`,
+            `/manage/update/${id_novel}/${chapter.id}`,
             chapter,
             {
                 withCredentials: true,

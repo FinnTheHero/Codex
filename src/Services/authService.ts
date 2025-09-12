@@ -3,7 +3,7 @@ import { HandleErr } from "./errorHandler";
 
 export const Authenticate = async () => {
     try {
-        const response = await api.get("/user/validate", {
+        const response = await api.get("/validate", {
             withCredentials: true,
         });
         return response.data;
