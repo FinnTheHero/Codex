@@ -97,9 +97,9 @@ const RegisterPage = () => {
         }
 
         try {
-            const response = await Register(username, email, password);
-            if (response?.status === 201 && response.data.message) {
-                setNotification(response.data.message);
+            const data = await Register(username, email, password);
+            if (data.message) {
+                setNotification(data.message);
                 return navigate("/login");
             }
         } catch (err) {

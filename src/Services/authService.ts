@@ -57,7 +57,7 @@ export const Register = async (
                 withCredentials: true,
             },
         );
-        return response;
+        return response.data;
     } catch (err) {
         HandleErr(err);
     }

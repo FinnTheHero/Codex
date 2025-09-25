@@ -40,7 +40,6 @@ const LoginPage = () => {
 
         try {
             const data = await Login(email, password);
-            console.log(data);
             if (data.message && data.user) {
                 setUser(data.user);
                 setNotification(data.message);
