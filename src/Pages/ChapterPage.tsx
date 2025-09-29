@@ -62,7 +62,7 @@ const ChapterPage = () => {
         }
     }, [hasMore, loadMore, currentIndex, chapters]);
 
-    const NavigationButtons = () => {
+    const NavigationButtons: React.FC<{ goBack?: boolean }> = ({ goBack }) => {
         const isAscending = sortBy === "asc" ? true : false;
 
         const prevIndex = isAscending ? currentIndex - 1 : currentIndex + 1;
@@ -146,11 +146,13 @@ const ChapterPage = () => {
                         </h2>
                     )}
                 </div>
-                <GoBackButton
-                    className="link mt-4"
-                    to={`/novels/${id_novel}#root`}
-                    desc={`${novel?.title}`}
-                />
+                {goBack && (
+                    <GoBackButton
+                        className="link mt-4"
+                        to={`/novels/${id_novel}#root`}
+                        desc={`${novel?.title}`}
+                    />
+                )}
             </div>
         );
     };
@@ -203,7 +205,7 @@ const ChapterPage = () => {
                         </ReactMarkdown>
                     </div>
 
-                    <NavigationButtons />
+                    <NavigationButtons goBack />
                 </div>
             )}
         </div>
