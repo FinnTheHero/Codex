@@ -24,7 +24,7 @@ const SettingsSidebar = () => {
     return (
         <Popover
             isOpen={isOpen}
-            positions={["left"]}
+            positions={["left", "bottom"]}
             padding={10}
             content={
                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
@@ -145,7 +145,7 @@ const SettingsSidebar = () => {
                 onClick={() => {
                     setIsOpen(!isOpen);
                 }}
-                className="fixed top-1/2 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
+                className="fixed top-2/5 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
             >
                 [
                 <FontAwesomeIcon
