@@ -1,6 +1,10 @@
 import axios from "axios";
 
 export const HandleErr = (err: any, key?: string) => {
+    if (err == null) {
+        throw new Error(`An error occurred while fetching ${key ?? "unknown"}`);
+    }
+
     if (axios.isAxiosError(err)) {
         switch (err.response?.status) {
             case 401:
@@ -9,12 +13,17 @@ export const HandleErr = (err: any, key?: string) => {
                 throw new Error(`Resource not found`);
             case 500:
                 throw new Error(`Internal server error`);
+            case 301:
+                throw new Error(`Illegal Redirect`);
             default:
-                throw new Error(`An error occurred while fetching ${key}`);
+                throw new Error(
+                    `An error occurred while fetching ${key ?? "unknown"}`,
+                );
         }
     } else {
+        const errorMessage = err?.message || "Unknown error";
         throw new Error(
-            `An error occurred while fetching ${key}: ${err.message}`,
+            `An error occurred while fetching ${key ?? "unknown"}: ${errorMessage}`,
         );
     }
 };
