@@ -179,10 +179,25 @@ const ChapterPage = () => {
                         {chapter.title}
                     </h2>
 
-                    <div className="mt-5 flex flex-row justify-center">
+                    <div className="mt-5 flex flex-row justify-center items-center">
+                        {chapter.creation_date !== chapter.update_date ? (
+                            <div className="flex flex-row justify-center items-center">
+                                <FormattedTime
+                                    date={chapter.creation_date}
+                                    classname={"content"}
+                                    popover_text={"Created"}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    className="mx-2"
+                                />
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         <FormattedTime
                             date={chapter.update_date}
-                            classname={"content"}
+                            classname={"link"}
                             popover_text={"Last Updated"}
                         />
                     </div>
