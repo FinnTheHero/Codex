@@ -15,13 +15,11 @@ const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
-    const { fontSize } = useUser();
+    const { user, fontSize, padding } = useUser();
 
     const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
     const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
     const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
-
-    const { user } = useUser();
 
     const {
         chapter,
@@ -143,7 +141,7 @@ const ChapterPage = () => {
     };
 
     return (
-        <div className="w-full px-6 flex flex-col flex-nowrap">
+        <div className="w-full flex flex-col flex-nowrap">
             {chapter && novel && (
                 <div className="w-full flex flex-col justify-center items-center">
                     {user &&
@@ -170,7 +168,8 @@ const ChapterPage = () => {
                     </div>
 
                     <div
-                        className={`w-full max-w-3xl mt-4 prose prose-lg font-sans text-${fontSize ?? "lg"} leading-normal`}
+                        id="chapter-content"
+                        className={`w-full mt-4 prose prose-lg font-sans px-${padding ?? "4"} text-${fontSize ?? "lg"} leading-normal`}
                     >
                         <ReactMarkdown
                             components={{

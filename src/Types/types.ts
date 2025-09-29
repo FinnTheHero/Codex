@@ -74,6 +74,8 @@ export interface UserContextType {
     setFontSize: (fontSize: string) => void;
     sortBy: "asc" | "desc";
     setSortBy: (sortBy: "asc" | "desc") => void;
+    padding: string;
+    setPadding: (padding: string) => void;
 }
 
 export interface ContentContextType {

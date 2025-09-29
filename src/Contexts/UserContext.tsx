@@ -29,6 +29,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     const [colorScheme, setColorScheme] = useState<string>("light");
     const [fontSize, setFontSize] = useState<string>("medium");
     const [sortBy, setSortBy] = useState<"asc" | "desc">("desc");
+    const [padding, setPadding] = useState<string>("8");
 
     useEffect(() => {
         const controller = new AbortController();
@@ -101,6 +102,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
                 setFontSize,
                 sortBy,
                 setSortBy,
+                padding,
+                setPadding,
             }}
         >
             {children}
