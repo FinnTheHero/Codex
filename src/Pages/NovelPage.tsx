@@ -77,7 +77,7 @@ const NovelPage = () => {
                                     </div>
                                 )}
                             <div className="flex flex-row flex-nowrap w-full">
-                                <div className="min-w-max mr-12">
+                                <div className="w-fit max-w-1/2 mr-12">
                                     <h2 id="novel-id" className="text-4xl">
                                         {novel.title}
                                     </h2>
