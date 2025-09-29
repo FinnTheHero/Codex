@@ -15,6 +15,9 @@ export interface Novel {
 export interface Chapter {
     id: string;
     title: string;
+    author: string;
+    description: string;
+    creation_date: string;
     update_date: string;
     content: string;
 }
