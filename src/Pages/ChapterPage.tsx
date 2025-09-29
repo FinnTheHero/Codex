@@ -96,30 +96,32 @@ const ChapterPage = () => {
                                 onMouseEnter={() => setIsLeftPopoverOpen(true)}
                                 onMouseLeave={() => setIsLeftPopoverOpen(false)}
                                 onClick={() => {
-                                    setChapter(chapters[currentIndex + 1]);
+                                    setChapter(chapters[prevIndex]);
                                 }}
-                                className="link"
-                                to={`/novels/${id_novel}/${chapters[currentIndex + 1].id}#chapter-id`}
+                                className="link flex items-center"
+                                to={`/novels/${id_novel}/${chapters[prevIndex].id}#chapter-id`}
                             >
-                                [Previous]
+                                [<FontAwesomeIcon icon={faArrowLeft} />]
                             </Link>
                         </Popover>
                     ) : (
-                        <h2 className="text-red-800 pointer-events-none">
-                            [First]
+                        <h2 className="text-red-800 pointer-events-none flex items-center">
+                            [<FontAwesomeIcon icon={faArrowLeft} />]
                         </h2>
                     )}
-                    {currentIndex > 0 && chapter ? (
+
+                    {/* Next Chapter (Right Arrow) */}
+                    {hasNext ? (
                         <Popover
                             isOpen={isRightPopoverOpen}
-                            positions={["bottom", "left"]}
+                            positions={["left"]}
                             padding={10}
                             reposition={true}
                             boundaryInset={document.body.scrollHeight}
                             onClickOutside={() => setIsRightPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    [{chapters[currentIndex - 1].title}]
+                                    [{chapters[nextIndex].title}]
                                 </div>
                             }
                         >
@@ -129,21 +131,20 @@ const ChapterPage = () => {
                                     setIsRightPopoverOpen(false)
                                 }
                                 onClick={() => {
-                                    setChapter(chapters[currentIndex - 1]);
+                                    setChapter(chapters[nextIndex]);
                                 }}
-                                className="link"
-                                to={`/novels/${id_novel}/${chapters[currentIndex - 1].id}#chapter-id`}
+                                className="link flex items-center"
+                                to={`/novels/${id_novel}/${chapters[nextIndex].id}#chapter-id`}
                             >
-                                [Next]
+                                [<FontAwesomeIcon icon={faArrowRight} />]
                             </Link>
                         </Popover>
                     ) : (
-                        <h2 className="text-red-800 pointer-events-none">
-                            [Last]
+                        <h2 className="text-red-800 pointer-events-none flex items-center">
+                            [<FontAwesomeIcon icon={faArrowRight} />]
                         </h2>
                     )}
                 </div>
-
                 <GoBackButton
                     className="link mt-4"
                     to={`/novels/${id_novel}#root`}
