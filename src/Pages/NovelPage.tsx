@@ -4,7 +4,11 @@ import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowDown,
+    faArrowRight,
+    faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
@@ -23,7 +27,7 @@ const NovelPage = () => {
     const [hideDescription, setHideDescription] = useState(false);
     const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
 
-    const { user } = useUser();
+    const { user, sortBy, setSortBy } = useUser();
     const { loading, setLoading } = useLoading();
     const { novel, setNovel, novels, chapters, loadMore, hasMore, chapter } =
         useContent();
@@ -139,10 +143,37 @@ const NovelPage = () => {
                                 </div>
                             </div>
                         </div>
-                    )}
-                </div>
-                <div className="w-full md:w-2/6 mt-8 md:mt-0 flex flex-col flex-wrap">
-                    {novel && (
+
+                        <div className="w-full flex flex-row justify-center my-2 content">
+                            <span>Sort</span>
+                            <span className="mx-2"> - </span>
+                            <div
+                                className="flex flex-row justify-center items-center cursor-pointer"
+                                onClick={() => {
+                                    setSortBy(sortBy == "asc" ? "desc" : "asc");
+                                    loadMore();
+                                }}
+                            >
+                                <span className="link">
+                                    [
+                                    {sortBy == "asc"
+                                        ? "Ascending"
+                                        : "Descending"}
+                                    ]
+                                </span>
+                                <span className="link text-xs flex items-center">
+                                    <FontAwesomeIcon
+                                        icon={
+                                            sortBy == "asc"
+                                                ? faArrowUp
+                                                : faArrowDown
+                                        }
+                                        className="mx-2"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+
                         <div>
                             <div className="w-full flex flex-row flex-wrap justify-center">
                                 <FormattedTime

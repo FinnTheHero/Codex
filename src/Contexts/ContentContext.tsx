@@ -52,7 +52,7 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
 
         if (previousPageData && !previousPageData.next_cursor) return null;
 
-        return `/${novel.id}/chapters?cursor=${previousPageData?.next_cursor ?? ""}&order=desc`;
+        return `/${novel.id}/chapters?cursor=${previousPageData?.next_cursor ?? ""}&sort=${sortBy}`;
     };
 
     const {
@@ -103,14 +103,25 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
             ? data_inf.flatMap((page) => page.chapters)
             : [];
 
-        const sortedChapters = allChapters.sort((a, b) => {
-            return b.title.localeCompare(a.title, undefined, {
-                numeric: true,
-                sensitivity: "base",
+        if (sortBy == "asc") {
+            const sortedChapters = allChapters.sort((a, b) => {
+                return a.title.localeCompare(b.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                });
             });
-        });
 
-        setChapters(sortedChapters);
+            setChapters(sortedChapters);
+        } else {
+            const sortedChapters = allChapters.sort((a, b) => {
+                return b.title.localeCompare(a.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                });
+            });
+
+            setChapters(sortedChapters);
+        }
     }, [data_inf]);
 
     useEffect(() => {
