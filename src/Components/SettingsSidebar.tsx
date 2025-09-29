@@ -9,6 +9,10 @@ const SettingsSidebar = () => {
     const [isFontOptionsOpen, setIsFontOptionsOpen] = useState(false);
     const [isPaddingOptionsOpen, setIsPaddingOptionsOpen] = useState(false);
 
+    const paddingValues = [0, 2, 3, 4, 6, 8, 12];
+    const [paddingIndex, setPaddingIndex] = useState(0);
+    const paddingValue = paddingValues[paddingIndex];
+
     const {
         user,
         colorScheme,
@@ -107,30 +111,43 @@ const SettingsSidebar = () => {
                                 content={
                                     <div className="mx-10 link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
                                         <div className="link flex flex-col flex-nowrap items-center justify-evenly">
-                                            <span
-                                                onClick={() => setPadding("0")}
-                                                className="cursor-pointer mb-2"
-                                            >
-                                                None
+                                            <input
+                                                type="range"
+                                                min={paddingValues[0]}
+                                                max={paddingValues.length - 1}
+                                                step="1"
+                                                value={paddingIndex}
+                                                onChange={(e) => {
+                                                    setPaddingIndex(
+                                                        parseInt(
+                                                            e.target.value,
+                                                        ),
+                                                    );
+                                                    setPadding(
+                                                        String(
+                                                            paddingValues[
+                                                                parseInt(
+                                                                    e.target
+                                                                        .value,
+                                                                )
+                                                            ],
+                                                        ),
+                                                    );
+                                                }}
+                                            />
+                                            <span className="my-1">
+                                                {paddingValue}
                                             </span>
-                                            <span
-                                                onClick={() => setPadding("4")}
-                                                className="cursor-pointer mb-2"
-                                            >
-                                                Small
-                                            </span>
-                                            <span
-                                                onClick={() => setPadding("8")}
-                                                className="cursor-pointer mb-2 mx-2"
-                                            >
-                                                Medium
-                                            </span>
-                                            <span
-                                                onClick={() => setPadding("12")}
-                                                className="cursor-pointer"
-                                            >
-                                                Large
-                                            </span>
+                                            <div className="w-full flex justify-between text-xs main">
+                                                {paddingValues.map((v, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="mx-2.5"
+                                                    >
+                                                        {v}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 }

@@ -169,7 +169,7 @@ const ChapterPage = () => {
 
                     <div
                         id="chapter-content"
-                        className={`w-full mt-4 prose prose-lg font-sans px-${padding ?? "4"} text-${fontSize ?? "lg"} leading-normal`}
+                        className={`w-full mt-4 prose prose-lg font-sans px-${padding ?? "0"} text-${fontSize ?? "lg"} leading-normal`}
                     >
                         <ReactMarkdown
                             components={{
