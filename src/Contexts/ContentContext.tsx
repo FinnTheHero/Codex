@@ -30,7 +30,7 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
     const { addError } = useError();
     const { setLoading } = useLoading();
 
-    const { user } = useUser();
+    const { sortBy } = useUser();
 
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapterId, setChapterId] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
         if (!novel) return null;
 
         if (pageIndex === 0) {
-            return `/${novel.id}/chapters?order=desc`;
+            return `/${novel.id}/chapters?sort=${sortBy}`;
         }
 
         if (previousPageData && !previousPageData.next_cursor) return null;
