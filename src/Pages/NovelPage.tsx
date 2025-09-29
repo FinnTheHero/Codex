@@ -79,19 +79,19 @@ const NovelPage = () => {
                                 <h2 className="ml-3 text-1xl">
                                     By {novel.author}
                                 </h2>
-                                <p
+
+                                <div
                                     onClick={() => {
                                         setHideDescription(!hideDescription);
                                     }}
                                     className="mt-4 subtitle cursor-pointer"
                                 >
-                                    <AnimatePresence>
+                                    <AnimatePresence mode="sync">
                                         <ComponentAnimationWrapper
-                                            hidden={!hideDescription}
+                                            key={"short"}
+                                            hidden={hideDescription}
                                         >
-                                            <div
-                                                className={`${hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
-                                            >
+                                            <div className="indent-5 leading-snug w-full">
                                                 <ReactMarkdown
                                                     components={{
                                                         p: ({
@@ -107,18 +107,15 @@ const NovelPage = () => {
                                                     remarkPlugins={[remarkGfm]}
                                                     rehypePlugins={[rehypeRaw]}
                                                 >
-                                                    {"&gt; " +
-                                                        novel.description}
+                                                    {`${"&gt; "} ${novel.description.substring(0, 25)}...`}
                                                 </ReactMarkdown>
                                             </div>
                                         </ComponentAnimationWrapper>
-
                                         <ComponentAnimationWrapper
-                                            hidden={hideDescription}
+                                            key={"full"}
+                                            hidden={!hideDescription}
                                         >
-                                            <div
-                                                className={`${!hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
-                                            >
+                                            <div className="indent-5 leading-snug w-full">
                                                 <ReactMarkdown
                                                     components={{
                                                         p: ({
@@ -134,17 +131,12 @@ const NovelPage = () => {
                                                     remarkPlugins={[remarkGfm]}
                                                     rehypePlugins={[rehypeRaw]}
                                                 >
-                                                    {"&gt; " +
-                                                        novel.description.substring(
-                                                            0,
-                                                            25,
-                                                        ) +
-                                                        "..."}
+                                                    {`${"&gt; "} ${novel.description}`}
                                                 </ReactMarkdown>
                                             </div>
                                         </ComponentAnimationWrapper>
                                     </AnimatePresence>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     )}
