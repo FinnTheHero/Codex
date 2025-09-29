@@ -61,8 +61,8 @@ const NovelPage = () => {
     return (
         <div className="lg:max-w-6xl w-full lg:px-12 flex flex-col flex-nowrap justify-between items-center">
             <div className="w-full flex flex-row flex-wrap justify-between">
-                <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
-                    {novel && (
+                {novel && (
+                    <div className="w-full flex flex-col flex-nowrap justify-between">
                         <div className="w-full flex flex-col flex-nowrap justify-between">
                             {user &&
                                 (user.username === novel.author ||
@@ -192,7 +192,7 @@ const NovelPage = () => {
                                 />
                             </div>
 
-                            <div className="">
+                            <div>
                                 {chapters &&
                                     chapters.length > 0 &&
                                     chapters.map((c, i) => (
@@ -216,8 +216,8 @@ const NovelPage = () => {
                                 </div>
                             )}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             <GoBackButton
                 to="/novels/#root"
