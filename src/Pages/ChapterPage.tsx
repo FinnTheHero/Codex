@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { Popover } from "react-tiny-popover";
 import ReactMarkdown from "react-markdown";
@@ -15,7 +15,7 @@ const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
-    const { user, fontSize, padding } = useUser();
+    const { user, fontSize, padding, sortBy } = useUser();
 
     const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
     const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
@@ -62,20 +62,33 @@ const ChapterPage = () => {
     }, [hasMore, loadMore, currentIndex, chapters]);
 
     const NavigationButtons = () => {
+        const isAscending = sortBy === "asc" ? true : false;
+
+        const prevIndex = isAscending ? currentIndex - 1 : currentIndex + 1;
+        const nextIndex = isAscending ? currentIndex + 1 : currentIndex - 1;
+
+        const hasPrev = isAscending
+            ? currentIndex > 0
+            : currentIndex < chapters.length - 1;
+        const hasNext = isAscending
+            ? currentIndex < chapters.length - 1
+            : currentIndex > 0;
+
         return (
-            <div className="max-w-4xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
+            <div className="max-w-4xl px-12 mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full text-xl">
-                    {chapter && currentIndex < chapters.length - 1 ? (
+                    {/* Previous Chapter (Left Arrow) */}
+                    {hasPrev ? (
                         <Popover
                             isOpen={isLeftPopoverOpen}
-                            positions={["bottom", "left"]}
+                            positions={["right"]}
                             padding={10}
                             reposition={true}
                             boundaryInset={document.body.scrollHeight}
                             onClickOutside={() => setIsLeftPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    [{chapters[currentIndex + 1].title}]
+                                    [{chapters[prevIndex].title}]
                                 </div>
                             }
                         >
