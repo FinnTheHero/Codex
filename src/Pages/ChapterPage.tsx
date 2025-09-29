@@ -155,7 +155,10 @@ const ChapterPage = () => {
                             </Link>
                         )}
                     <h2 className="text-base">{novel.title}</h2>
-                    <h2 id="chapter-id" className="mb-3 mt-2 text-4xl">
+                    <h2
+                        id="chapter-id"
+                        className="mb-3 mt-2 text-4xl text-center"
+                    >
                         {chapter.title}
                     </h2>
 
