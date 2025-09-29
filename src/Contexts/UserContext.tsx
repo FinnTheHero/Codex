@@ -37,7 +37,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
             try {
                 const data = await Authenticate();
-                console.log(data);
 
                 if (data) {
                     setAuthenticated(true);
