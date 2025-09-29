@@ -76,7 +76,7 @@ const ChapterPage = () => {
             : currentIndex > 0;
 
         return (
-            <div className="max-w-4xl px-12 mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
+            <div className="max-w-4xl px-12 mt-8 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full text-xl">
                     {/* Previous Chapter (Left Arrow) */}
                     {hasPrev ? (
@@ -179,7 +179,7 @@ const ChapterPage = () => {
                         {chapter.title}
                     </h2>
 
-                    <div className="my-5 flex flex-row justify-center">
+                    <div className="mt-5 flex flex-row justify-center">
                         <FormattedTime
                             date={chapter.update_date}
                             classname={"content"}
@@ -187,9 +187,11 @@ const ChapterPage = () => {
                         />
                     </div>
 
+                    <NavigationButtons />
+
                     <div
                         id="chapter-content"
-                        className={` mt-4 prose prose-lg font-sans text-${fontSize ?? "lg"} leading-normal`}
+                        className={` mt-8 prose prose-lg font-sans text-${fontSize ?? "lg"} leading-normal`}
                         style={{ width: `${padding}%` }}
                     >
                         <ReactMarkdown
