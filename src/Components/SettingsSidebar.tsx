@@ -51,11 +51,19 @@ const SettingsSidebar = () => {
                                                 }
                                                 className="cursor-pointer mb-2"
                                             >
+                                                Extra Small
+                                            </span>
+                                            <span
+                                                onClick={() =>
+                                                    setFontSize("sm")
+                                                }
+                                                className="cursor-pointer mb-2"
+                                            >
                                                 Small
                                             </span>
                                             <span
                                                 onClick={() =>
-                                                    setFontSize("lg")
+                                                    setFontSize("md")
                                                 }
                                                 className="cursor-pointer mb-2 mx-2"
                                             >
@@ -63,11 +71,19 @@ const SettingsSidebar = () => {
                                             </span>
                                             <span
                                                 onClick={() =>
-                                                    setFontSize("xl")
+                                                    setFontSize("lg")
                                                 }
                                                 className="cursor-pointer"
                                             >
                                                 Large
+                                            </span>
+                                            <span
+                                                onClick={() =>
+                                                    setFontSize("xl")
+                                                }
+                                                className="cursor-pointer"
+                                            >
+                                                Extra Large
                                             </span>
                                         </div>
                                     </div>
