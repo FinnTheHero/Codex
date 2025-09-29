@@ -30,30 +30,6 @@ const RegisterPage = () => {
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (
-            !e.target.value.match(
-                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            )
-        ) {
-            addError("Invalid email!");
-            return;
-        } else if (e.target.value.length >= 50) {
-            addError("Email is too long!");
-            return;
-        } else if (e.target.value.length <= 5) {
-            addError("Email is too short!");
-            return;
-        } else {
-            errors.forEach((error) => {
-                if (
-                    error.message === "Invalid email!" ||
-                    error.message === "Email is too short!" ||
-                    error.message === "Email is too long!"
-                ) {
-                    removeError(error.id);
-                }
-            });
-        }
         setEmail(e.target.value);
     };
 
@@ -79,23 +55,40 @@ const RegisterPage = () => {
 
     const HandlerRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
+        // Validate everything before submitting
         if (!username || username === "") {
             addError("Username is required!");
+            setLoading(false);
             return;
         }
-
         if (!email || email === "") {
             addError("Email is required!");
+            setLoading(false);
             return;
         }
-
+        if (email.length < 5) {
+            addError("Email is too short!");
+            setLoading(false);
+            return;
+        }
+        if (email.length >= 50) {
+            addError("Email is too long!");
+            setLoading(false);
+            return;
+        }
+        if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+            addError("Invalid email!");
+            setLoading(false);
+            return;
+        }
         if (!password || password === "") {
             addError("Password is required!");
+            setLoading(false);
             return;
         }
 
+        setLoading(true);
         try {
             const data = await Register(username, email, password);
             if (data.message) {
