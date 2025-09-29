@@ -76,19 +76,21 @@ const NovelPage = () => {
                                         </Link>
                                     </div>
                                 )}
-                            <div className="flex flex-col flex-nowrap w-full">
-                                <h2 id="novel-id" className="text-4xl">
-                                    {novel.title}
-                                </h2>
-                                <h2 className="ml-3 text-1xl">
-                                    By {novel.author}
-                                </h2>
+                            <div className="flex flex-row flex-nowrap w-full">
+                                <div className="min-w-max mr-12">
+                                    <h2 id="novel-id" className="text-4xl">
+                                        {novel.title}
+                                    </h2>
+                                    <h2 className="ml-3 text-1xl">
+                                        By {novel.author}
+                                    </h2>
+                                </div>
 
                                 <div
                                     onClick={() => {
                                         setHideDescription(!hideDescription);
                                     }}
-                                    className="mt-4 subtitle cursor-pointer"
+                                    className="mt-2 subtitle cursor-pointer"
                                 >
                                     <AnimatePresence mode="sync">
                                         <ComponentAnimationWrapper
@@ -144,7 +146,7 @@ const NovelPage = () => {
                             </div>
                         </div>
 
-                        <div className="w-full flex flex-row justify-center my-2 content">
+                        <div className="w-full flex flex-row justify-center mt-4 mb-12 content">
                             <span>Sort</span>
                             <span className="mx-2"> - </span>
                             <div
