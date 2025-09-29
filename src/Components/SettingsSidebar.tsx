@@ -145,7 +145,7 @@ const SettingsSidebar = () => {
                 onClick={() => {
                     setIsOpen(!isOpen);
                 }}
-                className="fixed top-2/5 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
+                className="fixed top-1/2 right-1 rotate-90 cursor-pointer link flex items-center text-lg"
             >
                 [
                 <FontAwesomeIcon
