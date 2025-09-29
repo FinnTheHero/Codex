@@ -21,165 +21,142 @@ const SettingsSidebar = () => {
         setPadding,
     } = useUser();
 
-    if (user) {
-        return (
-            <Popover
-                isOpen={isOpen}
-                positions={["left"]}
-                padding={10}
-                // onClickOutside={() => setIsOpen(false)}
-                content={
-                    <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                        <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
-                            {/*<p className="cursor-pointer mb-2 mx-2">
-                                [Style {colorScheme}]
-                            </p>*/}
-
-                            <Popover
-                                isOpen={isFontOptionsOpen}
-                                positions={["left"]}
-                                padding={10}
-                                onClickOutside={() =>
-                                    setIsFontOptionsOpen(false)
-                                }
-                                content={
-                                    <div className="mx-5 link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                        <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
-                                            <span
-                                                onClick={() =>
-                                                    setFontSize("xs")
-                                                }
-                                                className="cursor-pointer mb-2"
-                                            >
-                                                Extra Small
-                                            </span>
-                                            <span
-                                                onClick={() =>
-                                                    setFontSize("sm")
-                                                }
-                                                className="cursor-pointer mb-2"
-                                            >
-                                                Small
-                                            </span>
-                                            <span
-                                                onClick={() =>
-                                                    setFontSize("md")
-                                                }
-                                                className="cursor-pointer mb-2 mx-2"
-                                            >
-                                                Medium
-                                            </span>
-                                            <span
-                                                onClick={() =>
-                                                    setFontSize("lg")
-                                                }
-                                                className="cursor-pointer"
-                                            >
-                                                Large
-                                            </span>
-                                            <span
-                                                onClick={() =>
-                                                    setFontSize("xl")
-                                                }
-                                                className="cursor-pointer"
-                                            >
-                                                Extra Large
-                                            </span>
-                                        </div>
+    return (
+        <Popover
+            isOpen={isOpen}
+            positions={["left"]}
+            padding={10}
+            content={
+                <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                    <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
+                        <Popover
+                            isOpen={isFontOptionsOpen}
+                            positions={["left", "bottom"]}
+                            padding={10}
+                            onClickOutside={() => setIsFontOptionsOpen(false)}
+                            content={
+                                <div className="mx-5 mt-10 link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                    <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
+                                        <span
+                                            onClick={() => setFontSize("xs")}
+                                            className="cursor-pointer mb-2"
+                                        >
+                                            [Extra Small]
+                                        </span>
+                                        <span
+                                            onClick={() => setFontSize("sm")}
+                                            className="cursor-pointer mb-2"
+                                        >
+                                            [Small]
+                                        </span>
+                                        <span
+                                            onClick={() => setFontSize("md")}
+                                            className="cursor-pointer mb-2"
+                                        >
+                                            [Medium]
+                                        </span>
+                                        <span
+                                            onClick={() => setFontSize("lg")}
+                                            className="cursor-pointer mb-2"
+                                        >
+                                            [Large]
+                                        </span>
+                                        <span
+                                            onClick={() => setFontSize("xl")}
+                                            className="cursor-pointer"
+                                        >
+                                            [Extra Large]
+                                        </span>
                                     </div>
+                                </div>
+                            }
+                        >
+                            <p
+                                className="cursor-pointer mb-2 mx-2"
+                                onClick={() =>
+                                    setIsFontOptionsOpen(!isFontOptionsOpen)
                                 }
                             >
-                                <p
-                                    className="cursor-pointer mb-2 mx-2"
-                                    onClick={() =>
-                                        setIsFontOptionsOpen(!isFontOptionsOpen)
-                                    }
-                                >
-                                    [Font Size]
-                                </p>
-                            </Popover>
-                            <Popover
-                                isOpen={isPaddingOptionsOpen}
-                                positions={["left"]}
-                                onClickOutside={() =>
-                                    setIsPaddingOptionsOpen(false)
-                                }
-                                content={
-                                    <div className="mx-10 link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                        <div className="link flex flex-col flex-nowrap items-center justify-evenly">
-                                            <input
-                                                type="range"
-                                                min={paddingValues[0]}
-                                                max={paddingValues.length - 1}
-                                                step="1"
-                                                value={paddingIndex}
-                                                onChange={(e) => {
-                                                    setPaddingIndex(
+                                [Font Size]
+                            </p>
+                        </Popover>
+                        <Popover
+                            isOpen={isPaddingOptionsOpen}
+                            positions={["left", "bottom"]}
+                            onClickOutside={() =>
+                                setIsPaddingOptionsOpen(false)
+                            }
+                            content={
+                                <div className="mx-10 mt-5 sm:mt-[-35px] link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
+                                    <div className="link flex flex-col flex-nowrap items-center justify-evenly">
+                                        <input
+                                            type="range"
+                                            min={50}
+                                            max={100}
+                                            step={5}
+                                            value={parseInt(padding)}
+                                            onChange={(e) => {
+                                                setPadding(
+                                                    String(
                                                         parseInt(
                                                             e.target.value,
                                                         ),
-                                                    );
-                                                    setPadding(
-                                                        String(
-                                                            paddingValues[
-                                                                parseInt(
-                                                                    e.target
-                                                                        .value,
-                                                                )
-                                                            ],
-                                                        ),
-                                                    );
-                                                }}
-                                            />
-                                            <span className="my-1">
-                                                {paddingValue}
-                                            </span>
-                                            <div className="w-full flex justify-between text-xs main">
-                                                {paddingValues.map((v, i) => (
+                                                    ),
+                                                );
+                                            }}
+                                            style={{ direction: "rtl" }}
+                                        />
+                                        <span className="my-1">
+                                            {100 - parseInt(padding)}
+                                        </span>
+                                        <div className="w-full flex justify-evenly text-xs main">
+                                            {Array.from(
+                                                { length: 11 },
+                                                (_, i) => (
                                                     <span
                                                         key={i}
-                                                        className="mx-2.5"
+                                                        className="mx-2"
                                                     >
-                                                        {v}
+                                                        {i * 5}
                                                     </span>
-                                                ))}
-                                            </div>
+                                                ),
+                                            )}
                                         </div>
                                     </div>
+                                </div>
+                            }
+                        >
+                            <p
+                                className="cursor-pointer"
+                                onClick={() =>
+                                    setIsPaddingOptionsOpen(
+                                        !isPaddingOptionsOpen,
+                                    )
                                 }
                             >
-                                <p
-                                    className="cursor-pointer"
-                                    onClick={() =>
-                                        setIsPaddingOptionsOpen(
-                                            !isPaddingOptionsOpen,
-                                        )
-                                    }
-                                >
-                                    [Padding]
-                                </p>
-                            </Popover>
-                        </div>
+                                [Padding]
+                            </p>
+                        </Popover>
                     </div>
-                }
-            >
-                <div
-                    onClick={() => {
-                        setIsOpen(!isOpen);
-                    }}
-                    className="fixed top-1/2 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
-                >
-                    [
-                    <FontAwesomeIcon
-                        icon={faGear}
-                        className="mx-1 animate-spin"
-                        style={{ animationDuration: "5s" }}
-                    />
-                    ]
                 </div>
-            </Popover>
-        );
-    }
+            }
+        >
+            <div
+                onClick={() => {
+                    setIsOpen(!isOpen);
+                }}
+                className="fixed top-1/2 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
+            >
+                [
+                <FontAwesomeIcon
+                    icon={faGear}
+                    className="mx-1 animate-spin"
+                    style={{ animationDuration: "5s" }}
+                />
+                ]
+            </div>
+        </Popover>
+    );
 };
 
 export default SettingsSidebar;
