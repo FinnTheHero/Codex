@@ -9,10 +9,6 @@ const SettingsSidebar = () => {
     const [isFontOptionsOpen, setIsFontOptionsOpen] = useState(false);
     const [isPaddingOptionsOpen, setIsPaddingOptionsOpen] = useState(false);
 
-    const paddingValues = [0, 2, 3, 4, 6, 8, 12];
-    const [paddingIndex, setPaddingIndex] = useState(0);
-    const paddingValue = paddingValues[paddingIndex];
-
     const {
         user,
         colorScheme,
