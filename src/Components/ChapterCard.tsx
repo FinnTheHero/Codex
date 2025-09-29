@@ -5,7 +5,7 @@ import FormattedTime from "./FormattedTime";
 import useSWR from "swr";
 import { useContent } from "../Contexts/ContentContext";
 
-const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, index }) => {
+const ChapterCard: React.FC<ChapterCardProps> = ({ chapter }) => {
     const { novel } = useContent();
 
     if (!novel) return null;

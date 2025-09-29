@@ -80,13 +80,7 @@ const NovelsPage: React.FC = () => {
                         {chapters.length > 0 ? (
                             novel &&
                             chapters.map((c, i) => {
-                                return (
-                                    <ChapterCard
-                                        chapter={c}
-                                        index={i}
-                                        key={i}
-                                    />
-                                );
+                                return <ChapterCard chapter={c} key={c.id} />;
                             })
                         ) : (
                             <p className="subtitle text-center mt-16">

@@ -173,11 +173,7 @@ const NovelPage = () => {
                                 {chapters &&
                                     chapters.length > 0 &&
                                     chapters.map((c, i) => (
-                                        <ChapterCard
-                                            chapter={c}
-                                            index={i}
-                                            key={c.id}
-                                        />
+                                        <ChapterCard chapter={c} key={c.id} />
                                     ))}
                             </div>
                             {hasMore ? (

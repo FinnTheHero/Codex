@@ -26,7 +26,6 @@ export interface PaginationResponse {
 
 export interface ChapterCardProps {
     chapter: Chapter;
-    index: number;
 }
 
 export interface SearchInputProps {
