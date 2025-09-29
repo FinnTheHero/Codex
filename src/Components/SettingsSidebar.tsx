@@ -31,7 +31,7 @@ const SettingsSidebar = () => {
                 isOpen={isOpen}
                 positions={["left"]}
                 padding={10}
-                onClickOutside={() => setIsOpen(false)}
+                // onClickOutside={() => setIsOpen(false)}
                 content={
                     <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
                         <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
@@ -169,7 +169,7 @@ const SettingsSidebar = () => {
             >
                 <div
                     onClick={() => {
-                        setIsOpen(true);
+                        setIsOpen(!isOpen);
                     }}
                     className="fixed top-1/2 right-2 rotate-90 cursor-pointer link flex items-center text-lg"
                 >
