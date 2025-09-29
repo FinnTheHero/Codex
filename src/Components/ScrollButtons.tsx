@@ -60,9 +60,9 @@ const ScrollButtons = () => {
                         <path
                             d="M5 1L1 5L5 9"
                             stroke="#fab387"
-                            stroke-width="1"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         ></path>
                     </svg>
                 </button>
@@ -84,9 +84,9 @@ const ScrollButtons = () => {
                         <path
                             d="M5 1L1 5L5 9"
                             stroke="#fab387"
-                            stroke-width="1"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         ></path>
                     </svg>
                 </button>
