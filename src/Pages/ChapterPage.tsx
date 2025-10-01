@@ -206,7 +206,7 @@ const ChapterPage = () => {
 
                     <div
                         id="chapter-content"
-                        className={` mt-8 prose prose-lg font-sans text-${fontSize ?? "lg"} leading-normal`}
+                        className={`mt-8 prose prose-lg font-sans text-${fontSize ?? "md"} leading-normal`}
                         style={{ width: `${padding}%` }}
                     >
                         <ReactMarkdown
