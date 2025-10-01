@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useUser } from "../Contexts/UserContext";
 import { Popover } from "react-tiny-popover";
 import PersistentStoragePermissionButton from "./PersistentStoragePermissionButton";
-import SettingsDropdown from "./SettingsDropdown";
 
 const Navbar = () => {
     const { user, logout } = useUser();
@@ -50,11 +49,6 @@ const Navbar = () => {
                         {!dropdown && (
                             <div className="hidden lg:flex items-center justify-between space-x-5">
                                 <PersistentStoragePermissionButton />
-                                {user && (
-                                    <Link to="/settings" className="link">
-                                        [Settings]
-                                    </Link>
-                                )}
 
                                 {user && (
                                     <Link
@@ -130,12 +124,6 @@ const Navbar = () => {
                             className={`${dropdown ? "text-xl w-fit flex flex-col flex-nowrap items-end pb-4 pt-2 px-2 pl-6 border-t border-zinc-800" : "hidden"}`}
                         >
                             <PersistentStoragePermissionButton />
-
-                            {user && (
-                                <Link to="/settings" className="link">
-                                    [Settings]
-                                </Link>
-                            )}
 
                             <Link to="/novels" className="link">
                                 [Novels]
