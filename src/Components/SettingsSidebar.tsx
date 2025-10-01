@@ -24,14 +24,20 @@ const SettingsSidebar = () => {
     return (
         <Popover
             isOpen={isOpen}
-            positions={["left", "bottom"]}
+            positions={["left", "bottom", "top"]}
+            reposition={true}
+            boundaryInset={10}
+            align="center"
             padding={10}
             content={
                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
                     <div className="text-lg link flex flex-col flex-nowrap items-center justify-evenly">
                         <Popover
                             isOpen={isFontOptionsOpen}
-                            positions={["left", "bottom"]}
+                            positions={["left", "bottom", "top"]}
+                            reposition={true}
+                            boundaryInset={10}
+                            align="center"
                             padding={10}
                             onClickOutside={() => setIsFontOptionsOpen(false)}
                             content={
@@ -82,7 +88,10 @@ const SettingsSidebar = () => {
                         </Popover>
                         <Popover
                             isOpen={isPaddingOptionsOpen}
-                            positions={["left", "bottom"]}
+                            positions={["left", "bottom", "top"]}
+                            reposition={true}
+                            boundaryInset={10}
+                            align="center"
                             onClickOutside={() =>
                                 setIsPaddingOptionsOpen(false)
                             }
