@@ -17,19 +17,16 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter }) => {
     const navigate = useNavigate();
     const handleClick = () => {
         setIsAnimating(true);
-        setChapter(chapter);
 
         setTimeout(() => {
             setIsAnimating(false);
-            return navigate(`/novels/${novel.id}/${chapter.id}#chapter-id`);
+            setChapter(chapter);
+            return navigate(`/novels/${novel.id}/${chapter.id}#root`);
         }, 500);
     };
 
     return (
-        <div
-            onClick={handleClick}
-            className="relative flex flex-col gap-6 p-2.5 my-2 overflow-x-clip"
-        >
+        <div className="relative flex flex-col gap-6 p-2.5 my-2 overflow-x-clip">
             {chapter && (
                 <div>
                     <h1 className="text-2xl text-nowrap overflow-hidden overflow-ellipsis">
