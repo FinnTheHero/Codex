@@ -34,7 +34,7 @@ const NovelsPage: React.FC = () => {
     }, [query, novels]);
 
     return (
-        <div className="min-h-screen h-full max-w-5xl px-4 sm:px-8 md:px-12 w-full flex flex-col flex-nowrap justify-start">
+        <div className="min-h-screen h-full max-w-6xl sm:px-8 md:px-12 w-full flex flex-col flex-nowrap justify-start">
             <div className="flex flex-row flex-nowrap justify-between">
                 {/* Novel List Display */}
                 <div className="w-full md:w-3/5 flex flex-col flex-nowrap">
@@ -80,13 +80,7 @@ const NovelsPage: React.FC = () => {
                         {chapters.length > 0 ? (
                             novel &&
                             chapters.map((c, i) => {
-                                return (
-                                    <ChapterCard
-                                        chapter={c}
-                                        index={i}
-                                        key={i}
-                                    />
-                                );
+                                return <ChapterCard chapter={c} key={c.id} />;
                             })
                         ) : (
                             <p className="subtitle text-center mt-16">

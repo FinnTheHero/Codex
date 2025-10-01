@@ -4,7 +4,7 @@ import { HandleErr } from "./errorHandler";
 
 export const createNovel = async (novel: Novel) => {
     try {
-        const response = await api.post(`/manage/novel`, novel, {
+        const response = await api.post(`/manage/create/novel`, novel, {
             withCredentials: true,
         });
         return response.data;
@@ -16,7 +16,7 @@ export const createNovel = async (novel: Novel) => {
 export const createChapter = async (id_novel: string, chapter: Chapter) => {
     try {
         const response = await api.post(
-            `/manage/${id_novel}/chapter`,
+            `/manage/create/${id_novel}/chapter`,
             chapter,
             {
                 withCredentials: true,

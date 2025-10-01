@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { Popover } from "react-tiny-popover";
 import ReactMarkdown from "react-markdown";
@@ -10,16 +10,17 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
+import Navigation from "epubjs/types/navigation";
 
 const ChapterPage = () => {
     const { id_novel } = useParams();
     const { id_chapter } = useParams();
 
+    const { user, fontSize, padding, sortBy } = useUser();
+
     const [isLeftPopoverOpen, setIsLeftPopoverOpen] = useState(false);
     const [isRightPopoverOpen, setIsRightPopoverOpen] = useState(false);
     const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
-
-    const { user } = useUser();
 
     const {
         chapter,
@@ -61,21 +62,34 @@ const ChapterPage = () => {
         }
     }, [hasMore, loadMore, currentIndex, chapters]);
 
-    const NavigationButtons = () => {
+    const NavigationButtons: React.FC<{ goBack?: boolean }> = ({ goBack }) => {
+        const isAscending = sortBy === "asc" ? true : false;
+
+        const prevIndex = isAscending ? currentIndex - 1 : currentIndex + 1;
+        const nextIndex = isAscending ? currentIndex + 1 : currentIndex - 1;
+
+        const hasPrev = isAscending
+            ? currentIndex > 0
+            : currentIndex < chapters.length - 1;
+        const hasNext = isAscending
+            ? currentIndex < chapters.length - 1
+            : currentIndex > 0;
+
         return (
-            <div className="max-w-4xl mt-20 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
+            <div className="max-w-4xl px-12 mt-8 text-xl flex flex-col flex-nowrap items-center justify-evenly w-full">
                 <div className="flex flex-row flex-nowrap justify-between w-full text-xl">
-                    {chapter && currentIndex < chapters.length - 1 ? (
+                    {/* Previous Chapter (Left Arrow) */}
+                    {hasPrev ? (
                         <Popover
                             isOpen={isLeftPopoverOpen}
-                            positions={["bottom", "left"]}
+                            positions={["right"]}
                             padding={10}
                             reposition={true}
                             boundaryInset={document.body.scrollHeight}
                             onClickOutside={() => setIsLeftPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    [{chapters[currentIndex + 1].title}]
+                                    [{chapters[prevIndex].title}]
                                 </div>
                             }
                         >
@@ -83,30 +97,32 @@ const ChapterPage = () => {
                                 onMouseEnter={() => setIsLeftPopoverOpen(true)}
                                 onMouseLeave={() => setIsLeftPopoverOpen(false)}
                                 onClick={() => {
-                                    setChapter(chapters[currentIndex + 1]);
+                                    setChapter(chapters[prevIndex]);
                                 }}
-                                className="link"
-                                to={`/novels/${id_novel}/${chapters[currentIndex + 1].id}#chapter-id`}
+                                className="link flex items-center"
+                                to={`/novels/${id_novel}/${chapters[prevIndex].id}#chapter-id`}
                             >
-                                [Previous]
+                                [<FontAwesomeIcon icon={faArrowLeft} />]
                             </Link>
                         </Popover>
                     ) : (
-                        <h2 className="text-red-800 pointer-events-none">
-                            [First]
+                        <h2 className="text-red-800 pointer-events-none flex items-center">
+                            [<FontAwesomeIcon icon={faArrowLeft} />]
                         </h2>
                     )}
-                    {currentIndex > 0 && chapter ? (
+
+                    {/* Next Chapter (Right Arrow) */}
+                    {hasNext ? (
                         <Popover
                             isOpen={isRightPopoverOpen}
-                            positions={["bottom", "left"]}
+                            positions={["left"]}
                             padding={10}
                             reposition={true}
                             boundaryInset={document.body.scrollHeight}
                             onClickOutside={() => setIsRightPopoverOpen(false)}
                             content={
                                 <div className="link main-background whitespace-nowrap p-2 border border-zinc-800 rounded">
-                                    [{chapters[currentIndex - 1].title}]
+                                    [{chapters[nextIndex].title}]
                                 </div>
                             }
                         >
@@ -116,32 +132,33 @@ const ChapterPage = () => {
                                     setIsRightPopoverOpen(false)
                                 }
                                 onClick={() => {
-                                    setChapter(chapters[currentIndex - 1]);
+                                    setChapter(chapters[nextIndex]);
                                 }}
-                                className="link"
-                                to={`/novels/${id_novel}/${chapters[currentIndex - 1].id}#chapter-id`}
+                                className="link flex items-center"
+                                to={`/novels/${id_novel}/${chapters[nextIndex].id}#chapter-id`}
                             >
-                                [Next]
+                                [<FontAwesomeIcon icon={faArrowRight} />]
                             </Link>
                         </Popover>
                     ) : (
-                        <h2 className="text-red-800 pointer-events-none">
-                            [Last]
+                        <h2 className="text-red-800 pointer-events-none flex items-center">
+                            [<FontAwesomeIcon icon={faArrowRight} />]
                         </h2>
                     )}
                 </div>
-
-                <GoBackButton
-                    className="link mt-4"
-                    to={`/novels/${id_novel}#root`}
-                    desc={`${novel?.title}`}
-                />
+                {goBack && (
+                    <GoBackButton
+                        className="link mt-4"
+                        to={`/novels/${id_novel}#root`}
+                        desc={`${novel?.title}`}
+                    />
+                )}
             </div>
         );
     };
 
     return (
-        <div className="w-full px-6 flex flex-col flex-nowrap">
+        <div className="w-full flex flex-col flex-nowrap">
             {chapter && novel && (
                 <div className="w-full flex flex-col justify-center items-center">
                     {user &&
@@ -155,19 +172,43 @@ const ChapterPage = () => {
                             </Link>
                         )}
                     <h2 className="text-base">{novel.title}</h2>
-                    <h2 id="chapter-id" className="mb-3 mt-2 text-4xl">
+                    <h2
+                        id="chapter-id"
+                        className="mb-3 mt-2 text-4xl text-center"
+                    >
                         {chapter.title}
                     </h2>
 
-                    <div className="my-5 flex flex-row justify-center">
+                    <div className="mt-5 flex flex-row justify-center items-center">
+                        {chapter.creation_date !== chapter.update_date ? (
+                            <div className="flex flex-row justify-center items-center">
+                                <FormattedTime
+                                    date={chapter.creation_date}
+                                    classname={"content"}
+                                    popover_text={"Created"}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    className="mx-2"
+                                />
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         <FormattedTime
                             date={chapter.update_date}
-                            classname={"content"}
+                            classname={"link"}
                             popover_text={"Last Updated"}
                         />
                     </div>
 
-                    <div className="w-full max-w-3xl mt-4 prose prose-lg font-sans text-lg leading-normal">
+                    <NavigationButtons />
+
+                    <div
+                        id="chapter-content"
+                        className={`mt-8 prose prose-lg font-sans text-${fontSize ?? "md"} leading-normal`}
+                        style={{ width: `${padding}%` }}
+                    >
                         <ReactMarkdown
                             components={{
                                 p: ({ node, ...props }) => (
@@ -181,7 +222,7 @@ const ChapterPage = () => {
                         </ReactMarkdown>
                     </div>
 
-                    <NavigationButtons />
+                    <NavigationButtons goBack />
                 </div>
             )}
         </div>

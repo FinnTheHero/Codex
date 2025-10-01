@@ -4,7 +4,11 @@ import ChapterCard from "../Components/ChapterCard";
 import FormattedTime from "../Components/FormattedTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowDown,
+    faArrowRight,
+    faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import GoBackButton from "../Components/GoBackButton";
 import { useUser } from "../Contexts/UserContext";
 import { useContent } from "../Contexts/ContentContext";
@@ -23,7 +27,7 @@ const NovelPage = () => {
     const [hideDescription, setHideDescription] = useState(false);
     const [isBackPopoverOpen, setIsBackPopoverOpen] = useState(false);
 
-    const { user } = useUser();
+    const { user, sortBy, setSortBy } = useUser();
     const { loading, setLoading } = useLoading();
     const { novel, setNovel, novels, chapters, loadMore, hasMore, chapter } =
         useContent();
@@ -57,8 +61,8 @@ const NovelPage = () => {
     return (
         <div className="lg:max-w-6xl w-full lg:px-12 flex flex-col flex-nowrap justify-between items-center">
             <div className="w-full flex flex-row flex-wrap justify-between">
-                <div className="w-full md:w-3/5 flex flex-col flex-nowrap justify-between">
-                    {novel && (
+                {novel && (
+                    <div className="w-full flex flex-col flex-nowrap justify-between">
                         <div className="w-full flex flex-col flex-nowrap justify-between">
                             {user &&
                                 (user.username === novel.author ||
@@ -72,26 +76,28 @@ const NovelPage = () => {
                                         </Link>
                                     </div>
                                 )}
-                            <div className="flex flex-col flex-nowrap w-full">
-                                <h2 id="novel-id" className="text-4xl">
-                                    {novel.title}
-                                </h2>
-                                <h2 className="ml-3 text-1xl">
-                                    By {novel.author}
-                                </h2>
-                                <p
+                            <div className="flex flex-row flex-wrap md:flex-nowrap w-full">
+                                <div className="w-fit max-w-1/2 mr-12">
+                                    <h2 id="novel-id" className="text-4xl">
+                                        {novel.title}
+                                    </h2>
+                                    <h2 className="ml-3 text-1xl">
+                                        By {novel.author}
+                                    </h2>
+                                </div>
+
+                                <div
                                     onClick={() => {
                                         setHideDescription(!hideDescription);
                                     }}
-                                    className="mt-4 subtitle cursor-pointer"
+                                    className="mt-2 subtitle cursor-pointer"
                                 >
-                                    <AnimatePresence>
+                                    <AnimatePresence mode="sync">
                                         <ComponentAnimationWrapper
-                                            hidden={!hideDescription}
+                                            key={"short"}
+                                            hidden={hideDescription}
                                         >
-                                            <div
-                                                className={`${hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
-                                            >
+                                            <div className="indent-5 leading-snug w-full">
                                                 <ReactMarkdown
                                                     components={{
                                                         p: ({
@@ -107,18 +113,15 @@ const NovelPage = () => {
                                                     remarkPlugins={[remarkGfm]}
                                                     rehypePlugins={[rehypeRaw]}
                                                 >
-                                                    {"&gt; " +
-                                                        novel.description}
+                                                    {`${"&gt; "} ${novel.description.substring(0, 25)}...`}
                                                 </ReactMarkdown>
                                             </div>
                                         </ComponentAnimationWrapper>
-
                                         <ComponentAnimationWrapper
-                                            hidden={hideDescription}
+                                            key={"full"}
+                                            hidden={!hideDescription}
                                         >
-                                            <div
-                                                className={`${!hideDescription ? "hidden" : "indent-5 leading-snug w-full"}`}
-                                            >
+                                            <div className="indent-5 leading-snug w-full">
                                                 <ReactMarkdown
                                                     components={{
                                                         p: ({
@@ -134,23 +137,45 @@ const NovelPage = () => {
                                                     remarkPlugins={[remarkGfm]}
                                                     rehypePlugins={[rehypeRaw]}
                                                 >
-                                                    {"&gt; " +
-                                                        novel.description.substring(
-                                                            0,
-                                                            25,
-                                                        ) +
-                                                        "..."}
+                                                    {`${"&gt; "} ${novel.description}`}
                                                 </ReactMarkdown>
                                             </div>
                                         </ComponentAnimationWrapper>
                                     </AnimatePresence>
-                                </p>
+                                </div>
                             </div>
                         </div>
-                    )}
-                </div>
-                <div className="w-full md:w-2/6 mt-8 md:mt-0 flex flex-col flex-wrap">
-                    {novel && (
+
+                        <div className="w-full flex flex-row justify-center mt-4 mb-12 content">
+                            <span>Sort</span>
+                            <span className="mx-2"> - </span>
+                            <div
+                                className="flex flex-row justify-center items-center cursor-pointer"
+                                onClick={() => {
+                                    setSortBy(sortBy == "asc" ? "desc" : "asc");
+                                    loadMore();
+                                }}
+                            >
+                                <span className="link">
+                                    [
+                                    {sortBy == "asc"
+                                        ? "Ascending"
+                                        : "Descending"}
+                                    ]
+                                </span>
+                                <span className="link text-xs flex items-center">
+                                    <FontAwesomeIcon
+                                        icon={
+                                            sortBy == "asc"
+                                                ? faArrowUp
+                                                : faArrowDown
+                                        }
+                                        className="mx-2"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+
                         <div>
                             <div className="w-full flex flex-row flex-wrap justify-center">
                                 <FormattedTime
@@ -169,15 +194,11 @@ const NovelPage = () => {
                                 />
                             </div>
 
-                            <div className="">
+                            <div>
                                 {chapters &&
                                     chapters.length > 0 &&
                                     chapters.map((c, i) => (
-                                        <ChapterCard
-                                            chapter={c}
-                                            index={i}
-                                            key={c.id}
-                                        />
+                                        <ChapterCard chapter={c} key={c.id} />
                                     ))}
                             </div>
                             {hasMore ? (
@@ -197,8 +218,8 @@ const NovelPage = () => {
                                 </div>
                             )}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             <GoBackButton
                 to="/novels/#root"

@@ -198,3 +198,12 @@ input.search-input {
     flex-direction: column;
     flex-wrap: nowrap;
 }
+
+@keyframes fillAnimation {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}

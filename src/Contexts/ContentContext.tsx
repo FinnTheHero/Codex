@@ -30,15 +30,15 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
     const { addError } = useError();
     const { setLoading } = useLoading();
 
-    const { user } = useUser();
+    const { sortBy } = useUser();
 
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const [chapterId, setChapterId] = useState<string | null>(null);
     const [chapter, setChapter] = useState<Chapter | null>(null);
     const [novel, setNovel] = useState<Novel | null>(null);
 
-    const key_n = user && `/all`;
-    const key_c = user && novel && chapterId && `/${novel.id}/${chapterId}`;
+    const key_n = `/all`;
+    const key_c = novel && chapterId && `/${novel.id}/${chapterId}`;
 
     const getKey = (
         pageIndex: number,
@@ -47,12 +47,12 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
         if (!novel) return null;
 
         if (pageIndex === 0) {
-            return `/${novel.id}/chapters?order=desc`;
+            return `/${novel.id}/chapters?sort=${sortBy}`;
         }
 
         if (previousPageData && !previousPageData.next_cursor) return null;
 
-        return `/${novel.id}/chapters?cursor=${previousPageData?.next_cursor ?? ""}&order=desc`;
+        return `/${novel.id}/chapters?cursor=${previousPageData?.next_cursor ?? ""}&sort=${sortBy}`;
     };
 
     const {
@@ -103,14 +103,25 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({
             ? data_inf.flatMap((page) => page.chapters)
             : [];
 
-        const sortedChapters = allChapters.sort((a, b) => {
-            return b.title.localeCompare(a.title, undefined, {
-                numeric: true,
-                sensitivity: "base",
+        if (sortBy == "asc") {
+            const sortedChapters = allChapters.sort((a, b) => {
+                return a.title.localeCompare(b.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                });
             });
-        });
 
-        setChapters(sortedChapters);
+            setChapters(sortedChapters);
+        } else {
+            const sortedChapters = allChapters.sort((a, b) => {
+                return b.title.localeCompare(a.title, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                });
+            });
+
+            setChapters(sortedChapters);
+        }
     }, [data_inf]);
 
     useEffect(() => {

@@ -15,6 +15,9 @@ export interface Novel {
 export interface Chapter {
     id: string;
     title: string;
+    author: string;
+    description: string;
+    creation_date: string;
     update_date: string;
     content: string;
 }
@@ -26,7 +29,6 @@ export interface PaginationResponse {
 
 export interface ChapterCardProps {
     chapter: Chapter;
-    index: number;
 }
 
 export interface SearchInputProps {
@@ -53,10 +55,15 @@ export interface LoginProps {
 }
 
 export interface User {
-    id: string;
+    id: string | null;
     email: string | null;
     username: string | null;
     type: string | null;
+}
+
+export interface ValidationResponse {
+    id: string | null;
+    email: string | null;
 }
 
 export interface UserContextType {
@@ -70,6 +77,8 @@ export interface UserContextType {
     setFontSize: (fontSize: string) => void;
     sortBy: "asc" | "desc";
     setSortBy: (sortBy: "asc" | "desc") => void;
+    padding: string;
+    setPadding: (padding: string) => void;
 }
 
 export interface ContentContextType {
@@ -134,4 +143,17 @@ export interface SearchNovelHandlerProps {
 
 export interface SearchAllNovelsHandlerProps {
     common: novelCommon;
+}
+
+export interface NovelProgress {
+    novelId: string;
+    progress: ChapterProgress[];
+    lastUpdated: number;
+}
+
+export interface ChapterProgress {
+    chapterId: string;
+    progress: number;
+    lastUpdated: number;
+    scrollPosition?: number;
 }

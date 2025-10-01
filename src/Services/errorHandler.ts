@@ -1,23 +1,29 @@
 import axios from "axios";
-import { useError } from "../Contexts/ErrorContext";
 
 export const HandleErr = (err: any, key?: string) => {
-    const { addError } = useError();
+    if (err == null) {
+        throw new Error(`An error occurred while fetching ${key ?? "unknown"}`);
+    }
 
     if (axios.isAxiosError(err)) {
         switch (err.response?.status) {
             case 401:
-                return addError(`Unauthorized`);
+                throw new Error(`Unauthorized`);
             case 404:
-                return addError(`Resource not found`);
+                throw new Error(`Resource not found`);
             case 500:
-                return addError(`Internal server error`);
+                throw new Error(`Internal server error`);
+            case 301:
+                throw new Error(`Illegal Redirect`);
             default:
-                return addError(`An error occurred while fetching ${key}`);
+                throw new Error(
+                    `An error occurred while fetching ${key ?? "unknown"}`,
+                );
         }
     } else {
-        return addError(
-            `An error occurred while fetching ${key}: ${err.message}`,
+        const errorMessage = err?.message || "Unknown error";
+        throw new Error(
+            `An error occurred while fetching ${key ?? "unknown"}: ${errorMessage}`,
         );
     }
 };

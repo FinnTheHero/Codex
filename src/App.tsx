@@ -7,6 +7,12 @@ import {
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
+import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
+import { SWRConfig } from "swr";
+import { axiosFetcher } from "./Services/apiService";
+import { isAxiosError } from "axios";
+import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
+import { useEffect } from "react";
 
 // Styles
 import "./App.css";
@@ -32,6 +38,10 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import UploadPage from "./Pages/UploadPage";
+import EditNovelPage from "./Pages/EditNovelPage";
+import EditChapterPage from "./Pages/EditChapterPage";
+import UploadEPUBPage from "./Pages/UploadEPUBPage";
+import UploadNovelPage from "./Pages/UploadNovelPage";
 
 // Components
 import {
@@ -39,16 +49,6 @@ import {
     EditPageAccess,
     RequireUser,
 } from "./Components/AuthGuard";
-import EditNovelPage from "./Pages/EditNovelPage";
-import EditChapterPage from "./Pages/EditChapterPage";
-import { PageAnimationWrapper } from "./Components/PageAnimationWrapper";
-import UploadEPUBPage from "./Pages/UploadEPUBPage";
-import UploadNovelPage from "./Pages/UploadNovelPage";
-import { SWRConfig } from "swr";
-import { axiosFetcher } from "./Services/apiService";
-import { isAxiosError } from "axios";
-import { useCacheProvider } from "@piotr-cz/swr-idb-cache";
-import { useEffect } from "react";
 
 function App() {
     const cacheProvider = useCacheProvider({
@@ -99,7 +99,18 @@ const RouterTransition = () => {
     return (
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
+                <Route path="*" element={<HeroPageLayout />}>
+                    <Route
+                        index
+                        element={
+                            <PageAnimationWrapper>
+                                <NotFound />
+                            </PageAnimationWrapper>
+                        }
+                    />
+                </Route>
                 <Route path="/" element={<HeroPageLayout />}>
+                    {/* Main Page */}
                     <Route
                         index
                         element={
@@ -108,6 +119,7 @@ const RouterTransition = () => {
                             </PageAnimationWrapper>
                         }
                     />
+                    {/* 404 Page */}
                     <Route
                         path="*"
                         element={
@@ -116,6 +128,7 @@ const RouterTransition = () => {
                             </PageAnimationWrapper>
                         }
                     />
+
                     <Route
                         path="/about"
                         element={
