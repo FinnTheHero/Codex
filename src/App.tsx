@@ -38,7 +38,6 @@ import Dashboard from "./Pages/Dashboard";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import UploadPage from "./Pages/UploadPage";
-import SettingsPage from "./Pages/Settings";
 import EditNovelPage from "./Pages/EditNovelPage";
 import EditChapterPage from "./Pages/EditChapterPage";
 import UploadEPUBPage from "./Pages/UploadEPUBPage";
@@ -155,16 +154,6 @@ const RouterTransition = () => {
                                 <DenyUserAuth>
                                     <RegisterPage />
                                 </DenyUserAuth>
-                            </PageAnimationWrapper>
-                        }
-                    />
-                    <Route
-                        path="/settings"
-                        element={
-                            <PageAnimationWrapper>
-                                <RequireUser>
-                                    <SettingsPage />
-                                </RequireUser>
                             </PageAnimationWrapper>
                         }
                     />
