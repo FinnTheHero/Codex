@@ -144,3 +144,16 @@ export interface SearchNovelHandlerProps {
 export interface SearchAllNovelsHandlerProps {
     common: novelCommon;
 }
+
+export interface NovelProgress {
+    novelId: string;
+    progress: ChapterProgress[];
+    lastUpdated: number;
+}
+
+export interface ChapterProgress {
+    chapterId: string;
+    progress: number;
+    lastUpdated: number;
+    scrollPosition?: number;
+}

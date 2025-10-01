@@ -1,4 +1,5 @@
 import { Cache } from "swr";
+import { ChapterProgress } from "../Types/types";
 
 export function localStorageProvider(cacheKey = "app-cache") {
     return (previousCache: Readonly<Cache<any>>): Cache<any> => {
